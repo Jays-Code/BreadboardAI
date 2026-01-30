@@ -1,0 +1,12 @@
+services:
+  app:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"       # Change the first 3000 if you run multiple projects
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-SET_KEY_IN_WINDOWS}    # Grabs the key from your 'setx' command
+    stdin_open: true
+    tty: true

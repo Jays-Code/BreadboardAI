@@ -1,0 +1,42 @@
+[
+  {
+    "id": "b685888c-2f83-44b2-a1f0-70b2896faa2f",
+    "timestamp": "2026-01-30T01:30:04.357Z",
+    "status": "pending",
+    "task": "Create a video outline for the topic: The 3 key elements of early House Music with tone: Energetic and educational. Output strict JSON.",
+    "persona": "Director",
+    "model": "antigravity-bridge"
+  },
+  {
+    "id": "c10ed0a1-fd46-457c-a84c-db683ce0964d",
+    "timestamp": "2026-01-30T01:30:51.530Z",
+    "status": "pending",
+    "task": "Write a social media caption for a video about \"The 3 key elements of early House Music\" with the following outline: {\"video_title_internal\":\"The Roots of House\",\"estimated_total_duration\":60,\"scenes\":[{\"key_takeaway\":\"Born in Chicago's Warehouse club in the early 80s\",\"visual_idea\":\"Vintage footage of Chicago skyline and vinyl records spinning\"},{\"key_takeaway\":\"The iconic Roland TR-909 drum machine defined the sound\",\"visual_idea\":\"Close-up of a TR-909 beat being programmed\"},{\"key_takeaway\":\"It was all about inclusion, love, and the underground\",\"visual_idea\":\"Diverse crowd dancing euphorically in a dark club\"}]}.",
+    "persona": "Social Media Manager",
+    "model": "antigravity-bridge"
+  },
+  {
+    "id": "b9897bb6-209a-45f4-b3b6-5b06f1dd6d4a",
+    "timestamp": "2026-01-30T01:31:30.491Z",
+    "status": "pending",
+    "task": "Write the overlay text for a video scene based on this key point: \"Born in Chicago's Warehouse club in the early 80s\". Output only the text string.",
+    "persona": "Copywriter",
+    "model": "antigravity-bridge"
+  },
+  {
+    "id": "672804c3-f6b8-4f6a-8667-cd9100e97147",
+    "timestamp": "2026-01-30T01:31:30.521Z",
+    "status": "pending",
+    "task": "Write the overlay text for a video scene based on this key point: \"The iconic Roland TR-909 drum machine defined the sound\". Output only the text string.",
+    "persona": "Copywriter",
+    "model": "antigravity-bridge"
+  },
+  {
+    "id": "1cecb74b-44be-4055-ab0d-6582fa43b9c1",
+    "timestamp": "2026-01-30T01:31:30.549Z",
+    "status": "pending",
+    "task": "Write the overlay text for a video scene based on this key point: \"It was all about inclusion, love, and the underground\". Output only the text string.",
+    "persona": "Copywriter",
+    "model": "antigravity-bridge"
+  }
+]

@@ -1,0 +1,39 @@
+[
+    {
+        "id": "b685888c-2f83-44b2-a1f0-70b2896faa2f",
+        "response": {
+            "video_title_internal": "The Roots of House",
+            "estimated_total_duration": 60,
+            "scenes": [
+                {
+                    "key_takeaway": "Born in Chicago's Warehouse club in the early 80s",
+                    "visual_idea": "Vintage footage of Chicago skyline and vinyl records spinning"
+                },
+                {
+                    "key_takeaway": "The iconic Roland TR-909 drum machine defined the sound",
+                    "visual_idea": "Close-up of a TR-909 beat being programmed"
+                },
+                {
+                    "key_takeaway": "It was all about inclusion, love, and the underground",
+                    "visual_idea": "Diverse crowd dancing euphorically in a dark club"
+                }
+            ]
+        }
+    },
+    {
+        "id": "c10ed0a1-fd46-457c-a84c-db683ce0964d",
+        "response": "Discover the 3 key elements that birthed House Music in 80s Chicago! 🏠🎹✨ #HouseMusicHistory #ChicagoHouse #ElectronicMusic"
+    },
+    {
+        "id": "b9897bb6-209a-45f4-b3b6-5b06f1dd6d4a",
+        "response": "Chicago 80s: Where it all began."
+    },
+    {
+        "id": "672804c3-f6b8-4f6a-8667-cd9100e97147",
+        "response": "The beat that changed everything."
+    },
+    {
+        "id": "1cecb74b-44be-4055-ab0d-6582fa43b9c1",
+        "response": "United on the dancefloor."
+    }
+]

@@ -1,0 +1,22 @@
+{
+    "name": "AI Sandbox",
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "remoteUser": "root",
+    "containerEnv": {
+        "NODE_TLS_REJECT_UNAUTHORIZED": "0",
+        "GOOGLE_API_KEY": "${localEnv:GOOGLE_API_KEY}"
+    },
+    "remoteEnv": {
+        "GOOGLE_API_KEY": "${localEnv:GOOGLE_API_KEY}"
+    },
+    "forwardPorts": [
+        5173
+    ],
+    "portsAttributes": {
+        "5173": {
+            "label": "Vite Dev Server",
+            "onAutoForward": "notify"
+        }
+    },
+    "postAttachCommand": "echo '--- ENVIRONMENT STATUS ---'; echo \"API Key: ${GOOGLE_API_KEY:0:4}****\"; if ! lsof -i :5173; then nohup npm run dev > /dev/null 2>&1 & fi"
+}

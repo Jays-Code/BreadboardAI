@@ -1,0 +1,28 @@
+{
+  "name": "breadboardai",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "PORT=5173 breadboard debug src/graphs/prompt-to-post.ts --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@breadboard-ai/build": "^0.12.2",
+    "@google-labs/agent-kit": "^0.18.0",
+    "@google-labs/breadboard": "^0.35.0",
+    "@google-labs/breadboard-cli": "^0.13.1",
+    "@google-labs/core-kit": "^0.19.1",
+    "@playwright/test": "^1.58.0",
+    "esbuild": "^0.27.2",
+    "tsx": "^4.21.0"
+  }
+}
