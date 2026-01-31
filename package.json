@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "PORT=5173 breadboard debug src/graphs/prompt-to-post.ts --watch",
+    "editor": "cd visual-editor-local && npm run dev",
+    "bridge": "tsx src/bridge/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

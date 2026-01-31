@@ -1,0 +1,9 @@
+nohup: ignoring input
+
+> breadboardai@1.0.0 dev
+> PORT=5173 breadboard debug src/graphs/prompt-to-post.ts --watch
+
+Compiling @google-labs/core-kit
+Compiling @google-labs/json-kit
+Compiling @google-labs/template-kit
+Running at http://localhost:5173/?board=/src/graphs/prompt-to-post.ts

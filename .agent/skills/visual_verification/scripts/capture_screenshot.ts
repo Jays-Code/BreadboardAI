@@ -33,7 +33,7 @@ async function capture() {
         // Set a reasonable viewport for desktop validation
         await page.setViewportSize({ width, height });
 
-        await page.goto(url, { waitUntil: 'networkidle' });
+        await page.goto(url, { waitUntil: 'load', timeout: 60000 });
 
         // Add a small delay to ensure animations or framework hydration settle
         await page.waitForTimeout(1000);

@@ -1,5 +1,11 @@
-npm error Missing script: "dev"
-npm error
-npm error To see a list of scripts, run:
-npm error   npm run
-npm error A complete log of this run can be found in: /root/.npm/_logs/2026-01-30T01_53_47_638Z-debug-0.log
+
+> breadboardai@1.0.0 dev
+> PORT=5173 breadboard debug src/graphs/prompt-to-post.ts --watch
+
+Compiling @google-labs/core-kit
+Compiling @google-labs/json-kit
+Compiling @google-labs/template-kit
+Running at http://localhost:5173/?board=/src/graphs/prompt-to-post.ts
+Unable to find board at src/graphs/prompt-to-post.ts/src/graphs/prompt-to-post.ts
+Unable to find board at src/graphs/prompt-to-post.ts/src/graphs/prompt-to-post.ts
+Terminated

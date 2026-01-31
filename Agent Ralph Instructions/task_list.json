@@ -44,6 +44,11 @@
             "id": 7,
             "description": "Verify workflow with 'House Music History' example using Bridge",
             "status": "complete"
+        },
+        {
+            "id": 10,
+            "description": "Debug Blank Screen on Port 5173",
+            "status": "complete"
         }
     ]
 }

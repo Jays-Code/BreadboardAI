@@ -1,0 +1,41 @@
+vite v5.4.21 building for production...
+transforming...
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:fs/promises" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/@google-labs/breadboard/dist/harness.min.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:fs/promises" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/@google-labs/breadboard/dist/kits.min.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:vm" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/@breadboard-ai/visual-editor/node_modules/@google-labs/core-kit/dist/src/nodes/run-javascript.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:fs/promises" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/@breadboard-ai/loader/dist/src/default.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:vm" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/@breadboard-ai/shared-ui/node_modules/@google-labs/core-kit/dist/src/nodes/run-javascript.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:url" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/pyodide/pyodide.mjs". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:fs" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/pyodide/pyodide.mjs". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:fs/promises" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/pyodide/pyodide.mjs". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:vm" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/pyodide/pyodide.mjs". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:path" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/pyodide/pyodide.mjs". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:crypto" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/pyodide/pyodide.mjs". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:child_process" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/pyodide/pyodide.mjs". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:path" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/pyodide/pyodide.mjs". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:url" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/pyodide/pyodide.mjs". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:vm" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/@breadboard-ai/google-drive-kit/node_modules/@google-labs/core-kit/dist/src/nodes/run-javascript.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "node:vm" has been externalized for browser compatibility, imported by "/workspaces/BreadboardAI/node_modules/@google-labs/core-kit/dist/src/nodes/run-javascript.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+✓ 2204 modules transformed.
+x Build failed in 1m 42s
+error during build:
+breadboard-proxy.ts (6:4): "isGraphDescriptorCapability" is not exported by "../node_modules/@breadboard-ai/data/dist/src/index.js", imported by "breadboard-proxy.ts".
+file: /workspaces/BreadboardAI/visual-editor-local/breadboard-proxy.ts:6:4
+
+4: // Re-export capabilities that shared-ui expects to find in @google-labs/breadboard
+5: export {
+6:     isGraphDescriptorCapability,
+       ^
+7:     isResolvedURLBoardCapability,
+8:     isUnresolvedPathBoardCapability,
+
+    at getRollupError (file:///workspaces/BreadboardAI/visual-editor-local/node_modules/rollup/dist/es/shared/parseAst.js:402:41)
+    at error (file:///workspaces/BreadboardAI/visual-editor-local/node_modules/rollup/dist/es/shared/parseAst.js:398:42)
+    at Module.error (file:///workspaces/BreadboardAI/visual-editor-local/node_modules/rollup/dist/es/shared/node-entry.js:17040:16)
+    at Module.getVariableForExportName (file:///workspaces/BreadboardAI/visual-editor-local/node_modules/rollup/dist/es/shared/node-entry.js:17199:29)
+    at getVariableForExportNameRecursive (file:///workspaces/BreadboardAI/visual-editor-local/node_modules/rollup/dist/es/shared/node-entry.js:16858:19)
+    at Module.traceVariable (file:///workspaces/BreadboardAI/visual-editor-local/node_modules/rollup/dist/es/shared/node-entry.js:17450:44)
+    at ModuleScope.findVariable (file:///workspaces/BreadboardAI/visual-editor-local/node_modules/rollup/dist/es/shared/node-entry.js:15070:39)
+    at ReturnValueScope.findVariable (file:///workspaces/BreadboardAI/visual-editor-local/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at FunctionBodyScope.findVariable (file:///workspaces/BreadboardAI/visual-editor-local/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at ChildScope.findVariable (file:///workspaces/BreadboardAI/visual-editor-local/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
