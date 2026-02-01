@@ -1,0 +1,138 @@
+{
+  "title": "Prompt-to-Post Director (Modern API)",
+  "description": "An autonomous content production pipeline using Antigravity Bridge.",
+  "edges": [
+    {
+      "from": "assembler-0",
+      "to": "output-0",
+      "out": "video_structure",
+      "in": "video_structure"
+    },
+    {
+      "from": "captionerFlow-0",
+      "to": "output-0",
+      "out": "caption",
+      "in": "social_caption"
+    },
+    {
+      "from": "copywriterFlow-0",
+      "to": "assembler-0",
+      "out": "scenesWithText",
+      "in": "scenes"
+    },
+    {
+      "from": "directorFlow-0",
+      "to": "assembler-0",
+      "out": "title",
+      "in": "title"
+    },
+    {
+      "from": "directorFlow-0",
+      "to": "assembler-0",
+      "out": "total_duration",
+      "in": "duration"
+    },
+    {
+      "from": "directorFlow-0",
+      "to": "captionerFlow-0",
+      "out": "fullData",
+      "in": "directorOut"
+    },
+    {
+      "from": "directorFlow-0",
+      "to": "copywriterFlow-0",
+      "out": "scenes",
+      "in": "scenes"
+    },
+    {
+      "from": "input-0",
+      "to": "captionerFlow-0",
+      "out": "topic",
+      "in": "topic"
+    },
+    {
+      "from": "input-0",
+      "to": "directorFlow-0",
+      "out": "tone",
+      "in": "tone"
+    },
+    {
+      "from": "input-0",
+      "to": "directorFlow-0",
+      "out": "topic",
+      "in": "topic"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "input-0",
+      "type": "input",
+      "configuration": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "tone": {
+              "type": "string",
+              "title": "Tone",
+              "description": "The desired tone for the content",
+              "default": "Educational and upbeat"
+            },
+            "topic": {
+              "type": "string",
+              "title": "Topic",
+              "description": "The main topic for the content generation",
+              "default": "The History of House Music"
+            }
+          },
+          "required": []
+        }
+      }
+    },
+    {
+      "id": "output-0",
+      "type": "output",
+      "configuration": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "social_caption": {
+              "type": "string",
+              "title": "Social Caption"
+            },
+            "video_structure": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "additionalProperties": false,
+              "title": "Video Structure"
+            }
+          },
+          "required": [
+            "social_caption",
+            "video_structure"
+          ]
+        }
+      }
+    },
+    {
+      "id": "assembler-0",
+      "type": "assembler",
+      "configuration": {}
+    },
+    {
+      "id": "captionerFlow-0",
+      "type": "captionerFlow",
+      "configuration": {}
+    },
+    {
+      "id": "copywriterFlow-0",
+      "type": "copywriterFlow",
+      "configuration": {}
+    },
+    {
+      "id": "directorFlow-0",
+      "type": "directorFlow",
+      "configuration": {}
+    }
+  ]
+}

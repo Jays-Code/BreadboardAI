@@ -38,5 +38,45 @@
     "task": "Write the overlay text for a video scene based on this key point: \"It was all about inclusion, love, and the underground\". Output only the text string.",
     "persona": "Copywriter",
     "model": "antigravity-bridge"
+  },
+  {
+    "id": "4f13f310-e566-4318-ad1d-d8dc2a9b1090",
+    "timestamp": "2026-01-31T18:59:50.632Z",
+    "status": "pending",
+    "task": "Create a video outline for the topic: The 3 key elements of early House Music with tone: Energetic and educational. \n                Output strict JSON with the following structure:\n                {\n                  \"video_title_internal\": \"string\",\n                  \"estimated_total_duration\": number,\n                  \"scenes\": [\n                    {\n                      \"scene_id\": number,\n                      \"concept_description\": \"visual description\",\n                      \"key_takeaway\": \"the raw fact\",\n                      \"duration_sec\": number\n                    }\n                  ]\n                }\n                Ensure there are 3-5 scenes total.",
+    "persona": "Director",
+    "model": "antigravity-bridge"
+  },
+  {
+    "id": "601c6833-f425-4257-a09b-0852e8561f99",
+    "timestamp": "2026-01-31T19:00:02.704Z",
+    "status": "pending",
+    "task": "Write a social media caption for a video about \"The 3 key elements of early House Music\" with the following outline: {\"video_title_internal\":\"The House That Chicago Built\",\"estimated_total_duration\":60,\"scenes\":[{\"scene_id\":1,\"concept_description\":\"Vintage clip of a drum machine\",\"key_takeaway\":\"The drum machine changed music forever.\",\"duration_sec\":20},{\"scene_id\":2,\"concept_description\":\"Chicago skyline at dusk\",\"key_takeaway\":\"House music was born in Chicago.\",\"duration_sec\":20},{\"scene_id\":3,\"concept_description\":\"Strobe lights in a club\",\"key_takeaway\":\"It was about freedom and rhythm.\",\"duration_sec\":20}]}.",
+    "persona": "Social Media Manager",
+    "model": "antigravity-bridge"
+  },
+  {
+    "id": "82198daf-a064-4d48-a3c1-77ca017253f5",
+    "timestamp": "2026-01-31T19:00:19.657Z",
+    "status": "pending",
+    "task": "Write the overlay text for a video scene based on this key point: \"The drum machine changed music forever.\". \n                    Condense it into punchy, impactful on-screen text. Maximum 7 words. Output only the text string.",
+    "persona": "Copywriter",
+    "model": "antigravity-bridge"
+  },
+  {
+    "id": "a30446d0-4e2d-4d8c-925c-a8c5a383e8e5",
+    "timestamp": "2026-01-31T19:00:19.680Z",
+    "status": "pending",
+    "task": "Write the overlay text for a video scene based on this key point: \"House music was born in Chicago.\". \n                    Condense it into punchy, impactful on-screen text. Maximum 7 words. Output only the text string.",
+    "persona": "Copywriter",
+    "model": "antigravity-bridge"
+  },
+  {
+    "id": "862e9763-0d15-421a-a099-f161bfb2aaa7",
+    "timestamp": "2026-01-31T19:00:19.704Z",
+    "status": "pending",
+    "task": "Write the overlay text for a video scene based on this key point: \"It was about freedom and rhythm.\". \n                    Condense it into punchy, impactful on-screen text. Maximum 7 words. Output only the text string.",
+    "persona": "Copywriter",
+    "model": "antigravity-bridge"
   }
 ]

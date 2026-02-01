@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Prompt-to-Post Director (Modern API)",
+    "url": "/boards/prompt-to-post.bgl.json",
+    "version": "1.0.0"
+  },
+  {
+    "title": "test",
+    "url": "/boards/test.bgl.json",
+    "version": "1.0.0"
+  }
+]

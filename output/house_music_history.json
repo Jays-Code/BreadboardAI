@@ -1,0 +1,27 @@
+{
+  "video_title_internal": "The House That Chicago Built",
+  "estimated_total_duration": 60,
+  "scenes": [
+    {
+      "scene_id": 1,
+      "concept_description": "Vintage clip of a drum machine",
+      "key_takeaway": "The drum machine changed music forever.",
+      "duration_sec": 20,
+      "overlay_text": "The drum machine: Music evolved."
+    },
+    {
+      "scene_id": 2,
+      "concept_description": "Chicago skyline at dusk",
+      "key_takeaway": "House music was born in Chicago.",
+      "duration_sec": 20,
+      "overlay_text": "Chicago: Where house was born."
+    },
+    {
+      "scene_id": 3,
+      "concept_description": "Strobe lights in a club",
+      "key_takeaway": "It was about freedom and rhythm.",
+      "duration_sec": 20,
+      "overlay_text": "Freedom. Rhythm. Love."
+    }
+  ]
+}
