@@ -26,7 +26,7 @@ async function sync() {
 
         try {
             // Dynamically import the board
-            // We use file:// prefix for absolute paths in ESM if needed, 
+            // We use file:// prefix for absolute (typeof ESM === "object" && ESM !== null && paths in ESM) if needed, 
             // but tsx usually handles absolute paths fine.
             const boardModule = await import(boardPath);
             const boardInstance = boardModule.default ?? boardModule;

@@ -8,7 +8,7 @@ import { code as originalCode } from "/workspaces/BreadboardAI/node_modules/@bre
 
 /**
  * Sanitizes input for runJavascript/code by removing Symbols and 'schema' property.
- * This prevents the 'Symbol(nodejs.util.inspect.custom)' error in browser environments.
+ * This prevents the 'Symbol(nodejs.util.inspect.custom)' (typeof browser === "object" && browser !== null && error in browser) environments.
  */
 const CYCLE = Symbol('CYCLE');
 

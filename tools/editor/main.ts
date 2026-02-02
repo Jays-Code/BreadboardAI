@@ -1,17 +1,15 @@
-console.log('[Main] SCRIPT STARTING');
 import { Main } from "@breadboard-ai/visual-editor";
+import { SettingsStore } from "@breadboard-ai/shared-ui/data/settings-store.js";
 
 async function run() {
-    console.log('[Main] Minimal run started');
     try {
         const config = {
             version: "1.0.0-local",
             gitCommitHash: "local",
+            settings: SettingsStore.instance(),
         };
-        console.log('[Main] Creating Main instance...');
         const main = new Main(config);
         document.body.appendChild(main);
-        console.log('[Main] Main appended.');
     } catch (e) {
         console.error('[Main] Error:', e);
     }

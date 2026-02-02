@@ -1,0 +1,16 @@
+node_modules/@breadboard-ai/bbrt/node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/@breadboard-ai/board-server-management/node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/@breadboard-ai/board-server-utils/node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/@breadboard-ai/example-board-server/node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/@breadboard-ai/example-boards/node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/@breadboard-ai/filesystem-board-server/node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/@breadboard-ai/google-drive-kit/node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/@breadboard-ai/idb-board-server/node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/@breadboard-ai/python-wasm/node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/@breadboard-ai/remote-board-server/node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/@breadboard-ai/shared-ui/node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/@breadboard-ai/visual-editor/node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/@google-labs/breadboard-cli/node_modules/@breadboard-ai/build/dist/internal/board/serialize.js
+node_modules/ajv/dist/compile/jtd/serialize.js
+node_modules/serve/node_modules/ajv/dist/compile/jtd/serialize.js

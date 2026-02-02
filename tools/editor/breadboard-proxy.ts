@@ -55,7 +55,7 @@ export const isBoardCapability = (value: any) => {
 export const isGraphDescriptorCapability = (capability: any) => {
     const maybe = capability;
     const board = maybe.board;
-    return !!board && !!board.edges && !!board.nodes;
+    return !!board && !!board?.edges && !!board?.nodes;
 };
 
 export const isResolvedURLBoardCapability = (capability: any) => {
@@ -79,7 +79,7 @@ export const getGraphDescriptor = async (board: any, context: any) => {
         }
         return loaderResult;
     } else if (isBreadboardCapability(board)) {
-        if (isGraphDescriptorCapability(board)) return { success: true, graph: board.board };
+        if (isGraphDescriptorCapability(board)) return { success: true, graph: board?.board };
         return { success: false, error: "URL/Path capabilities not fully supported in proxy mock yet" };
     }
     return { success: false, error: "Unable to get GraphDescriptor" };
