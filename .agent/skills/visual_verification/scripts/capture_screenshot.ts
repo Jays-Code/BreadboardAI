@@ -2,6 +2,7 @@
 import { chromium } from '@playwright/test';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { statSync } from 'fs';
 
 async function capture() {
     const args = process.argv.slice(2);
@@ -36,10 +37,21 @@ async function capture() {
         await page.goto(url, { waitUntil: 'load', timeout: 60000 });
 
         // Add a small delay to ensure animations or framework hydration settle
+        // We'll skip secondary networkidle to avoid heartbeat timeouts
         await page.waitForTimeout(1000);
-
+        await page.waitForSelector('bb-main', { state: 'attached', timeout: 10000 }).catch(() => console.log("Warning: bb-main not found within timeout"));
+        // Give it a moment to render content inside shadow root
+        await page.waitForTimeout(2000);
         console.log(`Capturing screenshot to ${outputPath}...`);
-        await page.screenshot({ path: outputPath, fullPage: false });
+        await page.screenshot({ path: outputPath, fullPage: false, timeout: 60000 });
+
+        // ANALYZE: Check metadata to verify it's not blank
+        const stats = statSync(outputPath);
+        console.log(`Screenshot size: ${stats.size} bytes`);
+        if (stats.size < 10000) {
+            console.error("FAILURE: Screenshot is too small (<10KB). Likely a blank white screen.");
+            process.exit(1);
+        }
 
         console.log('Screenshot captured successfully.');
     } catch (error) {

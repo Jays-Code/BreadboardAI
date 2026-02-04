@@ -1,0 +1,86 @@
+Navigating to: http://localhost:5175
+PAGE LOG: [Index] INLINE SCRIPT RUNNING
+PAGE LOG: [vite] connecting...
+PAGE LOG: [Main] Starting run...
+PAGE LOG: [vite] connected.
+PAGE LOG: [Main] Initializing strings...
+PAGE LOG: [Main] Strings initialized.
+PAGE LOG: [Main] Ensuring Example Boards are registered...
+PAGE LOG: [Main] Importing Visual Editor...
+PAGE LOG: [Heartbeat] 1 - State: complete
+PAGE LOG: [Heartbeat] 2 - State: complete
+PAGE LOG: [Heartbeat] 3 - State: complete
+PAGE LOG: [Heartbeat] 4 - State: complete
+PAGE LOG: [Heartbeat] 5 - State: complete
+PAGE LOG: [Heartbeat] 6 - State: complete
+PAGE LOG: [Heartbeat] 7 - State: complete
+PAGE LOG: [Heartbeat] 8 - State: complete
+PAGE LOG: [Heartbeat] 9 - State: complete
+PAGE LOG: [Heartbeat] 10 - State: complete
+PAGE LOG: [Heartbeat] 11 - State: complete
+PAGE LOG: [Heartbeat] 12 - State: complete
+PAGE LOG: [Heartbeat] 13 - State: complete
+PAGE LOG: [Heartbeat] 14 - State: complete
+PAGE LOG: [Heartbeat] 15 - State: complete
+PAGE LOG: [Heartbeat] 16 - State: complete
+PAGE LOG: [Heartbeat] 17 - State: complete
+PAGE LOG: [Heartbeat] 18 - State: complete
+PAGE LOG: [Heartbeat] 19 - State: complete
+PAGE LOG: [Heartbeat] 20 - State: complete
+PAGE LOG: [Heartbeat] 21 - State: complete
+PAGE LOG: [Heartbeat] 22 - State: complete
+PAGE LOG: [Heartbeat] 23 - State: complete
+PAGE LOG: [Heartbeat] 24 - State: complete
+PAGE LOG: %c[BreadboardProxy] MODULE LOADED color:blue;font-weight:bold;font-size:16px
+PAGE LOG: %c[CoreKitProxy] MODULE LOADED color:green;font-weight:bold;font-size:16px
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a runJavascript:schema port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a fetch:method port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a runJavascript:schema port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a fetch:body port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a fetch:raw port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a fetch:stream port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a fetch:redirect port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a runJavascript:schema port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a fetch:method port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a runJavascript:schema port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a fetch:body port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a fetch:raw port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a fetch:stream port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a fetch:redirect port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a runJavascript:schema port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a runJavascript:schema port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a runJavascript:schema port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a runJavascript:schema port.
+Navigation complete.
+PAGE LOG: Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a runJavascript:schema port.
+PAGE LOG: [Suppressed] Internal error: value was a symbol (Symbol()) for a runJavascript:schema port.
+PAGE LOG: %c[Index] MODULE LOADED - MODIFIED VERSION color: red; font-size: 20px;
+PAGE LOG: [Main] Visual Editor imported.
+PAGE LOG: [Breadboard Run Store] Using In-Memory Store
+PAGE LOG: [Main] Main instantiated.
+PAGE LOG: !!! WATERMARK: VISUAL-EDITOR-FIX-V2-DEPLOYED !!!
+PAGE LOG: [Main] connectedCallback() starting
+PAGE LOG: [Main] connectedCallback() super called
+PAGE LOG: [Main] Main appended to body.
+PAGE LOG: [Heartbeat] 25 - State: complete
+PAGE LOG: [Main] Recent boards restore resolved. Starting manifest logic.
+PAGE LOG: [Main] Fetching manifest from: /src/assets/boards-manifest.json
+PAGE LOG: [Main] Example Boards registration checked.
+PAGE LOG: [Main] Manifest fetched successfully. Count: 2
+PAGE LOG: [Main] Final boards count for render: 2
+PAGE LOG: [Heartbeat] 26 - State: complete
+BODY CONTENT SNIPPET: <script>
+        console.log('[Index] INLINE SCRIPT RUNNING');
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('[Unhandled Rejection]', event.reason);
+        });
+        window.global = window;
+        window.exports = {};
+        window.module = { exports: {} };
+        let count = 0;
+        setInterval(() => {
+            console.log('[Heartbeat] ' + (++count) + ' - State: ' + document.readyState);
+        }, 1000);
+    </script>
+    <script type=

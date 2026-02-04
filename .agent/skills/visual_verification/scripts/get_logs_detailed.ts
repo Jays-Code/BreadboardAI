@@ -22,8 +22,9 @@ import { chromium } from '@playwright/test';
     });
 
     try {
-        console.log("Navigating...");
-        await page.goto('http://localhost:5173/?board=/src/graphs/prompt-to-post.ts', { waitUntil: 'networkidle' });
+        const url = process.argv[2] || 'http://localhost:5173/?board=/src/graphs/prompt-to-post.ts';
+        console.log("Navigating to:", url);
+        await page.goto(url, { waitUntil: 'networkidle' });
         console.log("Navigation complete.");
 
         await page.waitForTimeout(2000);

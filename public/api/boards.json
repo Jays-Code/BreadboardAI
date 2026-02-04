@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "prompt-to-post",
+    "title": "Prompt-to-Post Director (Modern API)",
+    "description": "An autonomous content production pipeline using Antigravity Bridge.",
+    "version": "0.0.1",
+    "url": "/api/prompt-to-post.json"
+  },
+  {
+    "slug": "test",
+    "title": "test",
+    "description": "No description provided.",
+    "version": "0.0.1",
+    "url": "/api/test.json"
+  }
+]

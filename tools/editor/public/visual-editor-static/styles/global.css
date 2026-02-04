@@ -1,0 +1,110 @@
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+body.hide-cursor {
+  cursor: none !important;
+}
+
+:root {
+  --bb-grid-size: 4px;
+  --bb-grid-size-2: calc(var(--bb-grid-size) * 2);
+  --bb-grid-size-3: calc(var(--bb-grid-size) * 3);
+  --bb-grid-size-4: calc(var(--bb-grid-size) * 4);
+  --bb-grid-size-5: calc(var(--bb-grid-size) * 5);
+  --bb-grid-size-6: calc(var(--bb-grid-size) * 6);
+  --bb-grid-size-7: calc(var(--bb-grid-size) * 7);
+  --bb-grid-size-8: calc(var(--bb-grid-size) * 8);
+  --bb-grid-size-9: calc(var(--bb-grid-size) * 9);
+  --bb-grid-size-10: calc(var(--bb-grid-size) * 10);
+  --bb-grid-size-11: calc(var(--bb-grid-size) * 11);
+  --bb-grid-size-12: calc(var(--bb-grid-size) * 12);
+  --bb-grid-size-13: calc(var(--bb-grid-size) * 13);
+  --bb-grid-size-14: calc(var(--bb-grid-size) * 14);
+  --bb-grid-size-15: calc(var(--bb-grid-size) * 15);
+  --bb-grid-size-16: calc(var(--bb-grid-size) * 16);
+
+  /** Text */
+
+  --bb-title-xx-large: 32px;
+  --bb-title-line-height-xx-large: 34px;
+
+  --bb-title-x-large: 22px;
+  --bb-title-line-height-x-large: 24px;
+
+  --bb-title-large: 22px;
+  --bb-title-line-height-large: 28px;
+
+  --bb-title-medium: 16px;
+  --bb-title-line-height-medium: 24px;
+
+  --bb-title-small: 14px;
+  --bb-title-line-height-small: 20px;
+
+  --bb-label-large: 14px;
+  --bb-label-line-height-large: 20px;
+
+  --bb-label-medium: 12px;
+  --bb-label-line-height-medium: 16px;
+
+  --bb-label-small: 11px;
+  --bb-label-line-height-small: 16px;
+
+  --bb-body-large: 16px;
+  --bb-body-line-height-large: 24px;
+
+  --bb-body-medium: 14px;
+  --bb-body-line-height-medium: 20px;
+
+  --bb-body-small: 12px;
+  --bb-body-line-height-small: 16px;
+
+  --bb-body-x-small: 10px;
+  --bb-body-line-height-x-small: 13px;
+
+  /** Depth Colors */
+  --bb-depth-1: hsl(48deg, 60%, 98%);
+  --bb-depth-2: hsl(45deg, 60%, 96%);
+  --bb-depth-3: hsl(42deg, 60%, 94%);
+  --bb-depth-4: hsl(39deg, 60%, 92%);
+  --bb-depth-5: hsl(36deg, 60%, 90%);
+
+  --bb-elevation-16-heavy: 0px 3px 16px rgba(137, 143, 175, 0.4);
+  --bb-elevation-16-light: 0px 3px 16px rgba(137, 143, 175, 0.1);
+
+  --bb-elevation-5:
+    0px 4px 8px 3px rgba(0, 0, 0, 0.05), 0px 1px 3px 0 rgba(0, 0, 0, 0.1);
+  --bb-elevation-1:
+    0px 1px 2px rgb(0, 0, 0, 0.3), 0px 1px 3px rgb(0, 0, 0, 0.15);
+
+  --sys-color--body-background-light: #ffffff;
+  --sys-color--body-background-dark: #131314;
+}
+
+html,
+body {
+  overscroll-behavior: auto;
+  padding: 0;
+  margin: 0;
+  font-family: var(--bb-font-family, Arial);
+  color: var(--bb-font-color);
+  width: 100svw;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background: var(--sys-color--body-background-light);
+  overflow: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+  html,
+  body {
+    background: var(--sys-color--body-background-dark);
+  }
+}

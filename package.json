@@ -4,11 +4,14 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "PORT=5173 breadboard debug src/boards/prompt-to-post.ts --watch",
+    "dev": "vite",
+    "dev:debug": "PORT=5173 breadboard debug src/boards/prompt-to-post.ts --watch",
+    "build": "vite build",
+    "preview": "vite preview",
     "editor": "npm run sync-boards && cd tools/editor && npm run dev",
     "bridge": "tsx src/bridge/server.ts",
     "run-graph": "tsx src/scripts/run_graph.mts",
-    "sync-boards": "tsx src/scripts/sync-boards.ts",
+    "sync-boards": "tsx src/scripts/serialize_boards.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -17,7 +20,8 @@
   "description": "",
   "dependencies": {
     "@types/express": "^5.0.6",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mermaid": "^11.12.2"
   },
   "devDependencies": {
     "@breadboard-ai/build": "^0.12.2",
@@ -25,8 +29,16 @@
     "@google-labs/breadboard": "^0.35.0",
     "@google-labs/breadboard-cli": "^0.13.1",
     "@google-labs/core-kit": "^0.19.1",
+    "@lit-labs/signals": "^0.2.0",
+    "@lit/context": "^1.1.6",
+    "@lit/task": "^1.0.3",
+    "@material/web": "^2.4.1",
     "@playwright/test": "^1.58.0",
+    "ajv": "^8.17.1",
     "esbuild": "^0.27.2",
-    "tsx": "^4.21.0"
+    "lit": "^3.3.2",
+    "mime": "^4.1.0",
+    "tsx": "^4.21.0",
+    "zod": "^4.3.6"
   }
 }

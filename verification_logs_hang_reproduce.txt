@@ -1,0 +1,9 @@
+Navigating to: http://localhost:5174/?tab0=http://localhost:5174/boards/prompt-to-post.bgl.json&activeTab=0
+FAILED REQUEST: http://localhost:5174/?tab0=http://localhost:5174/boards/prompt-to-post.bgl.json&activeTab=0 net::ERR_CONNECTION_REFUSED
+Navigation failed: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/?tab0=http://localhost:5174/boards/prompt-to-post.bgl.json&activeTab=0
+Call log:
+[2m  - navigating to "http://localhost:5174/?tab0=http://localhost:5174/boards/prompt-to-post.bgl.json&activeTab=0", waiting until "networkidle"[22m
+
+    at <anonymous> (/workspaces/BreadboardAI/.agent/skills/visual_verification/scripts/get_logs_detailed.ts:27:20) {
+  name: 'Error'
+}

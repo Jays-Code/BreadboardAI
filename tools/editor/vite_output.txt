@@ -1,0 +1,15 @@
+
+> visual-editor-local@1.0.0 dev
+> vite
+
+[ViteConfig] __dirname: /workspaces/BreadboardAI/tools/editor
+[ViteConfig] detected rootDir: /workspaces/BreadboardAI
+[ViteConfig] iconDir: /workspaces/BreadboardAI/node_modules/@breadboard-ai/visual-editor/public/third_party/icons
+Port 5174 is in use, trying another one...
+
+  VITE v5.4.21  ready in 5467 ms
+
+  ➜  Local:   http://localhost:5175/
+  ➜  Network: http://172.17.0.2:5175/
+  ➜  press h + enter to show help
+[Esbuild] Resolved ../../../../../breadboard/dist/src/data/common.js -> /workspaces/BreadboardAI/node_modules/@breadboard-ai/data/dist/src/common.js

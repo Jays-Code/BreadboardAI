@@ -49,6 +49,21 @@
             "id": 10,
             "description": "Debug Blank Screen on Port 5173",
             "status": "complete"
+        },
+        {
+            "id": 11,
+            "description": "Debug recent flows visibility and verify fix (Generalize Board Visibility)",
+            "status": "complete"
+        },
+        {
+            "id": 12,
+            "description": "Implement Run Board Logic (Connect to Bridge)",
+            "status": "pending"
+        },
+        {
+            "id": 13,
+            "description": "Visualize Graph Topology (Nodes & Edges)",
+            "status": "pending"
         }
     ]
 }

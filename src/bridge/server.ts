@@ -3,6 +3,9 @@ import bodyParser from 'body-parser';
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import { pathToFileURL } from 'url';
+import { createLoader, invokeGraph } from "@google-labs/breadboard";
+import { kit } from "@breadboard-ai/build";
 
 const app = express();
 const PORT = 3000;
@@ -23,6 +26,76 @@ if (!fs.existsSync(RESPONSES_FILE)) fs.writeFileSync(RESPONSES_FILE, '[]');
 
 app.use(bodyParser.json());
 
+// --- Generic Run Endpoint (Wait for completion) ---
+app.post('/api/run', async (req, res) => {
+    const { slug, inputs } = req.body;
+    try {
+        const boardPath = path.join(process.cwd(), 'public', 'api', `${slug}.json`);
+        if (!fs.existsSync(boardPath)) return res.status(404).json({ error: `Board ${slug} not found` });
+        const graph = JSON.parse(fs.readFileSync(boardPath, 'utf-8'));
+        const loader = createLoader();
+        const output = await invokeGraph({ graph }, inputs, {
+            base: new URL(pathToFileURL(path.join(process.cwd(), 'public', 'api')).toString()),
+            loader
+        });
+        res.json({ result: output });
+    } catch (error) {
+        res.status(500).json({ error: "Execution failed", details: String(error) });
+    }
+});
+
+// --- Streaming Run Endpoint (SSE) ---
+app.get('/api/run-stream', async (req, res) => {
+    const { slug, inputs: inputsStr } = req.query;
+    const inputs = inputsStr ? JSON.parse(inputsStr as string) : {};
+
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.flushHeaders();
+
+    const sendEvent = (type: string, data: any) => {
+        res.write(`event: ${type}\ndata: ${JSON.stringify(data)}\n\n`);
+    };
+
+    try {
+        const boardPath = path.join(process.cwd(), 'public', 'api', `${slug}.json`);
+        if (!fs.existsSync(boardPath)) {
+            sendEvent('error', { message: `Board ${slug} not found` });
+            return res.end();
+        }
+
+        const graph = JSON.parse(fs.readFileSync(boardPath, 'utf-8'));
+        const { run } = await import("@google-labs/breadboard");
+
+        // Kits: We need to import the custom kit defined in run_graph.mts or similar
+        // For now, let's assume we can run without special kits or we add them here.
+        // Importing them might be tricky since they are in .ts files.
+
+        for await (const result of run({ graph }, { inputs })) {
+            const { type, data } = result;
+            if (type === "input") {
+                // Should already be provided, but could be requested mid-run
+                result.inputs = inputs;
+            } else if (type === "output") {
+                sendEvent('output', data);
+            } else if (type === "beforehandler") {
+                sendEvent('node-start', { id: data.node.id, type: data.node.type });
+            } else if (type === "afterhandler") {
+                sendEvent('node-end', { id: data.node.id, outputs: data.outputs });
+            } else if (type === "error") {
+                sendEvent('error', { message: data.error });
+            }
+        }
+        sendEvent('done', {});
+        res.end();
+    } catch (error) {
+        sendEvent('error', { message: String(error) });
+        res.end();
+    }
+});
+
+// --- Mind Link Endpoint (Legacy/Agent) ---
 app.post('/generate', async (req, res) => {
     const { task, persona, model } = req.body;
     const requestId = crypto.randomUUID();
