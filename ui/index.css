@@ -1,7 +1,7 @@
 :root {
     --bg-color: #0d0d12;
-    --card-bg: #16161e;
-    --card-border: #282834;
+    --card-bg: rgba(22, 22, 30, 0.7);
+    --card-border: rgba(255, 255, 255, 0.1);
     --text-primary: #e0e0e0;
     --text-secondary: #a0a0aa;
     --accent-color: #bb86fc;
@@ -9,6 +9,7 @@
     --success-color: #03dac6;
     --font-sans: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
+    --glass-blur: blur(16px);
 }
 
 * {
@@ -160,9 +161,25 @@ a {
 
 .panel {
     background: var(--card-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--card-border);
     border-radius: 12px;
     padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    animation: glide-in 0.5s ease-out;
+}
+
+@keyframes glide-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .node-list {
@@ -276,9 +293,236 @@ code {
     fill: rgba(207, 102, 121, 0.1) !important;
 }
 
-#output-area {
-    font-family: var(--font-mono);
-    white-space: pre-wrap;
-    line-height: 1.4;
+/* Flow Health Dashboard */
+.health-banner {
+    background: linear-gradient(90deg, rgba(187, 134, 252, 0.15) 0%, rgba(3, 218, 198, 0.1) 100%);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    animation: slide-down 0.4s ease-out;
+}
+
+@keyframes slide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.health-stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.health-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
     color: var(--text-secondary);
+    letter-spacing: 0.05rem;
+    margin-bottom: 0.2rem;
+}
+
+.health-value {
+    font-weight: 600;
+    font-size: 1.1rem;
+    font-family: var(--font-mono);
+}
+
+.progress-container {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--accent-color);
+    width: 0%;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+/* Glossary Highlights */
+.node-item.active-step {
+    border-left: 4px solid var(--accent-color);
+    background: rgba(187, 134, 252, 0.1);
+    animation: pulse-border 2s infinite;
+}
+
+.node-item.done-step {
+    border-left: 4px solid var(--success-color);
+    background: rgba(3, 218, 198, 0.05);
+}
+
+.node-item.error-step {
+    border-left: 4px solid #cf6679;
+    background: rgba(207, 102, 121, 0.1);
+}
+
+@keyframes pulse-border {
+    0% {
+        border-left-color: var(--accent-color);
+    }
+
+    50% {
+        border-left-color: #fff;
+    }
+
+    100% {
+        border-left-color: var(--accent-color);
+    }
+}
+
+/* Quick Guide */
+.guide-box {
+    background: linear-gradient(135deg, rgba(187, 134, 252, 0.08) 0%, rgba(3, 218, 198, 0.05) 100%);
+    border: 1px solid rgba(187, 134, 252, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.guide-box::before {
+    content: 'i';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 5rem;
+    font-weight: 900;
+    font-family: var(--font-sans);
+    color: rgba(187, 134, 252, 0.1);
+    transform: rotate(15deg);
+    pointer-events: none;
+}
+
+.guide-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.guide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.guide-step {
+    font-size: 0.85rem;
+}
+
+.guide-step h4 {
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+    font-weight: 600;
+}
+
+.guide-step ul {
+    list-style: none;
+    color: var(--text-secondary);
+    padding: 0;
+}
+
+.guide-step li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    line-height: 1.4;
+}
+
+.guide-step li::before {
+    content: '→';
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* Edge Data Pills */
+.edge-pill {
+    position: absolute;
+    background: var(--accent-color);
+    color: #121212;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 0 15px var(--accent-color);
+    white-space: nowrap;
+    animation: fade-out-move 2.5s forwards;
+    opacity: 0;
+}
+
+@keyframes fade-out-move {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    10% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    20% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.9);
+    }
+}
+
+.breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.breadcrumb-nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb-nav a:hover {
+    color: var(--accent-color);
+}
+
+.breadcrumb-sep {
+    opacity: 0.5;
 }

@@ -1,6 +1,7 @@
 
 
 // Mermaid will be loaded dynamically
+// Poke to force Vite refresh: 22:38
 let mermaid: any = null;
 
 async function initMermaid() {
@@ -36,7 +37,13 @@ async function renderHome() {
     const app = getApp();
     if (!app) return;
 
-    app.innerHTML = '<h2>Available Boards</h2><div class="board-grid" id="grid">Loading...</div>';
+    app.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem">
+            <h1 style="margin:0">My AI Tools</h1>
+            <span style="font-size:0.9rem; color:var(--text-secondary)">Select a tool to get started</span>
+        </div>
+        <div class="board-grid" id="grid">Loading...</div>
+    `;
 
     const boards = await loadBoards();
     const grid = document.getElementById('grid');
@@ -51,12 +58,15 @@ async function renderHome() {
         boards.forEach((board: any) => {
             const card = document.createElement('div');
             card.className = 'card';
+            const friendlyTitle = board.title || formatNodeLabel(board.id || '');
+            const displayVersion = (board.version === '0.0.1' || !board.version) ? 'Initial Release' : `v${board.version}`;
+
             card.innerHTML = `
-                <h3>${board.title}</h3>
-                <p class="description" style="flex:1; margin-bottom:1rem; color:var(--text-secondary)">${board.description}</p>
-                <div class="meta">
-                    <span class="chip">${board.version}</span>
-                    <span class="chip" style="background:rgba(3, 218, 198, 0.1); color:var(--success-color)">Ready</span>
+                <h3 style="margin-bottom:0.5rem">${friendlyTitle}</h3>
+                <p class="description" style="flex:1; margin-bottom:1.5rem; color:var(--text-secondary); font-size:0.9rem; line-height:1.5">${board.description || 'Customizable AI workflow for various tasks.'}</p>
+                <div class="meta" style="display:flex; justify-content:space-between; align-items:center">
+                    <span class="chip" style="font-size:0.65rem; opacity:0.8">${displayVersion}</span>
+                    <span style="color:var(--accent-color); font-size:0.8rem; font-weight:600">Open Tool →</span>
                 </div>
             `;
             card.onclick = () => {
@@ -72,6 +82,12 @@ let currentIdMap = new Map<string, string>();
 
 // Keep track of all nodes for inspection
 let currentNodes: any[] = [];
+
+// Track execution progress
+let nodesTotal = 0;
+let nodesCompleted = 0;
+let executionStartTime = 0;
+let timerInterval: any = null;
 
 function formatNodeLabel(id: string) {
     // Strip trailing digits, dashes, and internal numeric IDs (e.g. directorFlow-0 -> Director Flow)
@@ -108,7 +124,7 @@ function generateMermaidGraph(nodes: any[], edges: any[]) {
         currentIdMap.set(node.id, safeId);
         const rawLabel = node.configuration?.title || formatNodeLabel(node.id);
         const label = rawLabel.replace(/"/g, "'");
-        graph += `    ${safeId}["${label}<br/><small>(${node.type})</small>"]\n`;
+        graph += `    ${safeId}["${label}"]\n`;
     });
 
     // Edges
@@ -151,17 +167,74 @@ async function renderBoardDetail(slug: string) {
 
         const graphDef = generateMermaidGraph(currentNodes, edges);
 
+        const isInitialVersion = board.version === '0.0.1' || !board.version;
+        const versionBadge = isInitialVersion ? '' : `<span class="chip" style="margin-bottom:0.5rem">v${board.version}</span>`;
+
         app.innerHTML = `
-            <a href="#" class="back-link">← Back to Boards</a>
-            <div class="detail-header">
-                <div>
-                    <span class="chip" style="margin-bottom:0.5rem">v${board.version || '0.0.1'}</span>
-                    <h1>${board.title}</h1>
+            <div class="breadcrumb-nav">
+                <a href="#">My AI Tools</a>
+                <span class="breadcrumb-sep">/</span>
+                <span style="color:var(--text-primary)">${board.title || formatNodeLabel(slug)}</span>
+            </div>
+
+            <div class="detail-header" style="display:flex; justify-content:space-between; align-items:flex-start">
+                <div style="flex:1">
+                    ${versionBadge}
+                    <h1 style="margin-top:0.5rem">${board.title || formatNodeLabel(slug)}</h1>
+                    <p style="color:var(--text-secondary); max-width:800px; font-size:1.1rem; line-height:1.5">${board.description || "Interactive AI assistant powered by Breadboard."}</p>
                 </div>
-                <p style="color:var(--text-secondary); max-width:800px;">${board.description || "No description available."}</p>
+                <button class="btn btn-secondary" onclick="copyToolLink()" style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; padding: 0.6rem 1rem">
+                    <span>🔗</span> Share tool
+                </button>
             </div>
             
-            <div class="detail-layout">
+            <div class="detail-layout" style="display:block">
+                <div id="flow-health" class="health-banner" style="display:none">
+                    <div class="health-stat">
+                        <span class="health-label">Status</span>
+                        <span id="health-status" class="health-value">IDLE</span>
+                    </div>
+                    <div class="health-stat" style="flex:1">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem">
+                            <span class="health-label">Flow Progress</span>
+                            <span id="health-progress-text" class="health-value">0%</span>
+                        </div>
+                        <div class="progress-container">
+                            <div id="health-progress-bar" class="progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="health-stat">
+                        <span class="health-label">Elapsed Time</span>
+                        <span id="health-timer" class="health-value">0.0s</span>
+                    </div>
+                </div>
+
+                <div class="guide-box">
+                    <div class="guide-title">
+                        <span>👋</span> Quick Start Guide
+                    </div>
+                    <div class="guide-grid">
+                        <div class="guide-step">
+                            <h4>1. Read the Flow</h4>
+                            <ul>
+                                <li><strong>Visual Logic Flow</strong>: A map showing exactly how data moves through this tool.</li>
+                                <li><strong>Board Glossary</strong>: A plain-English guide to every component and its role.</li>
+                            </ul>
+                        </div>
+                        <div class="guide-step">
+                            <h4>2. Take Action</h4>
+                            <ul>
+                                <li><strong>Inputs</strong>: Fill in the prompt or settings in the right-hand panel.</li>
+                                <li><strong>Run Board</strong>: Click the purple button to start. Watch the flow light up!</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="margin-top:1rem; font-size:0.7rem; color:var(--text-secondary); text-align:right">
+                        <span style="cursor:pointer; text-decoration:underline" onclick="this.parentElement.parentElement.style.display='none'">Got it, hide help</span>
+                    </div>
+                </div>
+
+                <div class="detail-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
                 <div class="main-panel">
                      <div class="panel" style="margin-bottom: 2rem; min-height:450px; display:flex; flex-direction:column">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem">
@@ -205,7 +278,7 @@ async function renderBoardDetail(slug: string) {
             const friendlyName = node.configuration?.title || formatNodeLabel(node.id);
             const description = getNodeDescription(node);
             return `
-                                <div class="node-item" style="cursor:pointer" onclick="showNodeInspector('${node.id}')">
+                                <div id="glossary-${node.id}" class="node-item" style="cursor:pointer" onclick="showNodeInspector('${node.id}')">
                                     <div style="display:flex; flex-direction:column">
                                         <span style="font-weight:600">${friendlyName}</span>
                                         <span style="font-size:0.8rem; color:var(--text-secondary); line-height:1.4">${description}</span>
@@ -246,9 +319,42 @@ async function renderBoardDetail(slug: string) {
                             <li>Edges: ${edges.length}</li>
                         </ul>
                     </div>
+
+                    <div id="historical-results" class="panel" style="margin-top: 1.5rem">
+                        <h3 style="display:flex; justify-content:space-between; align-items:center">
+                            Run History
+                            <span style="font-size:0.7rem; color:var(--text-secondary); cursor:help" title="Previous runs of this board.">ℹ️</span>
+                        </h3>
+                        <div id="results-list" style="margin-top:0.5rem">
+                            <p style="font-size:0.8rem; color:var(--text-secondary)">Scanning for history...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
+
+        // Fetch Historical Results
+        fetch(`/api/results?slug=${slug}`)
+            .then(res => res.json())
+            .then(results => {
+                const listEl = document.getElementById('results-list');
+                if (!listEl) return;
+                if (results.length === 0) {
+                    listEl.innerHTML = '<p style="font-size:0.8rem; color:var(--text-secondary)">No previous runs found.</p>';
+                    return;
+                }
+                listEl.innerHTML = results.slice(0, 5).map((r: any) => `
+                    <div style="padding:0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; margin-bottom:0.5rem; cursor:pointer; border:1px solid rgba(255,255,255,0.05); transition:background 0.2s" onclick="window.location.hash='board/${slug}/result/${r.id}'" class="result-history-item">
+                        <div style="display:flex; justify-content:space-between; align-items:center">
+                            <span style="font-weight:600; font-size:0.8rem; color:var(--text-primary)">Run #${r.id.substring(0, 4)}</span>
+                            <span style="font-size:0.6rem; color:var(--text-secondary)">${new Date(r.startTime).toLocaleTimeString()}</span>
+                        </div>
+                        <div style="font-size:0.7rem; color:var(--text-secondary); margin-top:0.2rem; text-overflow:ellipsis; overflow:hidden; white-space:nowrap">
+                            ${JSON.stringify(r.inputs)}
+                        </div>
+                    </div>
+                `).join('');
+            });
 
         const runBtn = document.getElementById('run-btn');
         if (runBtn) {
@@ -318,17 +424,28 @@ function highlightNode(nodeId: string, status: 'active' | 'done' | 'error' | 'no
     const safeId = currentIdMap.get(nodeId);
     if (!safeId) return;
 
-    // Mermaid renders nodes as <g class="node ..."> with an ID like "flowchart-n0-123"
-    // We search for elements that contain our safeId in their ID
+    // 1. Highlight Mermaid Graph Node
     const nodeEl = document.querySelector(`.mermaid g.node[id*="-${safeId}-"]`);
-    if (!nodeEl) return;
+    if (nodeEl) {
+        nodeEl.classList.remove('active-step', 'done-step', 'error-step');
+        if (status === 'active') nodeEl.classList.add('active-step');
+        else if (status === 'done') nodeEl.classList.add('done-step');
+        else if (status === 'error') nodeEl.classList.add('error-step');
+    }
 
-    // Remove existing state classes
-    nodeEl.classList.remove('active-step', 'done-step', 'error-step');
+    // 2. Highlight Board Glossary Item
+    const glossaryEl = document.getElementById(`glossary-${nodeId}`);
+    if (glossaryEl) {
+        glossaryEl.classList.remove('active-step', 'done-step', 'error-step');
+        if (status === 'active') glossaryEl.classList.add('active-step');
+        else if (status === 'done') glossaryEl.classList.add('done-step');
+        else if (status === 'error') glossaryEl.classList.add('error-step');
 
-    if (status === 'active') nodeEl.classList.add('active-step');
-    else if (status === 'done') nodeEl.classList.add('done-step');
-    else if (status === 'error') nodeEl.classList.add('error-step');
+        // Auto-scroll glossary if active
+        if (status === 'active') {
+            glossaryEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
 }
 
 async function runBoard(slug: string, inputsList: any[]) {
@@ -336,24 +453,69 @@ async function runBoard(slug: string, inputsList: any[]) {
     const resultPanel = document.getElementById('result-panel');
     const outputArea = document.getElementById('output-area');
 
+    // Health UI elements
+    const healthBanner = document.getElementById('flow-health');
+    const healthStatus = document.getElementById('health-status');
+    const healthProgressText = document.getElementById('health-progress-text');
+    const healthProgressBar = document.getElementById('health-progress-bar');
+    const healthTimer = document.getElementById('health-timer');
+
     if (!btn || !resultPanel || !outputArea) return;
 
     const inputValues: Record<string, any> = {};
     for (const input of inputsList) {
-        const el = document.getElementById(`input-${input.id}`) as HTMLInputElement;
-        if (el) {
-            inputValues[input.id] = el.value;
+        const schema = input.configuration?.schema;
+        const properties = schema?.properties || {};
+        const propertyEntries = Object.entries(properties);
+
+        if (propertyEntries.length === 0) {
+            const el = document.getElementById(`input-${input.id}`) as HTMLInputElement;
+            if (el) inputValues[input.id] = el.value;
+        } else {
+            const nodeInputObj: Record<string, any> = {};
+            for (const [key] of propertyEntries) {
+                const el = document.getElementById(`input-${input.id}-${key}`) as HTMLInputElement;
+                if (el) nodeInputObj[key] = el.value;
+            }
+            // For Breadboard run(), usually inputs are merged into a flat object 
+            // but nested under the node ID if it's a specific input node?
+            // Actually Breadboard.run() usually expects the actual values.
+            Object.assign(inputValues, nodeInputObj);
         }
     }
+
+    // Reset Execution State
+    nodesTotal = currentNodes.length;
+    nodesCompleted = 0;
+    executionStartTime = Date.now();
+    if (timerInterval) clearInterval(timerInterval);
 
     // Reset UI
     btn.textContent = '⏹ Stop Run';
     resultPanel.style.display = 'block';
-    outputArea.textContent = 'Starting streaming execution...\n';
-    outputArea.style.color = 'var(--text-secondary)';
+    outputArea.innerHTML = ''; // Clear for structured view
+
+    if (healthBanner) healthBanner.style.display = 'flex';
+    if (healthStatus) {
+        healthStatus.textContent = 'RUNNING';
+        healthStatus.style.color = 'var(--accent-color)';
+    }
+
+    // Start Timer
+    timerInterval = setInterval(() => {
+        const elapsed = ((Date.now() - executionStartTime) / 1000).toFixed(1);
+        if (healthTimer) healthTimer.textContent = `${elapsed}s`;
+    }, 100);
+
+    const updateProgress = () => {
+        const percent = Math.round((nodesCompleted / nodesTotal) * 100);
+        if (healthProgressText) healthProgressText.textContent = `${percent}%`;
+        if (healthProgressBar) healthProgressBar.style.width = `${percent}%`;
+    };
+    updateProgress();
 
     // Clear previous highlights
-    document.querySelectorAll('.mermaid g.node').forEach(el => {
+    document.querySelectorAll('.active-step, .done-step, .error-step').forEach(el => {
         el.classList.remove('active-step', 'done-step', 'error-step');
     });
 
@@ -363,59 +525,162 @@ async function runBoard(slug: string, inputsList: any[]) {
 
     const eventSource = new EventSource(`/api/run-stream?${params.toString()}`);
 
-    const cleanup = () => {
+    const cleanup = (finalStatus: 'SUCCESS' | 'ERROR' | 'IDLE') => {
         eventSource.close();
+        clearInterval(timerInterval);
         btn.textContent = 'Run Board';
         btn.onclick = () => runBoard(slug, inputsList);
+
+        if (healthStatus) {
+            healthStatus.textContent = finalStatus;
+            healthStatus.style.color = finalStatus === 'SUCCESS' ? 'var(--success-color)' : (finalStatus === 'ERROR' ? '#cf6679' : 'var(--text-secondary)');
+        }
+    };
+
+    const getOrCreateNodeBucket = (nodeId: string) => {
+        let bucket = document.getElementById(`output-bucket-${nodeId}`);
+        if (!bucket) {
+            bucket = document.createElement('div');
+            bucket.id = `output-bucket-${nodeId}`;
+            bucket.className = 'output-bucket';
+            bucket.style.marginBottom = '1.5rem';
+            bucket.style.padding = '1rem';
+            bucket.style.background = 'rgba(255,255,255,0.03)';
+            bucket.style.borderRadius = '8px';
+            bucket.style.borderLeft = '4px solid var(--accent-color)';
+
+            const label = formatNodeLabel(nodeId);
+            bucket.innerHTML = `<div style="font-weight:600; font-size:0.8rem; margin-bottom:0.5rem; color:var(--accent-color)">${label}</div>
+                                <pre style="margin:0; font-size:0.75rem; color:var(--text-secondary); white-space:pre-wrap;"></pre>`;
+            outputArea.appendChild(bucket);
+        }
+        return bucket.querySelector('pre');
     };
 
     eventSource.addEventListener('node-start', (e) => {
         const data = JSON.parse((e as MessageEvent).data);
-        outputArea.textContent += `[Start] ${data.id} (${data.type})\n`;
         highlightNode(data.id, 'active');
-        outputArea.scrollTop = outputArea.scrollHeight;
+        showEdgePill(data.id, 'Starting...');
+        const bucketPre = getOrCreateNodeBucket(data.id);
+        if (bucketPre) bucketPre.textContent += `[Started execution...]\n`;
     });
 
     eventSource.addEventListener('node-end', (e) => {
         const data = JSON.parse((e as MessageEvent).data);
-        outputArea.textContent += `[Done] ${data.id}\n`;
         highlightNode(data.id, 'done');
-        outputArea.scrollTop = outputArea.scrollHeight;
+        nodesCompleted++;
+        updateProgress();
+        const bucketPre = getOrCreateNodeBucket(data.id);
+        if (bucketPre) {
+            const outputs = data.outputs || {};
+            if (Object.keys(outputs).length > 0) {
+                bucketPre.textContent += `${JSON.stringify(outputs, null, 2)}\n`;
+            }
+            bucketPre.textContent += `[Completed]\n`;
+        }
+    });
+
+    eventSource.addEventListener('done', (e) => {
+        const data = JSON.parse((e as MessageEvent).data);
+        nodesCompleted = nodesTotal;
+        updateProgress();
+        cleanup('SUCCESS');
+        // Refresh history if successful
+        if (data.runId) {
+            setTimeout(() => {
+                const listEl = document.getElementById('results-list');
+                if (listEl) {
+                    const item = document.createElement('div');
+                    item.className = 'result-history-item';
+                    item.style.cssText = "padding:0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; margin-bottom:0.5rem; cursor:pointer; border:1px solid rgba(255,255,255,0.05); transition:background 0.2s;";
+                    item.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:center">
+                            <span style="font-weight:600; font-size:0.8rem; color:var(--text-primary)">Run #${data.runId.substring(0, 4)}</span>
+                            <span style="font-size:0.6rem; color:var(--text-secondary)">Just now</span>
+                        </div>
+                    `;
+                    item.onclick = () => window.location.hash = `board/${slug}/result/${data.runId}`;
+                    if (listEl.firstChild && listEl.firstChild.nodeName === 'DIV' && !listEl.firstChild.textContent?.includes('No previous runs')) {
+                        listEl.insertBefore(item, listEl.firstChild);
+                    } else {
+                        listEl.innerHTML = '';
+                        listEl.appendChild(item);
+                    }
+                }
+            }, 1000);
+        }
     });
 
     eventSource.addEventListener('output', (e) => {
         const data = JSON.parse((e as MessageEvent).data);
-        outputArea.textContent += `[Output] ${JSON.stringify(data, null, 2)}\n`;
+        const activeNode = document.querySelector('.node-item.active-step');
+        const nodeId = activeNode ? activeNode.id.replace('glossary-', '') : 'unknown';
+
+        // Show data pill
+        if (nodeId !== 'unknown') {
+            const snippet = typeof data === 'object' ? Object.keys(data)[0] || 'data' : String(data);
+            showEdgePill(nodeId, snippet);
+        }
+
+        const bucketPre = getOrCreateNodeBucket(nodeId);
+        if (bucketPre) bucketPre.textContent += `${JSON.stringify(data, null, 2)}\n`;
         outputArea.scrollTop = outputArea.scrollHeight;
     });
 
     eventSource.addEventListener('error', (e) => {
         const data = JSON.parse((e as MessageEvent).data);
-        outputArea.textContent += `[Error] ${data.message}\n`;
-        outputArea.style.color = '#cf6679';
-        cleanup();
-    });
-
-    eventSource.addEventListener('done', () => {
-        outputArea.textContent += `--- Execution Complete ---\n`;
-        cleanup();
+        const activeNode = document.querySelector('.node-item.active-step');
+        const nodeId = activeNode ? activeNode.id.replace('glossary-', '') : 'error';
+        highlightNode(nodeId, 'error');
+        const bucketPre = getOrCreateNodeBucket(nodeId);
+        if (bucketPre) {
+            bucketPre.textContent += `[Error] ${data.message}\n`;
+            bucketPre.style.color = '#cf6679';
+        }
+        cleanup('ERROR');
     });
 
     btn.onclick = () => {
-        outputArea.textContent += `[User] Execution stopped.\n`;
-        cleanup();
+        cleanup('IDLE');
     };
 }
 
 function getInputsForm(inputs: any[]) {
-    return inputs.map(input => `
-        <div style="margin-bottom:1rem">
-            <label style="display:block; font-size:0.8rem; margin-bottom:0.3rem; color:var(--text-secondary)">${input.id}</label>
-            <input type="text" id="input-${input.id}" 
-                   placeholder="Enter value"
-                   style="width:100%; padding:0.5rem; background:rgba(0,0,0,0.2); border:1px solid var(--card-border); color:var(--text-primary); border-radius:4px;">
-        </div>
-    `).join('');
+    return inputs.map(input => {
+        const schema = input.configuration?.schema;
+        const properties = schema?.properties || {};
+        const propertyEntries = Object.entries(properties);
+
+        if (propertyEntries.length === 0) {
+            const friendlyLabel = input.configuration?.title || formatNodeLabel(input.id);
+            return `
+                <div style="margin-bottom:1.5rem">
+                    <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:0.5rem; color:var(--text-primary)">${friendlyLabel}</label>
+                    <input type="text" id="input-${input.id}" 
+                           placeholder="Enter value..."
+                           style="width:100%; padding:0.75rem; background:rgba(0,0,0,0.3); border:1px solid var(--card-border); color:var(--text-primary); border-radius:8px; font-size:0.9rem;">
+                </div>
+            `;
+        }
+
+        return propertyEntries.map(([key, prop]: [string, any]) => {
+            const friendlyLabel = prop.title || formatNodeLabel(key);
+            const isMainPrompt = key.toLowerCase().includes('topic') || key.toLowerCase().includes('prompt');
+            const placeholder = isMainPrompt ? "What should the AI write about?" : `Enter ${friendlyLabel.toLowerCase()}...`;
+            const defaultValue = prop.default || "";
+
+            return `
+                <div style="margin-bottom:1.5rem">
+                    <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:0.5rem; color:var(--text-primary)">${friendlyLabel}</label>
+                    <input type="text" id="input-${input.id}-${key}" 
+                           placeholder="${placeholder}"
+                           value="${defaultValue}"
+                           style="width:100%; padding:0.75rem; background:rgba(0,0,0,0.3); border:1px solid var(--card-border); color:var(--text-primary); border-radius:8px; font-size:0.9rem;">
+                    ${prop.description ? `<div style="font-size:0.7rem; color:var(--text-secondary); margin-top:0.3rem">${prop.description}</div>` : ''}
+                </div>
+            `;
+        }).join('');
+    }).join('');
 }
 
 function showNodeInspector(nodeId: string) {
@@ -425,20 +690,45 @@ function showNodeInspector(nodeId: string) {
     if (!node || !panel || !content) return;
 
     panel.style.display = 'block';
+    const friendlyTitle = node.configuration?.title || formatNodeLabel(node.id);
+    const configEntries = Object.entries(node.configuration || {})
+        .filter(([key]) => key !== 'title' && key !== 'description')
+        .map(([key, value]) => {
+            const friendlyKey = formatNodeLabel(key);
+            const displayValue = typeof value === 'object' ? JSON.stringify(value, null, 2) : value;
+            return `
+                <div style="margin-bottom:1rem">
+                    <label style="font-size:0.7rem; color:var(--text-secondary); display:block; margin-bottom:0.2rem; text-transform:uppercase">${friendlyKey}</label>
+                    <div style="font-weight:500; font-family:var(--font-mono); font-size:0.85rem; word-break:break-all">${displayValue}</div>
+                </div>
+            `;
+        }).join('');
 
     content.innerHTML = `
-        <div style="margin-bottom:1rem">
-            <label style="font-size:0.7rem; color:var(--text-secondary); display:block; margin-bottom:0.2rem">ID</label>
-            <div style="font-weight:600; font-family:var(--font-mono)">${node.id}</div>
+        <div style="margin-bottom:1.5rem">
+            <h2 style="margin:0; font-size:1.2rem">${friendlyTitle}</h2>
+            <p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.4rem; line-height:1.4">${getNodeDescription(node)}</p>
         </div>
-        <div style="margin-bottom:1rem">
-            <label style="font-size:0.7rem; color:var(--text-secondary); display:block; margin-bottom:0.2rem">TYPE</label>
-            <span class="chip">${node.type}</span>
+        
+        <div style="margin-bottom:1.5rem">
+             <label style="font-size:0.7rem; color:var(--text-secondary); display:block; margin-bottom:0.2rem">ROLE</label>
+             <span class="chip" style="text-transform:uppercase; font-size:0.6rem">${node.type}</span>
         </div>
-        <div>
-            <label style="font-size:0.7rem; color:var(--text-secondary); display:block; margin-bottom:0.2rem">CONFIGURATION</label>
-            <pre style="background:rgba(0,0,0,0.2); padding:0.5rem; border-radius:4px; font-size:0.75rem; overflow:auto; max-height:250px">${JSON.stringify(node.configuration || {}, null, 2)}</pre>
-        </div>
+
+        ${configEntries}
+
+        <details style="margin-top:2rem; border-top:1px solid var(--card-border); padding-top:1rem">
+            <summary style="font-size:0.7rem; color:var(--text-secondary); cursor:pointer">Advanced / Developer Settings</summary>
+            <div style="margin-top:1rem; font-size:0.7rem; color:var(--text-secondary)">
+                <div style="margin-bottom:0.8rem">
+                    <strong>Internal Node ID:</strong> <code style="background:rgba(255,255,255,0.05)">${node.id}</code>
+                </div>
+                <div style="font-size:0.65rem">
+                    <strong>Raw Configuration:</strong>
+                    <pre style="background:rgba(0,0,0,0.4); padding:0.5rem; margin-top:0.4rem; border-radius:4px; max-height:200px; overflow:auto">${JSON.stringify(node.configuration || {}, null, 2)}</pre>
+                </div>
+            </div>
+        </details>
     `;
 }
 
@@ -447,8 +737,12 @@ function handleRoute() {
     try {
         const hash = window.location.hash.substring(1);
         if (hash.startsWith('board/')) {
-            const slug = hash.replace('board/', '');
-            renderBoardDetail(slug);
+            const parts = hash.split('/');
+            if (parts.length === 4 && parts[2] === 'result') {
+                renderResultDetail(parts[1], parts[3]);
+            } else {
+                renderBoardDetail(parts[1]);
+            }
         } else {
             renderHome();
         }
@@ -456,6 +750,85 @@ function handleRoute() {
         const app = getApp();
         if (app) app.innerHTML = `<div style="color:red; padding:2rem;">Route Error: ${(e as Error).message}</div>`;
         console.error(e);
+    }
+}
+async function renderResultDetail(slug: string, resultId: string) {
+    const app = getApp();
+    if (!app) return;
+
+    app.innerHTML = '<div style="text-align:center; padding:2rem;">Loading Result Trace...</div>';
+
+    try {
+        const response = await fetch(`/api/result?id=${resultId}`);
+        const result = await response.json();
+
+        app.innerHTML = `
+            <div class="breadcrumb-nav">
+                <a href="#">My AI Tools</a>
+                <span class="breadcrumb-sep">/</span>
+                <a href="#board/${slug}">${formatNodeLabel(slug)}</a>
+                <span class="breadcrumb-sep">/</span>
+                <span style="color:var(--text-primary)">Run History</span>
+            </div>
+
+            <div class="detail-header" style="margin-bottom:2rem">
+                <h1 style="margin:0">Run History: #${resultId.substring(0, 8)}</h1>
+                <p style="color:var(--text-secondary); margin-top:0.5rem">Executed on ${new Date(result.startTime).toLocaleString()}</p>
+            </div>
+
+            <div class="panel" style="max-width:900px; margin:0 auto">
+                <h3>Execution Trace</h3>
+                <div id="trace-list" style="margin-top:1.5rem">
+                    ${result.trace.map((step: any, idx: number) => {
+            let icon = '⚙️';
+            let label = 'Step';
+            let content = '';
+            let color = 'var(--text-secondary)';
+
+            if (step.type === 'beforehandler') {
+                icon = '🏁';
+                label = `Started Node: ${formatNodeLabel(step.data.node.id)}`;
+                color = 'var(--accent-color)';
+            } else if (step.type === 'afterhandler') {
+                icon = '✅';
+                label = `Completed Node: ${formatNodeLabel(step.data.node.id)}`;
+                color = 'var(--success-color)';
+                const data = step.data.outputs || {};
+                content = `<pre style="font-size:0.75rem; background:rgba(0,0,0,0.2); padding:0.5rem; margin-top:0.5rem; border-radius:4px;">${JSON.stringify(data, null, 2)}</pre>`;
+            } else if (step.type === 'output') {
+                icon = '📤';
+                label = 'Data Generated';
+                content = `<pre style="font-size:0.75rem; background:rgba(0,0,0,0.2); padding:0.5rem; margin-top:0.5rem; border-radius:4px;">${JSON.stringify(step.data, null, 2)}</pre>`;
+            } else if (step.type === 'error') {
+                icon = '❌';
+                label = 'Error';
+                color = '#cf6679';
+                content = `<div style="color:#cf6679; font-family:var(--font-mono); font-size:0.8rem; margin-top:0.4rem">${step.data.error}</div>`;
+            } else if (step.type === 'input') {
+                icon = '📥';
+                label = 'User Inputs Provided';
+                content = `<pre style="font-size:0.75rem; background:rgba(0,0,0,0.2); padding:0.5rem; margin-top:0.5rem; border-radius:4px;">${JSON.stringify(step.data, null, 2)}</pre>`;
+            } else {
+                return ''; // Skip low-level noise for now
+            }
+
+            return `
+                            <div style="display:flex; gap:1.5rem; margin-bottom:1.5rem; position:relative">
+                                ${idx < result.trace.length - 1 ? '<div style="position:absolute; left:0.7rem; top:1.5rem; bottom:-1rem; width:2px; background:rgba(255,255,255,0.05)"></div>' : ''}
+                                <div style="width:1.5rem; height:1.5rem; border-radius:50%; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.8rem; z-index:1">${icon}</div>
+                                <div style="flex:1">
+                                    <div style="font-weight:600; font-size:0.9rem; color:${color}">${label}</div>
+                                    <div style="font-size:0.65rem; color:var(--text-secondary); margin-top:0.1rem">${new Date(step.timestamp).toLocaleTimeString()}</div>
+                                    ${content}
+                                </div>
+                            </div>
+                        `;
+        }).join('')}
+                </div>
+            </div>
+        `;
+    } catch (e) {
+        app.innerHTML = `<div style="color:red; padding:2rem;">Failed to load result: ${(e as Error).message}</div>`;
     }
 }
 
@@ -473,4 +846,34 @@ initMermaid();
 
 // Expose to window for inline onclick handlers
 (window as any).showNodeInspector = showNodeInspector;
+(window as any).copyToolLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    const btn = document.querySelector('.btn-secondary');
+    if (btn) {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span>✅</span> Copied!';
+        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+    }
+};
+
+function showEdgePill(fromNodeId: string, dataSnippet: string) {
+    const safeFromId = currentIdMap.get(fromNodeId);
+    if (!safeFromId) return;
+
+    // Try to find the Mermaid node element
+    const nodeEl = document.querySelector(`.mermaid g.node[id*="-${safeFromId}-"]`);
+    if (!nodeEl) return;
+
+    const rect = nodeEl.getBoundingClientRect();
+    const pill = document.createElement('div');
+    pill.className = 'edge-pill';
+    pill.textContent = dataSnippet.length > 20 ? dataSnippet.substring(0, 20) + '...' : dataSnippet;
+
+    // Position near the node
+    pill.style.left = `${rect.left + rect.width / 2}px`;
+    pill.style.top = `${rect.top}px`;
+
+    document.body.appendChild(pill);
+    setTimeout(() => pill.remove(), 2500);
+}
 

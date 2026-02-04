@@ -78,5 +78,37 @@
     "task": "Write the overlay text for a video scene based on this key point: \"It was about freedom and rhythm.\". \n                    Condense it into punchy, impactful on-screen text. Maximum 7 words. Output only the text string.",
     "persona": "Copywriter",
     "model": "antigravity-bridge"
+  },
+  {
+    "id": "0bc45b25-3f71-4183-9536-759a878c725a",
+    "timestamp": "2026-02-04T20:02:38.571Z",
+    "status": "pending",
+    "task": "Create a video outline for the topic: Verifying the Results Archive Feature with tone: Professional and helpful. \n                Output strict JSON with the following structure:\n                {\n                  \"video_title_internal\": \"string\",\n                  \"estimated_total_duration\": number,\n                  \"scenes\": [\n                    {\n                      \"scene_id\": number,\n                      \"concept_description\": \"visual description\",\n                      \"key_takeaway\": \"the raw fact\",\n                      \"duration_sec\": number\n                    }\n                  ]\n                }\n                Ensure there are 3-5 scenes total.",
+    "persona": "Director",
+    "model": "antigravity-bridge"
+  },
+  {
+    "id": "12b983ed-d5ac-4ff4-8c80-25037a8b7ccb",
+    "timestamp": "2026-02-04T20:27:26.969Z",
+    "status": "pending",
+    "task": "Create a video outline for the topic: Verifying the Results Archive Feature with tone: Professional and helpful. \n                Output strict JSON with the following structure:\n                {\n                  \"video_title_internal\": \"string\",\n                  \"estimated_total_duration\": number,\n                  \"scenes\": [\n                    {\n                      \"scene_id\": number,\n                      \"concept_description\": \"visual description\",\n                      \"key_takeaway\": \"the raw fact\",\n                      \"duration_sec\": number\n                    }\n                  ]\n                }\n                Ensure there are 3-5 scenes total.",
+    "persona": "Director",
+    "model": "antigravity-bridge"
+  },
+  {
+    "id": "80c4e8cb-28ce-4a28-9a31-263fca0add92",
+    "timestamp": "2026-02-04T21:03:11.007Z",
+    "status": "pending",
+    "task": "Create a video outline for the topic: Verifying the Results Archive Feature with tone: Professional and helpful. \n                Output strict JSON with the following structure:\n                {\n                  \"video_title_internal\": \"string\",\n                  \"estimated_total_duration\": number,\n                  \"scenes\": [\n                    {\n                      \"scene_id\": number,\n                      \"concept_description\": \"visual description\",\n                      \"key_takeaway\": \"the raw fact\",\n                      \"duration_sec\": number\n                    }\n                  ]\n                }\n                Ensure there are 3-5 scenes total.",
+    "persona": "Director",
+    "model": "antigravity-bridge"
+  },
+  {
+    "id": "037fc6db-284e-4da0-ba88-ec36b59c3dc3",
+    "timestamp": "2026-02-04T21:05:44.528Z",
+    "status": "pending",
+    "task": "Create a video outline for the topic: Verifying the Results Archive Feature with tone: Professional and helpful. \n                Output strict JSON with the following structure:\n                {\n                  \"video_title_internal\": \"string\",\n                  \"estimated_total_duration\": number,\n                  \"scenes\": [\n                    {\n                      \"scene_id\": number,\n                      \"concept_description\": \"visual description\",\n                      \"key_takeaway\": \"the raw fact\",\n                      \"duration_sec\": number\n                    }\n                  ]\n                }\n                Ensure there are 3-5 scenes total.",
+    "persona": "Director",
+    "model": "antigravity-bridge"
   }
 ]

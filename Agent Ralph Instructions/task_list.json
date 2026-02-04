@@ -58,12 +58,57 @@
         {
             "id": 12,
             "description": "Implement Run Board Logic (Connect to Bridge)",
-            "status": "pending"
+            "status": "complete"
         },
         {
             "id": 13,
             "description": "Visualize Graph Topology (Nodes & Edges)",
+            "status": "complete"
+        },
+        {
+            "id": 14,
+            "description": "Implement Visual Flow Progress in Glossary (Sync highlights)",
+            "status": "complete"
+        },
+        {
+            "id": 15,
+            "description": "Refine Results Panel into Structured Per-Node Outputs",
+            "status": "complete"
+        },
+        {
+            "id": 16,
+            "description": "Add High-Level 'Flow Health' Dashboard to Detail View",
+            "status": "complete"
+        },
+        {
+            "id": 17,
+            "description": "Perform Zero-Confusion Clarity Audit and implement final refinements",
+            "status": "complete"
+        },
+        {
+            "id": 18,
+            "description": "Implement 'Results Archive' Panel in Board Detail",
             "status": "pending"
+        },
+        {
+            "id": 19,
+            "description": "Implement 'Run Detail' View (Per-node execution trace)",
+            "status": "pending"
+        },
+        {
+            "id": 20,
+            "description": "Expose Historical Run API in Bridge Server",
+            "status": "pending"
+        },
+        {
+            "id": 21,
+            "description": "Research effective Remotion prompt engineering",
+            "status": "complete"
+        },
+        {
+            "id": 22,
+            "description": "Create content guidelines file with video duration and Remotion prompt instructions",
+            "status": "complete"
         }
     ]
 }

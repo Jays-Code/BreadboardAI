@@ -1,0 +1,16 @@
+{
+  "id": "94f97872-a371-4e40-afd0-a231694632b1",
+  "slug": "prompt-to-post",
+  "startTime": "2026-02-04T19:14:28.514Z",
+  "endTime": "2026-02-04T19:14:28.518Z",
+  "inputs": {
+    "tone": "Professional and helpful",
+    "topic": "Verifying the Results Archive Feature"
+  },
+  "trace": [
+    {
+      "type": "input",
+      "timestamp": "2026-02-04T19:14:28.517Z"
+    }
+  ]
+}
