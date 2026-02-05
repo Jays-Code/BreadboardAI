@@ -1,0 +1,104 @@
+{
+  "video_structure": {
+    "video_title_internal": "The Ancient Journey of Spinach",
+    "estimated_total_duration": 25,
+    "scenes": [
+      {
+        "scene_id": 1,
+        "arc_phase": "hook",
+        "concept_description": "A single vibrant green spinach leaf emerges from dark, earthy background textures with subtle dust particles floating. Text 'ANCIENT GREENS' fades in then out, replaced by 'THE HISTORY OF SPINACH'.",
+        "key_takeaway": "Before it was Popeye's favorite, spinach embarked on an epic journey across millennia.",
+        "duration_sec": 6,
+        "overlay_text": "Spinach: An Epic Journey Across Millennia",
+        "visual_script": {
+          "background_color": "#2E3B2E",
+          "primary_element": {
+            "type": "image",
+            "image_prompt": "A single, strikingly vibrant and lush green spinach leaf, with delicate dew drops, shown in a macro shot. It is partially emerging from rich, dark, textured earthy soil with small pebbles and organic matter, creating a sense of growth and ancient origin.",
+            "animation": "float",
+            "position": "center",
+            "label": "https://placehold.co/600x400/1A1A2E/FFF?text=Generated+Image"
+          },
+          "particles": "dust",
+          "camera_motion": "zoom_in"
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      },
+      {
+        "scene_id": 2,
+        "arc_phase": "journey",
+        "concept_description": "An animated, stylized ancient map showing a migration path from 'Persia (c. 2000 BC)' eastward through 'India' then to 'China (c. 647 AD)'. Text overlays highlight key dates and locations.",
+        "key_takeaway": "Originating in ancient Persia around 2000 BC, this leafy green was first cultivated for its medicinal properties.",
+        "duration_sec": 6,
+        "overlay_text": "Ancient Persia, 2000 BC: Medicinal Origins.",
+        "visual_script": {
+          "background_color": "#D2B48C",
+          "primary_element": {
+            "type": "image",
+            "image_prompt": "An intricately detailed and stylized ancient parchment map showing a large landmass from Persia through India to China. The map has a warm, sepia tone with visible aged textures, faint watermarks, and hand-drawn mythical creatures in the unexplored corners. A clear, glowing red dotted line, representing a migration path, traces from 'Persia (c. 2000 BC)' eastward across the map, passing through a region marked 'India', and concluding at 'China (c. 647 AD)'. These labels are rendered in an ancient, calligraphic font directly on the map surface, appearing as if inscribed. A subtle compass rose is visible in one corner. The overall style is reminiscent of illuminated manuscripts and antique cartography.",
+            "animation": "float",
+            "position": "center",
+            "label": "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=800&q=80"
+          },
+          "particles": "dust",
+          "camera_motion": "pan_left"
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      },
+      {
+        "scene_id": 3,
+        "arc_phase": "climax",
+        "concept_description": "Transition from map to an elegant, antique botanical illustration of a spinach plant. Text 'Spinacia oleracea' appears beside it, then morphs into a medieval European marketplace backdrop with crates of spinach.",
+        "key_takeaway": "It traveled the Silk Road to China by 647 AD, then reached Europe in the 11th century, eventually named Spinacia oleracea.",
+        "duration_sec": 7,
+        "overlay_text": "**647 AD: Silk Road. 11th Century: Europe!**",
+        "visual_script": {
+          "background_color": "#6B7B5E",
+          "primary_element": {
+            "type": "image",
+            "image_prompt": "An exquisite, highly detailed antique botanical illustration of a mature spinach plant (Spinacia oleracea), rendered in the style of 18th-century scientific drawings, with delicate watercolor shading and fine linework on aged parchment. The plant is depicted with roots, stem, and broad green leaves. The overall aesthetic is elegant, educational, and historically accurate, as if from a prized scientific catalog.",
+            "animation": "float",
+            "position": "center",
+            "label": "https://placehold.co/600x400/1A1A2E/FFF?text=Generated+Image"
+          },
+          "particles": "dust",
+          "camera_motion": "zoom_in"
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      },
+      {
+        "scene_id": 4,
+        "arc_phase": "outro",
+        "concept_description": "A time-lapse visual effect: an ancient field of spinach transforms into a modern farm, then a chef preparing a dish with fresh spinach. Final text overlay: 'SPINACH: A PREHISTORIC SUPERFOOD'.",
+        "key_takeaway": "From ancient fields to modern plates, spinach remains a global superfood with a truly prehistoric past.",
+        "duration_sec": 6,
+        "overlay_text": "Spinach: Prehistoric Past, Global Superfood.",
+        "visual_script": {
+          "background_color": "#3A5F3A",
+          "primary_element": {
+            "type": "image",
+            "image_prompt": "A visually stunning, seamless time-lapse triptych image artfully blending three eras of spinach: on the far left, a lush ancient field with wild spinach growing near a rustic cave entrance, transitioning smoothly into the middle section showcasing a modern, high-tech indoor vertical farm cultivating vibrant spinach, and concluding on the far right with a chef's hands expertly preparing a gourmet salad with freshly harvested spinach leaves on a pristine wooden board. Emphasize organic textures, natural lighting, and a historical progression in a realistic, detailed style.",
+            "animation": "pulse",
+            "position": "center",
+            "label": "https://placehold.co/600x400/1A1A2E/FFF?text=Generated+Image"
+          },
+          "particles": "dust",
+          "camera_motion": "zoom_in"
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      }
+    ]
+  },
+  "video_url": "/videos/video-1770265890742.mp4",
+  "qa_report": {
+    "score": 5,
+    "critique": "The submitted frames reveal a critical failure in the video generation process, as all visual content intended for the 'Generated Image' sections is entirely missing, replaced by static placeholders. Consequently, it's impossible to assess narrative coherence, visual complexity, or how well the visuals follow the intended narrative arc (Hook, Journey, Climax, Outro) because there are no actual visuals to evaluate. While the placeholder text and captions are legible against the plain background, the video utterly fails to deliver any visual storytelling or compelling imagery necessary for a dynamic narrative about 'The Ancient Journey of Spinach'.",
+    "improvement_suggestions": [
+      "Ensure the video generation system is fully operational and outputs actual, relevant visual content for each frame, rather than generic placeholder images or 'DEFAULT VIDEO' overlays.",
+      "Develop a clear visual strategy for each segment of the narrative arc (Hook, Journey, Climax, Outro) with specific imagery representing historical periods, geographical locations, and the cultural or agricultural evolution of spinach.",
+      "Introduce visual dynamism and scene complexity; move beyond static images to show transitions, events, or processes relevant to spinach's journey through time.",
+      "Integrate captions more creatively with the visuals, using lower thirds, animated text, or contextual overlays that enhance, rather than just state, the narrative, ensuring strong contrast for readability against diverse backgrounds."
+    ],
+    "passed": false
+  }
+}

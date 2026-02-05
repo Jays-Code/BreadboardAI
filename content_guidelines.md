@@ -23,6 +23,27 @@ For complex videos, use a multi-step prompting strategy:
 - **Deterministic Rendering**: Explicitly forbid `Math.random()`. Use `remotion`'s `random()` with a seed if randomness is needed.
 - **Asset Handling**: Be clear about where assets (images, fonts) are located or if they should be placeholders.
 
+## Narrative & Storytelling Theory
+To improve engagement, all videos must follow a structured Narrative Arc rather than a disconnected list of scenes.
+
+### 1. The Story Arc
+- **The Hook (Scene 1)**: Grab attention immediately. Present a problem or a striking fact.
+- **The Journey (Middle Scenes)**: Evidence, history, or development. Build tension or curiosity.
+- **The Climax/Payload (Penultimate Scene)**: The core insight or "Big Reveal."
+- **The Outro (Final Scene)**: Summarize and conclude.
+
+### 2. Multi-Layer Visual Composition
+Each scene should be thought of in layers to avoid "floating image" syndrome:
+- **Layer 1: Environment (Background)**: Solid color, gradient, or wide landscape images. Defines the mood.
+- **Layer 2: Subject (Midground)**: The primary image or icon generated for this specific scene.
+- **Layer 3: UI/Overlay (Foreground)**: Captions, progress bars, or "floating" decorative particles.
+
+### 3. Motion Direction
+Avoid static displays. Every subject must have a direction:
+- **Zoom In**: Focus on a detail.
+- **Pan Left/Right**: Suggest travel or time passing.
+- **Float**: Use for ethereal or abstract subjects.
+
 ### 4. Example Prompts
 > "Create a 6-second intro (180 frames @ 30fps) with the text 'STARTUP' in bold white Montserrat font. The text should fade in from opacity 0 to 1 and scale from 0.5 to 1.0 using a spring animation over the first 45 frames. Background should be a dark navy (#0f172a) `AbsoluteFill`."
 

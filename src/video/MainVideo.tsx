@@ -1,11 +1,15 @@
-import { AbsoluteFill, Sequence, spring, useCurrentFrame, useVideoConfig, interpolate } from 'remotion';
+import { AbsoluteFill, Sequence, spring, useCurrentFrame, useVideoConfig, interpolate, Audio } from 'remotion';
 import React from 'react';
+import { AnimationEngine, VisualScript } from './AnimationEngine';
 
 export interface Scene {
     scene_id: number;
     concept_description: string;
     key_takeaway: string;
     duration_sec: number;
+    overlay_text?: string;
+    visual_script?: VisualScript;
+    audio_url?: string;
 }
 
 export interface VideoConfig {
@@ -32,26 +36,58 @@ const SceneItem: React.FC<{ scene: Scene }> = ({ scene }) => {
     });
 
     return (
-        <AbsoluteFill style={{
-            backgroundColor: '#1A1A2E',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '40px',
-            color: 'white',
-            fontFamily: 'system-ui, -apple-system, sans-serif'
-        }}>
-            <div style={{ opacity, transform: `scale(${scale})`, textAlign: 'center' }}>
-                <h2 style={{ fontSize: '48px', marginBottom: '20px', color: '#E94560' }}>
-                    Scene {scene.scene_id}
-                </h2>
-                <p style={{ fontSize: '36px', fontWeight: 'bold' }}>
-                    {scene.key_takeaway}
-                </p>
-                <p style={{ fontSize: '24px', marginTop: '30px', opacity: 0.7, fontStyle: 'italic' }}>
-                    {scene.concept_description}
-                </p>
-            </div>
+        <AbsoluteFill>
+            {/* Dynamic Background Animation */}
+            <AnimationEngine
+                script={scene.visual_script}
+                description={scene.concept_description}
+            />
+
+            {/* Audio Layer */}
+            {scene.audio_url && (
+                <Audio src={scene.audio_url} />
+            )}
+
+            {/* Cinematic Captions Layer */}
+            <AbsoluteFill style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                flexDirection: 'column',
+                padding: '60px',
+                color: 'white',
+                fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+                pointerEvents: 'none'
+            }}>
+                <div style={{
+                    opacity,
+                    transform: `translateY(${interpolate(frame, [0, 20], [20, 0])}px)`,
+                    textAlign: 'center',
+                    width: '100%',
+                    paddingBottom: '40px'
+                }}>
+                    <div style={{
+                        display: 'inline-block',
+                        background: 'rgba(0,0,0,0.85)',
+                        padding: '16px 32px',
+                        borderRadius: '16px',
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
+                        border: '1px solid rgba(255,255,255,0.1)'
+                    }}>
+                        <p style={{
+                            fontSize: '44px',
+                            fontWeight: 900,
+                            margin: 0,
+                            lineHeight: 1.1,
+                            letterSpacing: '-0.03em',
+                            color: '#fff',
+                            textTransform: 'uppercase'
+                        }}>
+                            {scene.overlay_text || scene.key_takeaway}
+                        </p>
+                    </div>
+                </div>
+            </AbsoluteFill>
         </AbsoluteFill>
     );
 };

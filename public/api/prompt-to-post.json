@@ -1,6 +1,6 @@
 {
-  "title": "Prompt-to-Post Director (Modern API)",
-  "description": "An autonomous content production pipeline using Antigravity Bridge.",
+  "title": "Prompt to Video Post",
+  "description": "Converts a topic into a Remotion-ready video structure and renders it.",
   "edges": [
     {
       "from": "assembler-0",
@@ -9,14 +9,20 @@
       "in": "video_structure"
     },
     {
-      "from": "captionerFlow-0",
-      "to": "output-0",
-      "out": "caption",
-      "in": "social_caption"
+      "from": "assembler-0",
+      "to": "renderer-0",
+      "out": "video_structure",
+      "in": "video_structure"
+    },
+    {
+      "from": "assetSourcingFlow-0",
+      "to": "voiceoverFlow-0",
+      "out": "scenesWithAssets",
+      "in": "scenes"
     },
     {
       "from": "copywriterFlow-0",
-      "to": "assembler-0",
+      "to": "visualArchitectFlow-0",
       "out": "scenesWithText",
       "in": "scenes"
     },
@@ -34,21 +40,9 @@
     },
     {
       "from": "directorFlow-0",
-      "to": "captionerFlow-0",
-      "out": "fullData",
-      "in": "directorOut"
-    },
-    {
-      "from": "directorFlow-0",
       "to": "copywriterFlow-0",
       "out": "scenes",
       "in": "scenes"
-    },
-    {
-      "from": "input-0",
-      "to": "captionerFlow-0",
-      "out": "topic",
-      "in": "topic"
     },
     {
       "from": "input-0",
@@ -61,6 +55,30 @@
       "to": "directorFlow-0",
       "out": "topic",
       "in": "topic"
+    },
+    {
+      "from": "input-0",
+      "to": "visualArchitectFlow-0",
+      "out": "tone",
+      "in": "tone"
+    },
+    {
+      "from": "renderer-0",
+      "to": "output-0",
+      "out": "video_url",
+      "in": "video_url"
+    },
+    {
+      "from": "visualArchitectFlow-0",
+      "to": "assetSourcingFlow-0",
+      "out": "scenesWithVisuals",
+      "in": "scenes"
+    },
+    {
+      "from": "voiceoverFlow-0",
+      "to": "assembler-0",
+      "out": "scenesWithAudio",
+      "in": "scenes"
     }
   ],
   "nodes": [
@@ -95,21 +113,19 @@
         "schema": {
           "type": "object",
           "properties": {
-            "social_caption": {
-              "type": "string",
-              "title": "Social Caption"
-            },
             "video_structure": {
               "type": "object",
               "properties": {},
               "required": [],
-              "additionalProperties": false,
-              "title": "Video Structure"
+              "additionalProperties": false
+            },
+            "video_url": {
+              "type": "string"
             }
           },
           "required": [
-            "social_caption",
-            "video_structure"
+            "video_structure",
+            "video_url"
           ]
         }
       }
@@ -120,8 +136,8 @@
       "configuration": {}
     },
     {
-      "id": "captionerFlow-0",
-      "type": "captionerFlow",
+      "id": "assetSourcingFlow-0",
+      "type": "assetSourcingFlow",
       "configuration": {}
     },
     {
@@ -132,6 +148,21 @@
     {
       "id": "directorFlow-0",
       "type": "directorFlow",
+      "configuration": {}
+    },
+    {
+      "id": "renderer-0",
+      "type": "renderer",
+      "configuration": {}
+    },
+    {
+      "id": "visualArchitectFlow-0",
+      "type": "visualArchitectFlow",
+      "configuration": {}
+    },
+    {
+      "id": "voiceoverFlow-0",
+      "type": "voiceoverFlow",
       "configuration": {}
     }
   ]

@@ -12,6 +12,7 @@
     "bridge": "tsx src/bridge/server.ts",
     "run-graph": "tsx src/scripts/run_graph.mts",
     "sync-boards": "tsx src/scripts/serialize_boards.ts",
+    "verify": "tsx .agent/skills/visual_verification/scripts/capture_screenshot.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -50,6 +51,6 @@
     "lit": "^3.3.2",
     "mime": "^4.1.0",
     "tsx": "^4.21.0",
-    "zod": "^4.3.6"
+    "zod": "3.22.3"
   }
 }

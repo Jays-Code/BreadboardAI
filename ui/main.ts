@@ -1,7 +1,7 @@
 
 
 // Mermaid will be loaded dynamically
-// Poke to force Vite refresh: 00:26
+// Poke to force Vite refresh: 01:58
 let mermaid: any = null;
 
 async function initMermaid() {
@@ -109,6 +109,13 @@ function getNodeDescription(node: any) {
     if (type.includes('captioner')) return "Creative engine that generates social media captions and post text.";
     if (type.includes('copywriter')) return "Drafting engine that writes high-quality scripts or long-form content.";
     if (type.includes('assembler')) return "Combines various outputs into a single, cohesive final package.";
+
+    // New Nodes
+    if (type.includes('visualarchitect')) return "Acts as a Motion Designer, defining the visual style, animations, and assets for each scene.";
+    if (type.includes('voiceover')) return "Generates AI voiceovers (TTS) for each scene's script.";
+    if (type.includes('assetsourcing')) return "Fetches or generates the actual image assets requested by the Visual Architect.";
+    if (type.includes('renderer')) return "Sends the final video structure to the Bridge Server to trigger the Remotion render.";
+
     if (type.includes('llm') || type.includes('generate')) return "AI processing step that uses a language model to reason or create.";
 
     return "A functional step in the board's logic flow.";
@@ -156,7 +163,9 @@ async function renderBoardDetail(slug: string) {
     const app = getApp();
     if (!app) return;
 
-    app.innerHTML = '<div style="text-align:center">Loading Board...</div>';
+    if (!app.innerHTML.includes('detail-header')) {
+        app.innerHTML = '<div style="text-align:center; padding:2rem;">Loading Board...</div>';
+    }
 
     try {
         const response = await fetch(`/api/${slug}.json`);
@@ -386,10 +395,7 @@ async function renderBoardDetail(slug: string) {
                             e.stopPropagation();
 
                             // Try to find the node ID from currentIdMap
-                            // Mermaid IDs look like "mermaid-svg-123-n0" or "flowchart-n0-123"
                             const idAttr = nodeEl.id || '';
-                            console.log("Clicked node with ID:", idAttr);
-
                             for (const [nodeId, safeId] of currentIdMap.entries()) {
                                 if (idAttr.includes(safeId) || nodeEl.classList.contains(safeId)) {
                                     showNodeInspector(nodeId);
@@ -410,9 +416,23 @@ async function renderBoardDetail(slug: string) {
                 }
             }
         } else {
+            // Wait for Mermaid without clearing the whole app again
             const mContainer = app.querySelector('.mermaid');
             if (mContainer) mContainer.innerHTML = '<div style="color:var(--text-secondary)">Initializing Graph Engine...</div>';
-            setTimeout(() => renderBoardDetail(slug), 500);
+
+            // Re-render only the Mermaid part after a delay if needed, 
+            // but for now, just wait for the global init to finish.
+            let retries = 0;
+            const checkMermaid = setInterval(() => {
+                if (mermaid || retries > 20) {
+                    clearInterval(checkMermaid);
+                    if (mermaid) {
+                        // Trigger one more full render now that engines are ready
+                        renderBoardDetail(slug);
+                    }
+                }
+                retries++;
+            }, 500);
         }
 
     } catch (e) {
@@ -588,11 +608,30 @@ async function runBoard(slug: string, inputsList: any[]) {
         // Show final result in the dedicated panel
         if (resultPanel) resultPanel.style.display = 'block';
         if (outputArea) {
+            const outputs = data.outputs || {};
+            let richContent = '';
+
+            // Check for video_url to render a player
+            if (outputs.video_url) {
+                richContent += `
+                    <div style="margin-top:1rem; margin-bottom:1rem; background:black; border-radius:8px; overflow:hidden">
+                        <video controls src="${outputs.video_url}" style="width:100%; display:block;"></video>
+                    </div>
+                    <div style="text-align:center; margin-bottom:1rem">
+                        <a href="${outputs.video_url}" target="_blank" class="btn" style="text-decoration:none; font-size:0.8rem">⬇️ Download Video</a>
+                    </div>
+                `;
+            }
+
             const finalBucket = document.createElement('div');
             finalBucket.className = 'output-bucket';
             finalBucket.style.cssText = "border-left: 4px solid var(--success-color); background: rgba(var(--success-color-rgb), 0.1); padding: 1rem; border-radius: 8px; margin-top: 2rem;";
             finalBucket.innerHTML = `<div style="font-weight:700; color:var(--success-color); margin-bottom:0.5rem">✨ BOARD EXECUTION COMPLETE</div>
-                                      <pre style="margin:0; font-size:0.8rem">${JSON.stringify(data.outputs || {}, null, 2)}</pre>`;
+                                      ${richContent}
+                                      <details>
+                                          <summary style="fontSize:0.8rem; color:var(--text-secondary); cursor:pointer">View Raw Output JSON</summary>
+                                          <pre style="margin:0; font-size:0.8rem; margin-top:0.5rem">${JSON.stringify(outputs, null, 2)}</pre>
+                                      </details>`;
             outputArea.appendChild(finalBucket);
             outputArea.scrollTop = outputArea.scrollHeight;
         }
@@ -790,7 +829,32 @@ async function renderResultDetail(slug: string, resultId: string) {
             </div>
 
             <div class="panel" style="max-width:900px; margin:0 auto">
-                <h3>Execution Trace</h3>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem">
+                    <h3>Execution Trace</h3>
+                    ${(() => {
+                // Check if we have a valid video structure to render
+                const hasVideoStructure = result.trace.some((s: any) =>
+                    s.data?.outputs?.video_structure || s.data?.video_structure
+                );
+                if (hasVideoStructure) {
+                    return `<button id="render-btn" class="run-button" style="padding:0.5rem 1rem; font-size:0.8rem">🎬 Render Video</button>`;
+                }
+                return '';
+            })()}
+                </div>
+                <div id="video-embed-container" style="margin-bottom:2rem; display:none;"></div>
+                
+                <div id="render-progress-box" style="margin-bottom:2rem; display:none; background:rgba(255,255,255,0.05); padding:1.5rem; border-radius:12px; border:1px solid rgba(255,255,255,0.1)">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:0.8rem">
+                        <span style="font-weight:600; font-size:0.9rem">🎬 Rendering Video...</span>
+                        <span id="render-percent" style="font-family:var(--font-mono); font-size:0.9rem; color:var(--accent-color)">0%</span>
+                    </div>
+                    <div style="height:8px; background:rgba(0,0,0,0.3); border-radius:4px; overflow:hidden">
+                        <div id="render-bar" style="height:100%; width:0%; background:linear-gradient(90deg, var(--accent-color), #03dac6); transition:width 0.3s ease"></div>
+                    </div>
+                    <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:1rem; margin-bottom:0">This usually takes 30-60 seconds depending on complexity.</p>
+                </div>
+
                 <div id="trace-list" style="margin-top:1.5rem">
                     ${(() => {
                 const groups: Record<string, any> = {};
@@ -888,6 +952,134 @@ async function renderResultDetail(slug: string, resultId: string) {
                 </div>
             </div>
         `;
+
+        // Attach event listener for Render Video
+        const renderBtn = document.getElementById('render-btn');
+        const progressBox = document.getElementById('render-progress-box');
+        const progressBar = document.getElementById('render-bar');
+        const progressText = document.getElementById('render-percent');
+        const videoContainer = document.getElementById('video-embed-container');
+
+        const startPolling = (rId: string, videoUrl: string) => {
+            if (progressBox) progressBox.style.display = 'block';
+            if (renderBtn) {
+                renderBtn.textContent = '⏳ Rendering...';
+                renderBtn.setAttribute('disabled', 'true');
+            }
+
+            const pollId = setInterval(async () => {
+                try {
+                    const statusResp = await fetch(`/api/render-status?runId=${rId}`);
+                    const status = await statusResp.json();
+
+                    if (progressBar) progressBar.style.width = `${status.progress}%`;
+                    if (progressText) progressText.textContent = `${status.progress}%`;
+
+                    if (status.complete || status.error) {
+                        clearInterval(pollId);
+                        if (progressBox) progressBox.style.display = 'none';
+
+                        if (status.complete) {
+                            if (renderBtn) renderBtn.textContent = '✅ Rendered';
+                            if (videoContainer) {
+                                videoContainer.style.display = 'block';
+                                videoContainer.innerHTML = `
+                                    <div style="background:black; border-radius:8px; padding:1rem; text-align:center">
+                                        <video controls autoplay loop style="max-height:600px; max-width:100%">
+                                            <source src="${videoUrl}" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                        <div style="margin-top:1rem; font-size:0.8rem; color:var(--text-secondary)">
+                                            <a href="${videoUrl}" download style="color:var(--accent-color)">Download Video</a>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        } else {
+                            if (renderBtn) {
+                                renderBtn.textContent = '❌ Failed';
+                                renderBtn.removeAttribute('disabled');
+                            }
+                            alert("Rendering failed on the server.");
+                        }
+                    }
+                } catch (e) {
+                    console.error("Status check failed", e);
+                }
+            }, 1000);
+        };
+
+        // AUTO-CHECK: See if a render is already happening or done
+        (async () => {
+            try {
+                const statusResp = await fetch(`/api/render-status?runId=${resultId}`);
+                const status = await statusResp.json();
+                const videoUrl = `/videos/${resultId}.mp4`;
+
+                if (status.complete) {
+                    if (renderBtn) renderBtn.textContent = '✅ View Video';
+                    if (videoContainer) {
+                        videoContainer.style.display = 'block';
+                        videoContainer.innerHTML = `
+                            <div style="background:black; border-radius:8px; padding:1rem; text-align:center">
+                                <video controls loop style="max-height:600px; max-width:100%">
+                                    <source src="${videoUrl}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <div style="margin-top:1rem; font-size:0.8rem; color:var(--text-secondary)">
+                                    <a href="${videoUrl}" download style="color:var(--accent-color)">Download Video</a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } else if (status.progress > 0 && status.progress < 100) {
+                    startPolling(resultId, videoUrl);
+                }
+            } catch (e) { /* silent check */ }
+        })();
+
+        if (renderBtn) {
+            renderBtn.onclick = async () => {
+                const videoStruct = result.trace.find((s: any) => s.data?.outputs?.video_structure || s.data?.video_structure);
+                if (!videoStruct) {
+                    alert("Could not find video structure data in this run.");
+                    return;
+                }
+                const structure = videoStruct.data?.outputs?.video_structure || videoStruct.data?.video_structure;
+
+                renderBtn.textContent = '⏳ Starting Render...';
+                renderBtn.setAttribute('disabled', 'true');
+                renderBtn.style.opacity = '0.7';
+
+                try {
+                    const resp = await fetch('/api/render', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ video_structure: structure, runId: resultId })
+                    });
+                    const data = await resp.json();
+
+                    if (data.success) {
+                        if (data.status === 'complete') {
+                            renderBtn.textContent = '✅ Loaded';
+                            renderResultDetail(slug, resultId);
+                        } else {
+                            startPolling(resultId, data.video_url || `/videos/${resultId}.mp4`);
+                        }
+                    } else {
+                        renderBtn.textContent = '❌ Failed';
+                        alert("Rendering failed: " + (data.error || 'Unknown error'));
+                        renderBtn.removeAttribute('disabled');
+                        renderBtn.style.opacity = '1';
+                    }
+                } catch (e) {
+                    renderBtn.textContent = '❌ Error';
+                    console.error(e);
+                    renderBtn.removeAttribute('disabled');
+                    renderBtn.style.opacity = '1';
+                }
+            };
+        }
     } catch (e) {
         app.innerHTML = `<div style="color:red; padding:2rem;">Failed to load result: ${(e as Error).message}</div>`;
     }

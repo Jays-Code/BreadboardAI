@@ -109,6 +109,36 @@
             "id": 22,
             "description": "Create content guidelines file with video duration and Remotion prompt instructions",
             "status": "complete"
+        },
+        {
+            "id": 23,
+            "description": "Implement Stage 5: Asset Sourcing Node (Image Generation)",
+            "status": "complete"
+        },
+        {
+            "id": 24,
+            "description": "Update Visual Architect to request specific assets and URLs",
+            "status": "complete"
+        },
+        {
+            "id": 25,
+            "description": "Update AnimationEngine to render dynamic assets (Images/SVGs)",
+            "status": "complete"
+        },
+        {
+            "id": 26,
+            "description": "Implement Stage 6: Voiceover Node (TTS) & Audio Mixer",
+            "status": "complete"
+        },
+        {
+            "id": 27,
+            "description": "Update Remotion Bundle to support Audio Tracks",
+            "status": "complete"
+        },
+        {
+            "id": 28,
+            "description": "Implement Quality Control & Visual Verification Loop",
+            "status": "complete"
         }
     ]
 }

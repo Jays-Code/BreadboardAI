@@ -1,8 +1,8 @@
 [
   {
     "slug": "prompt-to-post",
-    "title": "Prompt-to-Post Director (Modern API)",
-    "description": "An autonomous content production pipeline using Antigravity Bridge.",
+    "title": "Prompt to Video Post",
+    "description": "Converts a topic into a Remotion-ready video structure and renders it.",
     "version": "0.0.1",
     "url": "/api/prompt-to-post.json"
   },

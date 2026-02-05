@@ -14,7 +14,9 @@ export default defineConfig({
             '/api/run': 'http://localhost:3000',
             '/api/run-stream': 'http://localhost:3000',
             '/api/results': 'http://localhost:3000',
-            '/api/result': 'http://localhost:3000'
+            '/api/result': 'http://localhost:3000',
+            '/api/render': 'http://localhost:3000',
+            '/api/render-status': 'http://localhost:3000'
         }
     },
     build: {

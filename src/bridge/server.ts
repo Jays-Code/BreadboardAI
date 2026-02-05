@@ -4,9 +4,18 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import os from 'os';
+import { execSync } from 'child_process';
 import { pathToFileURL } from 'url';
 import { createLoader, invokeGraph } from "@google-labs/breadboard";
-import { directorFlowDef, copywriterFlowDef, captionerFlowDef, assemblerDef } from "../boards/prompt-to-post.js";
+import {
+    directorFlowDef,
+    copywriterFlowDef,
+    visualArchitectFlowDef,
+    assetSourcingFlowDef,
+    voiceoverFlowDef,
+    assemblerDef,
+    rendererDef
+} from "../boards/prompt-to-post.ts";
 import { kit } from "@breadboard-ai/build";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import * as dotenv from "dotenv";
@@ -94,8 +103,11 @@ app.get('/api/run-stream', async (req, res) => {
             components: {
                 directorFlow: directorFlowDef,
                 copywriterFlow: copywriterFlowDef,
-                captionerFlow: captionerFlowDef,
-                assembler: assemblerDef
+                visualArchitectFlow: visualArchitectFlowDef,
+                assetSourcingFlow: assetSourcingFlowDef,
+                voiceoverFlow: voiceoverFlowDef,
+                assembler: assemblerDef,
+                renderer: rendererDef
             }
         });
 
@@ -180,46 +192,116 @@ app.get('/api/run-stream', async (req, res) => {
     }
 });
 
+// --- Render Progress Cache ---
+const renderProgress: Record<string, number> = {};
+
 // --- Render API ---
 app.post('/api/render', async (req, res) => {
     const { video_structure, runId } = req.body;
     if (!video_structure) return res.status(400).json({ error: "No video structure provided" });
 
-    const propsFile = path.join(os.tmpdir(), `props-${runId || Date.now()}.json`);
-    const outputFilename = `${runId || 'video'}.mp4`;
+    const id = runId || `video-${Date.now()}`;
+    const propsFile = path.join(os.tmpdir(), `props-${id}.json`);
+    const outputFilename = `${id}.mp4`;
     const outputPath = path.join(VIDEO_OUT_DIR, outputFilename);
+
+    // Check if already finished
+    if (fs.existsSync(outputPath)) {
+        renderProgress[id] = 100;
+        return res.json({
+            success: true,
+            runId: id,
+            video_url: `/videos/${outputFilename}`,
+            status: "complete"
+        });
+    }
+
+    // Check if already in progress
+    if (renderProgress[id] !== undefined && renderProgress[id] >= 0 && renderProgress[id] < 100) {
+        return res.json({
+            success: true,
+            runId: id,
+            video_url: `/videos/${outputFilename}`,
+            status: "rendering"
+        });
+    }
 
     try {
         fs.writeFileSync(propsFile, JSON.stringify(video_structure));
+        renderProgress[id] = 0;
 
         console.log(`[Renderer] Starting render for ${outputFilename}...`);
 
-        // Execute Remotion render
-        const { exec } = await import('child_process');
-        const cmd = `npx remotion render src/video/index.tsx Main ${outputPath} --props=${propsFile}`;
+        const { spawn } = await import('child_process');
+        const child = spawn('npx', [
+            'remotion', 'render',
+            'src/video/index.tsx', 'Main',
+            outputPath,
+            `--props=${propsFile}`
+        ]);
 
-        exec(cmd, (error, stdout, stderr) => {
-            if (error) {
-                console.error(`[Renderer] Error: ${error.message}`);
-                return;
+        child.stdout.on('data', (data) => {
+            const output = data.toString();
+            // Parse Remotion progress output: e.g. "Rendering frames ━━━━╺━━━━━━━━━━━━━ 209/900"
+            const match = output.match(/(\d+)\/(\d+)/);
+            if (match) {
+                const current = parseInt(match[1]);
+                const total = parseInt(match[2]);
+                const percent = Math.round((current / total) * 100);
+                renderProgress[id] = percent;
             }
-            console.log(`[Renderer] Render complete: ${outputFilename}`);
-            // Clean up props file
-            fs.unlinkSync(propsFile);
         });
 
-        // We return immediately with the expected path (async render)
-        // In a more complex app, we'd use a webhook or polling
+        child.stderr.on('data', (data) => {
+            console.error(`[Renderer Log] ${data.toString()}`);
+        });
+
+        child.on('close', (code) => {
+            if (code === 0) {
+                console.log(`[Renderer] Render complete: ${outputFilename}`);
+                renderProgress[id] = 100;
+            } else {
+                console.error(`[Renderer] Process exited with code ${code}`);
+                renderProgress[id] = -1; // Error state
+            }
+            if (fs.existsSync(propsFile)) fs.unlinkSync(propsFile);
+        });
+
         res.json({
             success: true,
+            runId: id,
             video_url: `/videos/${outputFilename}`,
-            status: "rendering"
+            status: "started"
         });
 
     } catch (error: any) {
         console.error("[Renderer] Setup Failed:", error);
         res.status(500).json({ error: "Render failed to start", details: error.message });
     }
+});
+
+app.get('/api/render-status', (req, res) => {
+    const { runId } = req.query;
+    if (!runId || typeof runId !== 'string') return res.status(400).json({ error: "Missing runId" });
+
+    // Check disk first (persistence after restart)
+    const outputFilename = `${runId}.mp4`;
+    const outputPath = path.join(VIDEO_OUT_DIR, outputFilename);
+
+    if (fs.existsSync(outputPath)) {
+        return res.json({
+            progress: 100,
+            complete: true,
+            error: false
+        });
+    }
+
+    const progress = renderProgress[runId] ?? 0;
+    res.json({
+        progress,
+        complete: progress === 100,
+        error: progress === -1
+    });
 });
 
 // --- Results API ---
@@ -248,11 +330,25 @@ app.get('/api/results', (req, res) => {
 app.get('/api/result', (req, res) => {
     const { id } = req.query;
     const filePath = path.join(RESULTS_DIR, `${id}.json`);
+
     if (fs.existsSync(filePath)) {
-        res.json(JSON.parse(fs.readFileSync(filePath, 'utf-8')));
-    } else {
-        res.status(404).json({ error: "Result not found" });
+        return res.json(JSON.parse(fs.readFileSync(filePath, 'utf-8')));
     }
+
+    // Fallback: Search inside files (in case filename doesn't match ID)
+    try {
+        const files = fs.readdirSync(RESULTS_DIR).filter(f => f.endsWith('.json'));
+        for (const file of files) {
+            try {
+                const content = JSON.parse(fs.readFileSync(path.join(RESULTS_DIR, file), 'utf-8'));
+                if (content.id === id) {
+                    return res.json(content);
+                }
+            } catch (e) { continue; }
+        }
+    } catch (e) { }
+
+    res.status(404).json({ error: "Result not found" });
 });
 
 // --- Mind Link Endpoint (Intelligent Gemini Agent) ---
@@ -286,7 +382,7 @@ app.post('/generate', async (req, res) => {
 
         // 3. Prepare Prompt
         let finalPrompt = task;
-        if (persona === "Director") {
+        if (persona === "Director" || persona === "Visual Designer") {
             finalPrompt = `${task}\n\nIMPORTANT: You MUST respond with a valid JSON object only. Do not include markdown formatting or extra text.`;
         }
 
@@ -296,13 +392,13 @@ app.post('/generate', async (req, res) => {
 
         // 5. Clean and parse response if needed
         let finalResponse: any = responseText;
-        if (persona === "Director") {
+        if (persona === "Director" || persona === "Visual Designer") {
             try {
                 // Remove markdown code blocks if the model included them
                 const cleaned = responseText.replace(/```json\n?|\n?```/g, '').trim();
                 finalResponse = JSON.parse(cleaned);
             } catch (e) {
-                console.error("Failed to parse Director JSON response:", responseText);
+                console.error(`Failed to parse ${persona} JSON response:`, responseText);
                 return res.status(500).json({ error: "Invalid JSON generated by model", raw: responseText });
             }
         }
@@ -312,6 +408,129 @@ app.post('/generate', async (req, res) => {
     } catch (error: any) {
         console.error("Gemini API Error:", error);
         return res.status(500).json({ error: "Gemini Generation Failed", details: error.message });
+    }
+});
+
+// --- Image Generation Endpoint (Stub/Mock for Ralph) ---
+app.post('/generate-image', async (req, res) => {
+    const { prompt } = req.body;
+    console.log(`[Bridge] Generating image for prompt: "${prompt}"...`);
+
+    // TODO: Connect to Real Image Gen API (DALL-E 3 / Midjourney / Stability)
+    // For now, return a high-quality placeholder based on keywords or a placeholder service
+
+    // Simulate delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    let imageUrl = "https://placehold.co/600x400/1A1A2E/FFF?text=Generated+Image";
+
+    // Simple mock logic for better demo visuals
+    const p = prompt.toLowerCase();
+    if (p.includes('map')) imageUrl = "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=800&q=80";
+    if (p.includes('camel') || p.includes('journey')) imageUrl = "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80";
+    if (p.includes('feast') || p.includes('food')) imageUrl = "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80";
+    if (p.includes('character') || p.includes('person')) imageUrl = "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80";
+
+    res.json({ url: imageUrl });
+});
+
+// --- Audio Generation Endpoint (Stub/Mock for Ralph) ---
+app.post('/generate-audio', async (req, res) => {
+    const { text, voice } = req.body;
+    console.log(`[Bridge] Generating audio for: "${text.substring(0, 20)}..."`);
+
+    // TODO: Connect to Real TTS API (ElevenLabs / OpenAI)
+    // For now, return a generic placeholder audio file
+
+    // Simulate delay
+    await new Promise(resolve => setTimeout(resolve, 800));
+
+    // Valid sample MP3 URL for testing
+    const audioUrl = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+
+    res.json({ url: audioUrl, duration: 5 }); // Mock duration 5s
+});
+
+// --- Visual QA Endpoint (Story Quality Assurance) ---
+app.post('/api/visual-qa', async (req, res) => {
+    const { video_structure, runId } = req.body;
+    if (!video_structure || !runId) return res.status(400).json({ error: "Missing video_structure or runId" });
+
+    console.log(`[Visual QA] Starting quality assessment for ${runId}...`);
+
+    const qaDir = path.join(process.cwd(), 'public', 'qa', runId);
+    if (!fs.existsSync(qaDir)) fs.mkdirSync(qaDir, { recursive: true });
+
+    const samples = [10, 50, 90]; // Percentages
+    const framePaths: string[] = [];
+    const totalFrames = Math.max(90, (video_structure.estimated_total_duration || 30) * 30);
+
+    try {
+        // 1. Capture Stills
+        for (const percent of samples) {
+            const frame = Math.floor((percent / 100) * totalFrames);
+            const outputPath = path.join(qaDir, `frame-${percent}.png`);
+            const propsFile = path.join(os.tmpdir(), `props-qa-${runId}-${percent}.json`);
+            fs.writeFileSync(propsFile, JSON.stringify(video_structure));
+
+            console.log(`[Visual QA] Capturing still at ${percent}% (frame ${frame})...`);
+
+            try {
+                execSync(`npx remotion still src/video/index.tsx Main "${outputPath}" --frame=${frame} --props="${propsFile}" --image-format=png --overwrite`);
+                framePaths.push(outputPath);
+            } catch (err: any) {
+                console.error(`[Visual QA] Frame ${percent} failed:`, err.message);
+            } finally {
+                if (fs.existsSync(propsFile)) fs.unlinkSync(propsFile);
+            }
+        }
+
+        if (framePaths.length === 0) {
+            throw new Error("No frames were captured.");
+        }
+
+        // 2. Multi-modal Analysis with Gemini
+        const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+        const genAI = new GoogleGenerativeAI(apiKey!);
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+        const imageParts = framePaths.map(p => ({
+            inlineData: {
+                data: fs.readFileSync(p).toString("base64"),
+                mimeType: "image/png"
+            }
+        }));
+
+        const prompt = `Act as a Professional Video Critic and Storyboard Artist. 
+        I have captured three frames (10%, 50%, 90%) from a generated video titled "${video_structure.video_title_internal}".
+        The goal was to follow a Narrative Arc: Hook -> Journey -> Climax -> Outro.
+
+        Assess the following:
+        1. Narrative Coherence: Do the visuals look like they belong to a story?
+        2. Visual Complexity: Is there a clear background and subject, or does it feel like a "floating image"?
+        3. Readability: Is the caption text legible against the background?
+
+        Output strict JSON:
+        {
+          "score": number (0-100),
+          "critique": "short paragraph",
+          "improvement_suggestions": ["suggestion 1", "suggestion 2"],
+          "passed": boolean
+        }`;
+
+        const result = await model.generateContent([prompt, ...imageParts]);
+        const responseText = result.response.text().replace(/```json\n?|\n?```/g, '').trim();
+        const report = JSON.parse(responseText);
+
+        res.json({
+            success: true,
+            report,
+            screenshots: samples.map(p => `/qa/${runId}/frame-${p}.png`)
+        });
+
+    } catch (error: any) {
+        console.error("[Visual QA] Failed:", error);
+        res.status(500).json({ error: "QA Analysis failed", details: error.message });
     }
 });
 
