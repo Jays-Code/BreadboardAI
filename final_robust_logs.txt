@@ -1,7 +1,0 @@
-Navigating to http://127.0.0.1:3000/?tab0=http://127.0.0.1:3000/boards/prompt-to-post.bgl.json&activeTab=0...
-FAILED REQUEST: http://127.0.0.1:3000/?tab0=http://127.0.0.1:3000/boards/prompt-to-post.bgl.json&activeTab=0 net::ERR_CONNECTION_REFUSED
-Navigation failed: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:3000/?tab0=http://127.0.0.1:3000/boards/prompt-to-post.bgl.json&activeTab=0
-Call log:
-[2m  - navigating to "http://127.0.0.1:3000/?tab0=http://127.0.0.1:3000/boards/prompt-to-post.bgl.json&activeTab=0", waiting until "domcontentloaded"[22m
-
-Logs saved to 60000
