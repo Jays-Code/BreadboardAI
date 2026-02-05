@@ -31,8 +31,7 @@ export const directorFlowDef = defineNodeType({
     outputs: {
         scenes: { type: array(object({})) },
         total_duration: { type: "number" },
-        title: { type: "string" },
-        fullData: { type: object({}) }
+        title: { type: "string" }
     },
     invoke: async ({ topic, tone }) => {
         const response = await fetch("http://localhost:3000/generate", {
@@ -53,7 +52,7 @@ export const directorFlowDef = defineNodeType({
                     }
                   ]
                 }
-                Ensure there are 3-5 scenes total.`,
+                Ensure there are 3-5 scenes total. The total duration MUST NOT exceed 30 seconds.`,
                 persona: "Director",
                 model: "antigravity-bridge"
             })
@@ -63,8 +62,7 @@ export const directorFlowDef = defineNodeType({
         return {
             scenes: data.scenes || [],
             total_duration: data.estimated_total_duration || 0,
-            title: data.video_title_internal || "Untitled",
-            fullData: data
+            title: data.video_title_internal || "Untitled"
         };
     }
 });
@@ -90,7 +88,9 @@ export const copywriterFlowDef = defineNodeType({
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     task: `Write the overlay text for a video scene based on this key point: "${scene.key_takeaway}". 
-                    Condense it into punchy, impactful on-screen text. Maximum 7 words. Output only the text string.`,
+                    Condense it into punchy, impactful on-screen text. Maximum 7 words. 
+                    Follow the Remotion Prompt Engineering Guidelines: use specified terminology if needed, and ensure text is suitable for a 30s high-energy edit.
+                    Output only the text string.`,
                     persona: "Copywriter",
                     model: "antigravity-bridge"
                 })
@@ -111,17 +111,17 @@ export const captionerFlowDef = defineNodeType({
     name: "captionerFlow",
     inputs: {
         topic: { type: "string" },
-        directorOut: { type: object({}) }
+        scenes: { type: array(object({})) }
     },
     outputs: {
         caption: { type: "string" }
     },
-    invoke: async ({ topic, directorOut }) => {
+    invoke: async ({ topic, scenes }) => {
         const response = await fetch("http://localhost:3000/generate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                task: `Write a social media caption for a video about "${topic}" with the following outline: ${JSON.stringify(directorOut)}.`,
+                task: `Write a social media caption for a video about "${topic}" with the following scenes: ${JSON.stringify(scenes)}.`,
                 persona: "Social Media Manager",
                 model: "antigravity-bridge"
             })
@@ -130,7 +130,7 @@ export const captionerFlowDef = defineNodeType({
         return { caption: result.response };
     }
 });
-const captionerFlow = captionerFlowDef({ topic, directorOut: directorFlow.outputs.fullData });
+const captionerFlow = captionerFlowDef({ topic, scenes: directorFlow.outputs.scenes });
 
 // --- 5. Final Assembler ---
 /**

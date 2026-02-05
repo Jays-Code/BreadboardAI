@@ -1,7 +1,7 @@
 
 
 // Mermaid will be loaded dynamically
-// Poke to force Vite refresh: 22:38
+// Poke to force Vite refresh: 00:26
 let mermaid: any = null;
 
 async function initMermaid() {
@@ -441,10 +441,8 @@ function highlightNode(nodeId: string, status: 'active' | 'done' | 'error' | 'no
         else if (status === 'done') glossaryEl.classList.add('done-step');
         else if (status === 'error') glossaryEl.classList.add('error-step');
 
-        // Auto-scroll glossary if active
-        if (status === 'active') {
-            glossaryEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
+        // Highlight logic remains, but we remove the jarring auto-scroll
+        // that was shifting the whole page.
     }
 }
 
@@ -562,7 +560,7 @@ async function runBoard(slug: string, inputsList: any[]) {
         highlightNode(data.id, 'active');
         showEdgePill(data.id, 'Starting...');
         const bucketPre = getOrCreateNodeBucket(data.id);
-        if (bucketPre) bucketPre.textContent += `[Started execution...]\n`;
+        if (bucketPre) bucketPre.textContent = `[Processing...]\n`;
     });
 
     eventSource.addEventListener('node-end', (e) => {
@@ -573,10 +571,11 @@ async function runBoard(slug: string, inputsList: any[]) {
         const bucketPre = getOrCreateNodeBucket(data.id);
         if (bucketPre) {
             const outputs = data.outputs || {};
+            bucketPre.textContent = ''; // Clear processing message
             if (Object.keys(outputs).length > 0) {
                 bucketPre.textContent += `${JSON.stringify(outputs, null, 2)}\n`;
             }
-            bucketPre.textContent += `[Completed]\n`;
+            bucketPre.textContent += `[Completed]`;
         }
     });
 
@@ -585,8 +584,22 @@ async function runBoard(slug: string, inputsList: any[]) {
         nodesCompleted = nodesTotal;
         updateProgress();
         cleanup('SUCCESS');
-        // Refresh history if successful
+
+        // Show final result in the dedicated panel
+        if (resultPanel) resultPanel.style.display = 'block';
+        if (outputArea) {
+            const finalBucket = document.createElement('div');
+            finalBucket.className = 'output-bucket';
+            finalBucket.style.cssText = "border-left: 4px solid var(--success-color); background: rgba(var(--success-color-rgb), 0.1); padding: 1rem; border-radius: 8px; margin-top: 2rem;";
+            finalBucket.innerHTML = `<div style="font-weight:700; color:var(--success-color); margin-bottom:0.5rem">✨ BOARD EXECUTION COMPLETE</div>
+                                      <pre style="margin:0; font-size:0.8rem">${JSON.stringify(data.outputs || {}, null, 2)}</pre>`;
+            outputArea.appendChild(finalBucket);
+            outputArea.scrollTop = outputArea.scrollHeight;
+        }
+
+        // Refresh history
         if (data.runId) {
+            // ... (keep history logic)
             setTimeout(() => {
                 const listEl = document.getElementById('results-list');
                 if (listEl) {
@@ -612,19 +625,16 @@ async function runBoard(slug: string, inputsList: any[]) {
     });
 
     eventSource.addEventListener('output', (e) => {
+        // Output event is redundant with node-end for displaying data in buckets
+        // but we'll use it to show a pill on the graph
         const data = JSON.parse((e as MessageEvent).data);
         const activeNode = document.querySelector('.node-item.active-step');
         const nodeId = activeNode ? activeNode.id.replace('glossary-', '') : 'unknown';
 
-        // Show data pill
         if (nodeId !== 'unknown') {
             const snippet = typeof data === 'object' ? Object.keys(data)[0] || 'data' : String(data);
             showEdgePill(nodeId, snippet);
         }
-
-        const bucketPre = getOrCreateNodeBucket(nodeId);
-        if (bucketPre) bucketPre.textContent += `${JSON.stringify(data, null, 2)}\n`;
-        outputArea.scrollTop = outputArea.scrollHeight;
     });
 
     eventSource.addEventListener('error', (e) => {
@@ -773,57 +783,108 @@ async function renderResultDetail(slug: string, resultId: string) {
 
             <div class="detail-header" style="margin-bottom:2rem">
                 <h1 style="margin:0">Run History: #${resultId.substring(0, 8)}</h1>
-                <p style="color:var(--text-secondary); margin-top:0.5rem">Executed on ${new Date(result.startTime).toLocaleString()}</p>
+                <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.5rem">
+                    <p style="color:var(--text-secondary); margin:0">Executed on ${new Date(result.startTime).toLocaleString()}</p>
+                    <span class="chip" style="font-size:0.6rem; opacity:0.5">UI v1.3 (Smart Filtered)</span>
+                </div>
             </div>
 
             <div class="panel" style="max-width:900px; margin:0 auto">
                 <h3>Execution Trace</h3>
                 <div id="trace-list" style="margin-top:1.5rem">
-                    ${result.trace.map((step: any, idx: number) => {
-            let icon = '⚙️';
-            let label = 'Step';
-            let content = '';
-            let color = 'var(--text-secondary)';
+                    ${(() => {
+                const groups: Record<string, any> = {};
+                const orderedIds: string[] = [];
 
-            if (step.type === 'beforehandler') {
-                icon = '🏁';
-                label = `Started Node: ${formatNodeLabel(step.data.node.id)}`;
-                color = 'var(--accent-color)';
-            } else if (step.type === 'afterhandler') {
-                icon = '✅';
-                label = `Completed Node: ${formatNodeLabel(step.data.node.id)}`;
-                color = 'var(--success-color)';
-                const data = step.data.outputs || {};
-                content = `<pre style="font-size:0.75rem; background:rgba(0,0,0,0.2); padding:0.5rem; margin-top:0.5rem; border-radius:4px;">${JSON.stringify(data, null, 2)}</pre>`;
-            } else if (step.type === 'output') {
-                icon = '📤';
-                label = 'Data Generated';
-                content = `<pre style="font-size:0.75rem; background:rgba(0,0,0,0.2); padding:0.5rem; margin-top:0.5rem; border-radius:4px;">${JSON.stringify(step.data, null, 2)}</pre>`;
-            } else if (step.type === 'error') {
-                icon = '❌';
-                label = 'Error';
-                color = '#cf6679';
-                content = `<div style="color:#cf6679; font-family:var(--font-mono); font-size:0.8rem; margin-top:0.4rem">${step.data.error}</div>`;
-            } else if (step.type === 'input') {
-                icon = '📥';
-                label = 'User Inputs Provided';
-                content = `<pre style="font-size:0.75rem; background:rgba(0,0,0,0.2); padding:0.5rem; margin-top:0.5rem; border-radius:4px;">${JSON.stringify(step.data, null, 2)}</pre>`;
-            } else {
-                return ''; // Skip low-level noise for now
-            }
+                // Pass 1: Group events by node or special type
+                result.trace.forEach((step: any) => {
+                    if (step.type === 'beforehandler' || step.type === 'afterhandler') {
+                        const id = step.data.node.id;
+                        if (!groups[id]) {
+                            groups[id] = { type: 'node', id, start: step, end: null };
+                            orderedIds.push(id);
+                        }
+                        if (step.type === 'afterhandler') groups[id].end = step;
+                    } else if (step.type === 'output' || step.type === 'input') {
+                        // Only add board-level output if it's NOT redundant with a node output
+                        // Usually board outputs appear near the end. We'll tag them.
+                        const pseudoId = `${step.type}-special-${orderedIds.length}`;
+                        groups[pseudoId] = { type: 'special', step };
+                        orderedIds.push(pseudoId);
+                    }
+                });
 
-            return `
-                            <div style="display:flex; gap:1.5rem; margin-bottom:1.5rem; position:relative">
-                                ${idx < result.trace.length - 1 ? '<div style="position:absolute; left:0.7rem; top:1.5rem; bottom:-1rem; width:2px; background:rgba(255,255,255,0.05)"></div>' : ''}
-                                <div style="width:1.5rem; height:1.5rem; border-radius:50%; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.8rem; z-index:1">${icon}</div>
-                                <div style="flex:1">
-                                    <div style="font-weight:600; font-size:0.9rem; color:${color}">${label}</div>
-                                    <div style="font-size:0.65rem; color:var(--text-secondary); margin-top:0.1rem">${new Date(step.timestamp).toLocaleTimeString()}</div>
-                                    ${content}
+                // Pass 2: Deduplicate Board-level Output against the Output Node
+                // If we have an 'output' node and a 'special' output event with the same data, 
+                // we'll hide the special one to reduce clutter.
+                const finalNodesOutputs = Object.values(groups)
+                    .filter((g: any) => g.type === 'node' && g.end?.data?.outputs)
+                    .map((g: any) => JSON.stringify(g.end.data.outputs));
+
+                return orderedIds.map((id) => {
+                    const group = groups[id];
+                    if (!group) return '';
+
+                    let icon = '⚙️';
+                    let label = 'Step';
+                    let content = '';
+                    let color = 'var(--text-secondary)';
+                    let timestamp = '';
+
+                    if (group.type === 'special') {
+                        const step = group.step;
+                        // Skip board-level output if it just repeats what the last node said
+                        if (step.type === 'output' && finalNodesOutputs.includes(JSON.stringify(step.data))) {
+                            return '';
+                        }
+
+                        timestamp = step.timestamp;
+                        if (step.type === 'input') {
+                            icon = '📥';
+                            label = 'Inputs Received';
+                            content = `<pre style="font-size:0.75rem; background:rgba(0,0,0,0.2); padding:0.5rem; margin-top:0.5rem; border-radius:4px;">${JSON.stringify(step.data, null, 2)}</pre>`;
+                        } else {
+                            icon = '📤';
+                            label = 'Board Result';
+                            content = `<pre style="font-size:0.75rem; background:rgba(0,0,0,0.2); padding:0.5rem; margin-top:0.5rem; border-radius:4px;">${JSON.stringify(step.data, null, 2)}</pre>`;
+                        }
+                    } else {
+                        const start = group.start;
+                        const end = group.end;
+                        timestamp = start.timestamp;
+                        icon = end ? '✅' : '⏳';
+                        label = formatNodeLabel(start.data.node.id);
+                        color = end ? 'var(--success-color)' : 'var(--accent-color)';
+
+                        if (end) {
+                            const rawData = end.data.outputs || {};
+                            // DATA CLEANUP: Hide redundant keys like 'fullData' or 'video_structure' 
+                            // if they are just wraps of the primary keys.
+                            const cleanData: Record<string, any> = {};
+                            Object.entries(rawData).forEach(([key, value]) => {
+                                if (key === 'fullData' || key === 'video_structure') return; // Skip known redundant containers
+                                cleanData[key] = value;
+                            });
+
+                            content = `<div style="font-size:0.7rem; color:rgba(255,255,255,0.3); font-family:var(--font-mono); margin-bottom:0.3rem">ID: ${start.data.node.id}</div>
+                                               <pre style="font-size:0.75rem; background:rgba(0,0,0,0.2); padding:0.5rem; border-radius:4px; max-height:400px; overflow:auto;">${JSON.stringify(cleanData, null, 2)}</pre>`;
+                        } else {
+                            content = `<div style="font-size:0.75rem; color:var(--text-secondary); margin-top:0.5rem">No data yielded by this node.</div>`;
+                        }
+                    }
+
+                    return `
+                                <div style="display:flex; gap:1.5rem; margin-bottom:1.5rem; position:relative">
+                                    <div style="width:1.5rem; height:1.5rem; border-radius:50%; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.8rem; z-index:1">${icon}</div>
+                                    <div style="flex:1">
+                                        <div style="font-weight:600; font-size:0.9rem; color:${color}">${label}</div>
+                                        <div style="font-size:0.65rem; color:var(--text-secondary); margin-top:0.1rem">${new Date(timestamp).toLocaleTimeString()}</div>
+                                        ${content}
+                                    </div>
                                 </div>
-                            </div>
-                        `;
-        }).join('')}
+                            `;
+                }).join('');
+            })()}
                 </div>
             </div>
         `;

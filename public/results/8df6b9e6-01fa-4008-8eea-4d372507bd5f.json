@@ -1,0 +1,409 @@
+{
+  "id": "8df6b9e6-01fa-4008-8eea-4d372507bd5f",
+  "slug": "prompt-to-post",
+  "startTime": "2026-02-05T00:18:12.763Z",
+  "endTime": "2026-02-05T00:18:23.317Z",
+  "inputs": {
+    "tone": "Educational and upbeat",
+    "topic": "Public school systems"
+  },
+  "trace": [
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                }
+              },
+              "required": []
+            }
+          }
+        }
+      },
+      "timestamp": "2026-02-05T00:18:12.775Z"
+    },
+    {
+      "type": "input",
+      "data": {
+        "tone": "Educational and upbeat",
+        "topic": "Public school systems"
+      },
+      "timestamp": "2026-02-05T00:18:12.775Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                }
+              },
+              "required": []
+            }
+          }
+        },
+        "outputs": {
+          "tone": "Educational and upbeat",
+          "topic": "Public school systems"
+        }
+      },
+      "timestamp": "2026-02-05T00:18:12.775Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "directorFlow-0",
+          "type": "directorFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-05T00:18:12.776Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "directorFlow-0",
+          "type": "directorFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenes": [
+            {
+              "scene_id": 1,
+              "concept_description": "Bright, friendly animation of diverse students happily walking into a modern school building. Upbeat music starts. Text overlay: 'Public Schools: Education for All!'",
+              "key_takeaway": "Public schools offer free, accessible education to every child, fostering an inclusive learning environment.",
+              "duration_sec": 7
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Animation showing various subjects (books, science beaker, art palette, sports ball) and diverse groups of kids interacting and learning together. Text overlay: 'Rich Curriculum & Diverse Community!'",
+              "key_takeaway": "They provide a comprehensive curriculum and expose students to a wide range of perspectives and cultures.",
+              "duration_sec": 8
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "Animation of a school as a vibrant community hub - parents, teachers, and students collaborating during a school event or project. Text overlay: 'Building Strong Communities!'",
+              "key_takeaway": "Public schools are vital community centers, supported by and serving local families and neighborhoods.",
+              "duration_sec": 8
+            },
+            {
+              "scene_id": 4,
+              "concept_description": "Animation of happy students graduating, looking confidently towards a bright future, with a graduation cap flying. Text overlay: 'Shaping Tomorrow's Leaders!' Upbeat music climaxes.",
+              "key_takeaway": "They prepare students with the knowledge and skills needed to become successful, engaged citizens.",
+              "duration_sec": 7
+            }
+          ],
+          "total_duration": 30,
+          "title": "Public School Power Up!",
+          "fullData": {
+            "video_title_internal": "Public School Power Up!",
+            "estimated_total_duration": 30,
+            "scenes": [
+              {
+                "scene_id": 1,
+                "concept_description": "Bright, friendly animation of diverse students happily walking into a modern school building. Upbeat music starts. Text overlay: 'Public Schools: Education for All!'",
+                "key_takeaway": "Public schools offer free, accessible education to every child, fostering an inclusive learning environment.",
+                "duration_sec": 7
+              },
+              {
+                "scene_id": 2,
+                "concept_description": "Animation showing various subjects (books, science beaker, art palette, sports ball) and diverse groups of kids interacting and learning together. Text overlay: 'Rich Curriculum & Diverse Community!'",
+                "key_takeaway": "They provide a comprehensive curriculum and expose students to a wide range of perspectives and cultures.",
+                "duration_sec": 8
+              },
+              {
+                "scene_id": 3,
+                "concept_description": "Animation of a school as a vibrant community hub - parents, teachers, and students collaborating during a school event or project. Text overlay: 'Building Strong Communities!'",
+                "key_takeaway": "Public schools are vital community centers, supported by and serving local families and neighborhoods.",
+                "duration_sec": 8
+              },
+              {
+                "scene_id": 4,
+                "concept_description": "Animation of happy students graduating, looking confidently towards a bright future, with a graduation cap flying. Text overlay: 'Shaping Tomorrow's Leaders!' Upbeat music climaxes.",
+                "key_takeaway": "They prepare students with the knowledge and skills needed to become successful, engaged citizens.",
+                "duration_sec": 7
+              }
+            ]
+          }
+        }
+      },
+      "timestamp": "2026-02-05T00:18:16.501Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "captionerFlow-0",
+          "type": "captionerFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-05T00:18:16.502Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "captionerFlow-0",
+          "type": "captionerFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "caption": "Here's a social media caption for your video:\n\n---\n\n**Public School Power Up! 🚀**\n\nDiscover the incredible impact of public school systems! From providing free, accessible, and inclusive education for every child, to offering a rich curriculum that builds diverse communities, public schools are the backbone of our society.\n\nThey're not just schools; they're vibrant community hubs, supported by and serving local families, and instrumental in shaping tomorrow's leaders with essential knowledge and skills. Let's celebrate and support the institutions that empower our future!\n\n#PublicSchools #EducationForAll #CommunityHub #FutureLeaders #SupportPublicEd #InclusiveLearning #PowerUp"
+        }
+      },
+      "timestamp": "2026-02-05T00:18:19.097Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "copywriterFlow-0",
+          "type": "copywriterFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-05T00:18:19.097Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "copywriterFlow-0",
+          "type": "copywriterFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenesWithText": [
+            {
+              "scene_id": 1,
+              "concept_description": "Bright, friendly animation of diverse students happily walking into a modern school building. Upbeat music starts. Text overlay: 'Public Schools: Education for All!'",
+              "key_takeaway": "Public schools offer free, accessible education to every child, fostering an inclusive learning environment.",
+              "duration_sec": 7,
+              "overlay_text": "Free. Inclusive. Education For All."
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Animation showing various subjects (books, science beaker, art palette, sports ball) and diverse groups of kids interacting and learning together. Text overlay: 'Rich Curriculum & Diverse Community!'",
+              "key_takeaway": "They provide a comprehensive curriculum and expose students to a wide range of perspectives and cultures.",
+              "duration_sec": 8,
+              "overlay_text": "Comprehensive Learning. Diverse Perspectives. Global Culture."
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "Animation of a school as a vibrant community hub - parents, teachers, and students collaborating during a school event or project. Text overlay: 'Building Strong Communities!'",
+              "key_takeaway": "Public schools are vital community centers, supported by and serving local families and neighborhoods.",
+              "duration_sec": 8,
+              "overlay_text": "Public Schools: Community. Families. Futures."
+            },
+            {
+              "scene_id": 4,
+              "concept_description": "Animation of happy students graduating, looking confidently towards a bright future, with a graduation cap flying. Text overlay: 'Shaping Tomorrow's Leaders!' Upbeat music climaxes.",
+              "key_takeaway": "They prepare students with the knowledge and skills needed to become successful, engaged citizens.",
+              "duration_sec": 7,
+              "overlay_text": "Cultivating successful, engaged citizens."
+            }
+          ]
+        }
+      },
+      "timestamp": "2026-02-05T00:18:23.316Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "assembler-0",
+          "type": "assembler",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-05T00:18:23.317Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "assembler-0",
+          "type": "assembler",
+          "configuration": {}
+        },
+        "outputs": {
+          "video_structure": {
+            "video_title_internal": "Public School Power Up!",
+            "estimated_total_duration": 30,
+            "scenes": [
+              {
+                "scene_id": 1,
+                "concept_description": "Bright, friendly animation of diverse students happily walking into a modern school building. Upbeat music starts. Text overlay: 'Public Schools: Education for All!'",
+                "key_takeaway": "Public schools offer free, accessible education to every child, fostering an inclusive learning environment.",
+                "duration_sec": 7,
+                "overlay_text": "Free. Inclusive. Education For All."
+              },
+              {
+                "scene_id": 2,
+                "concept_description": "Animation showing various subjects (books, science beaker, art palette, sports ball) and diverse groups of kids interacting and learning together. Text overlay: 'Rich Curriculum & Diverse Community!'",
+                "key_takeaway": "They provide a comprehensive curriculum and expose students to a wide range of perspectives and cultures.",
+                "duration_sec": 8,
+                "overlay_text": "Comprehensive Learning. Diverse Perspectives. Global Culture."
+              },
+              {
+                "scene_id": 3,
+                "concept_description": "Animation of a school as a vibrant community hub - parents, teachers, and students collaborating during a school event or project. Text overlay: 'Building Strong Communities!'",
+                "key_takeaway": "Public schools are vital community centers, supported by and serving local families and neighborhoods.",
+                "duration_sec": 8,
+                "overlay_text": "Public Schools: Community. Families. Futures."
+              },
+              {
+                "scene_id": 4,
+                "concept_description": "Animation of happy students graduating, looking confidently towards a bright future, with a graduation cap flying. Text overlay: 'Shaping Tomorrow's Leaders!' Upbeat music climaxes.",
+                "key_takeaway": "They prepare students with the knowledge and skills needed to become successful, engaged citizens.",
+                "duration_sec": 7,
+                "overlay_text": "Cultivating successful, engaged citizens."
+              }
+            ]
+          }
+        }
+      },
+      "timestamp": "2026-02-05T00:18:23.317Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "output-0",
+          "type": "output",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "social_caption": {
+                  "type": "string",
+                  "title": "Social Caption"
+                },
+                "video_structure": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false,
+                  "title": "Video Structure"
+                }
+              },
+              "required": [
+                "social_caption",
+                "video_structure"
+              ]
+            }
+          }
+        }
+      },
+      "timestamp": "2026-02-05T00:18:23.317Z"
+    },
+    {
+      "type": "output",
+      "data": {
+        "social_caption": "Here's a social media caption for your video:\n\n---\n\n**Public School Power Up! 🚀**\n\nDiscover the incredible impact of public school systems! From providing free, accessible, and inclusive education for every child, to offering a rich curriculum that builds diverse communities, public schools are the backbone of our society.\n\nThey're not just schools; they're vibrant community hubs, supported by and serving local families, and instrumental in shaping tomorrow's leaders with essential knowledge and skills. Let's celebrate and support the institutions that empower our future!\n\n#PublicSchools #EducationForAll #CommunityHub #FutureLeaders #SupportPublicEd #InclusiveLearning #PowerUp",
+        "video_structure": {
+          "video_title_internal": "Public School Power Up!",
+          "estimated_total_duration": 30,
+          "scenes": [
+            {
+              "scene_id": 1,
+              "concept_description": "Bright, friendly animation of diverse students happily walking into a modern school building. Upbeat music starts. Text overlay: 'Public Schools: Education for All!'",
+              "key_takeaway": "Public schools offer free, accessible education to every child, fostering an inclusive learning environment.",
+              "duration_sec": 7,
+              "overlay_text": "Free. Inclusive. Education For All."
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Animation showing various subjects (books, science beaker, art palette, sports ball) and diverse groups of kids interacting and learning together. Text overlay: 'Rich Curriculum & Diverse Community!'",
+              "key_takeaway": "They provide a comprehensive curriculum and expose students to a wide range of perspectives and cultures.",
+              "duration_sec": 8,
+              "overlay_text": "Comprehensive Learning. Diverse Perspectives. Global Culture."
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "Animation of a school as a vibrant community hub - parents, teachers, and students collaborating during a school event or project. Text overlay: 'Building Strong Communities!'",
+              "key_takeaway": "Public schools are vital community centers, supported by and serving local families and neighborhoods.",
+              "duration_sec": 8,
+              "overlay_text": "Public Schools: Community. Families. Futures."
+            },
+            {
+              "scene_id": 4,
+              "concept_description": "Animation of happy students graduating, looking confidently towards a bright future, with a graduation cap flying. Text overlay: 'Shaping Tomorrow's Leaders!' Upbeat music climaxes.",
+              "key_takeaway": "They prepare students with the knowledge and skills needed to become successful, engaged citizens.",
+              "duration_sec": 7,
+              "overlay_text": "Cultivating successful, engaged citizens."
+            }
+          ]
+        }
+      },
+      "timestamp": "2026-02-05T00:18:23.317Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "output-0",
+          "type": "output",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "social_caption": {
+                  "type": "string",
+                  "title": "Social Caption"
+                },
+                "video_structure": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false,
+                  "title": "Video Structure"
+                }
+              },
+              "required": [
+                "social_caption",
+                "video_structure"
+              ]
+            }
+          }
+        },
+        "outputs": {}
+      },
+      "timestamp": "2026-02-05T00:18:23.317Z"
+    }
+  ]
+}

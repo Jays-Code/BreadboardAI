@@ -1,0 +1,376 @@
+{
+  "id": "a3ad7f09-23a4-431a-86e8-78a878101721",
+  "slug": "prompt-to-post",
+  "startTime": "2026-02-04T23:33:57.783Z",
+  "endTime": "2026-02-04T23:33:58.472Z",
+  "inputs": {
+    "tone": "Educational and upbeat",
+    "topic": "The history of money and its many forms"
+  },
+  "trace": [
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                }
+              },
+              "required": []
+            }
+          }
+        }
+      },
+      "timestamp": "2026-02-04T23:33:57.784Z"
+    },
+    {
+      "type": "input",
+      "data": {
+        "tone": "Educational and upbeat",
+        "topic": "The history of money and its many forms"
+      },
+      "timestamp": "2026-02-04T23:33:57.784Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                }
+              },
+              "required": []
+            }
+          }
+        },
+        "outputs": {
+          "tone": "Educational and upbeat",
+          "topic": "The history of money and its many forms"
+        }
+      },
+      "timestamp": "2026-02-04T23:33:57.785Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "directorFlow-0",
+          "type": "directorFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-04T23:33:57.785Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "directorFlow-0",
+          "type": "directorFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenes": [
+            {
+              "scene_id": 1,
+              "concept_description": "Intro to The history of money and its many forms",
+              "key_takeaway": "Exploring the core of The history of money and its many forms",
+              "duration_sec": 10
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Deep dive into The history of money and its many forms",
+              "key_takeaway": "Key facts about The history of money and its many forms",
+              "duration_sec": 10
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "Conclusion: Future of The history of money and its many forms",
+              "key_takeaway": "The impact of The history of money and its many forms",
+              "duration_sec": 10
+            }
+          ],
+          "total_duration": 30,
+          "title": "The history of money and its many forms Visualized",
+          "fullData": {
+            "video_title_internal": "The history of money and its many forms Visualized",
+            "estimated_total_duration": 30,
+            "scenes": [
+              {
+                "scene_id": 1,
+                "concept_description": "Intro to The history of money and its many forms",
+                "key_takeaway": "Exploring the core of The history of money and its many forms",
+                "duration_sec": 10
+              },
+              {
+                "scene_id": 2,
+                "concept_description": "Deep dive into The history of money and its many forms",
+                "key_takeaway": "Key facts about The history of money and its many forms",
+                "duration_sec": 10
+              },
+              {
+                "scene_id": 3,
+                "concept_description": "Conclusion: Future of The history of money and its many forms",
+                "key_takeaway": "The impact of The history of money and its many forms",
+                "duration_sec": 10
+              }
+            ]
+          }
+        }
+      },
+      "timestamp": "2026-02-04T23:33:57.806Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "captionerFlow-0",
+          "type": "captionerFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-04T23:33:57.807Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "captionerFlow-0",
+          "type": "captionerFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "caption": "Just launched a new video about The history of money and its many forms! Check it out. #AI #ContentCreation"
+        }
+      },
+      "timestamp": "2026-02-04T23:33:57.885Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "copywriterFlow-0",
+          "type": "copywriterFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-04T23:33:57.886Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "copywriterFlow-0",
+          "type": "copywriterFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenesWithText": [
+            {
+              "scene_id": 1,
+              "concept_description": "Intro to The history of money and its many forms",
+              "key_takeaway": "Exploring the core of The history of money and its many forms",
+              "duration_sec": 10,
+              "overlay_text": "✨ Exploring the core of The history of money and its many forms ✨"
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Deep dive into The history of money and its many forms",
+              "key_takeaway": "Key facts about The history of money and its many forms",
+              "duration_sec": 10,
+              "overlay_text": "✨ Key facts about The history of money and its many forms ✨"
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "Conclusion: Future of The history of money and its many forms",
+              "key_takeaway": "The impact of The history of money and its many forms",
+              "duration_sec": 10,
+              "overlay_text": "✨ The impact of The history of money and its many forms ✨"
+            }
+          ]
+        }
+      },
+      "timestamp": "2026-02-04T23:33:58.450Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "assembler-0",
+          "type": "assembler",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-04T23:33:58.454Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "assembler-0",
+          "type": "assembler",
+          "configuration": {}
+        },
+        "outputs": {
+          "video_structure": {
+            "video_title_internal": "The history of money and its many forms Visualized",
+            "estimated_total_duration": 30,
+            "scenes": [
+              {
+                "scene_id": 1,
+                "concept_description": "Intro to The history of money and its many forms",
+                "key_takeaway": "Exploring the core of The history of money and its many forms",
+                "duration_sec": 10,
+                "overlay_text": "✨ Exploring the core of The history of money and its many forms ✨"
+              },
+              {
+                "scene_id": 2,
+                "concept_description": "Deep dive into The history of money and its many forms",
+                "key_takeaway": "Key facts about The history of money and its many forms",
+                "duration_sec": 10,
+                "overlay_text": "✨ Key facts about The history of money and its many forms ✨"
+              },
+              {
+                "scene_id": 3,
+                "concept_description": "Conclusion: Future of The history of money and its many forms",
+                "key_takeaway": "The impact of The history of money and its many forms",
+                "duration_sec": 10,
+                "overlay_text": "✨ The impact of The history of money and its many forms ✨"
+              }
+            ]
+          }
+        }
+      },
+      "timestamp": "2026-02-04T23:33:58.456Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "output-0",
+          "type": "output",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "social_caption": {
+                  "type": "string",
+                  "title": "Social Caption"
+                },
+                "video_structure": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false,
+                  "title": "Video Structure"
+                }
+              },
+              "required": [
+                "social_caption",
+                "video_structure"
+              ]
+            }
+          }
+        }
+      },
+      "timestamp": "2026-02-04T23:33:58.469Z"
+    },
+    {
+      "type": "output",
+      "data": {
+        "social_caption": "Just launched a new video about The history of money and its many forms! Check it out. #AI #ContentCreation",
+        "video_structure": {
+          "video_title_internal": "The history of money and its many forms Visualized",
+          "estimated_total_duration": 30,
+          "scenes": [
+            {
+              "scene_id": 1,
+              "concept_description": "Intro to The history of money and its many forms",
+              "key_takeaway": "Exploring the core of The history of money and its many forms",
+              "duration_sec": 10,
+              "overlay_text": "✨ Exploring the core of The history of money and its many forms ✨"
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Deep dive into The history of money and its many forms",
+              "key_takeaway": "Key facts about The history of money and its many forms",
+              "duration_sec": 10,
+              "overlay_text": "✨ Key facts about The history of money and its many forms ✨"
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "Conclusion: Future of The history of money and its many forms",
+              "key_takeaway": "The impact of The history of money and its many forms",
+              "duration_sec": 10,
+              "overlay_text": "✨ The impact of The history of money and its many forms ✨"
+            }
+          ]
+        }
+      },
+      "timestamp": "2026-02-04T23:33:58.470Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "output-0",
+          "type": "output",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "social_caption": {
+                  "type": "string",
+                  "title": "Social Caption"
+                },
+                "video_structure": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false,
+                  "title": "Video Structure"
+                }
+              },
+              "required": [
+                "social_caption",
+                "video_structure"
+              ]
+            }
+          }
+        },
+        "outputs": {}
+      },
+      "timestamp": "2026-02-04T23:33:58.471Z"
+    }
+  ]
+}

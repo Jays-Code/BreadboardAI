@@ -1,0 +1,288 @@
+{
+  "id": "4032fd0f-86a7-452d-86f7-273cb3ce90f0",
+  "slug": "prompt-to-post",
+  "startTime": "2026-02-05T00:49:48.022Z",
+  "endTime": "2026-02-05T00:50:01.163Z",
+  "inputs": {
+    "tone": "Educational and upbeat",
+    "topic": "history of spinach"
+  },
+  "trace": [
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                }
+              },
+              "required": []
+            }
+          }
+        }
+      },
+      "timestamp": "2026-02-05T00:49:48.033Z"
+    },
+    {
+      "type": "input",
+      "data": {
+        "tone": "Educational and upbeat",
+        "topic": "history of spinach"
+      },
+      "timestamp": "2026-02-05T00:49:48.034Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                }
+              },
+              "required": []
+            }
+          }
+        },
+        "outputs": {
+          "tone": "Educational and upbeat",
+          "topic": "history of spinach"
+        }
+      },
+      "timestamp": "2026-02-05T00:49:48.034Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "directorFlow-0",
+          "type": "directorFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-05T00:49:48.035Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "directorFlow-0",
+          "type": "directorFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenes": [
+            {
+              "scene_id": 1,
+              "concept_description": "Animated map highlighting ancient Persia (modern Iran) with stylized scrolls and a vibrant spinach leaf unfurling.",
+              "key_takeaway": "Spinach originated in ancient Persia (modern-day Iran) over 2,000 years ago!",
+              "duration_sec": 7
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Animated journey along the Silk Road with charming cartoon trade caravans (camels/boats) carrying spinach leaves towards a stylized ancient Chinese city. Chinese characters appear.",
+              "key_takeaway": "It journeyed eastward, reaching China in the 7th century via Nepal, where it was known as 'Persian vegetable.'",
+              "duration_sec": 8
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "An animated map showing the Moors introducing spinach to Spain in the 11th century. A medieval Spanish castle and a noble's feast table with spinach dishes appear.",
+              "key_takeaway": "The Moors introduced spinach to Spain in the 11th century, from where it slowly spread across Europe.",
+              "duration_sec": 8
+            },
+            {
+              "scene_id": 4,
+              "concept_description": "A whimsical animation of Catherine de' Medici enjoying a spinach dish in Renaissance Italy. Transitions to a classic Popeye cartoon scene flexing his muscles, then to a modern, vibrant plate of healthy food.",
+              "key_takeaway": "Popularized in Renaissance Italy by Catherine de' Medici and cemented as a health powerhouse by Popeye in the 20th century!",
+              "duration_sec": 7
+            }
+          ],
+          "total_duration": 30,
+          "title": "SpinachHistoryUpbeat"
+        }
+      },
+      "timestamp": "2026-02-05T00:49:56.962Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "copywriterFlow-0",
+          "type": "copywriterFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-05T00:49:56.963Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "copywriterFlow-0",
+          "type": "copywriterFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenesWithText": [
+            {
+              "scene_id": 1,
+              "concept_description": "Animated map highlighting ancient Persia (modern Iran) with stylized scrolls and a vibrant spinach leaf unfurling.",
+              "key_takeaway": "Spinach originated in ancient Persia (modern-day Iran) over 2,000 years ago!",
+              "duration_sec": 7,
+              "overlay_text": "Spinach: Persia's 2,000-Year-Old Superfood!"
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Animated journey along the Silk Road with charming cartoon trade caravans (camels/boats) carrying spinach leaves towards a stylized ancient Chinese city. Chinese characters appear.",
+              "key_takeaway": "It journeyed eastward, reaching China in the 7th century via Nepal, where it was known as 'Persian vegetable.'",
+              "duration_sec": 8,
+              "overlay_text": "7th Century China: \"Persian Vegetable\""
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "An animated map showing the Moors introducing spinach to Spain in the 11th century. A medieval Spanish castle and a noble's feast table with spinach dishes appear.",
+              "key_takeaway": "The Moors introduced spinach to Spain in the 11th century, from where it slowly spread across Europe.",
+              "duration_sec": 8,
+              "overlay_text": "Spinach: A Moorish gift to Europe."
+            },
+            {
+              "scene_id": 4,
+              "concept_description": "A whimsical animation of Catherine de' Medici enjoying a spinach dish in Renaissance Italy. Transitions to a classic Popeye cartoon scene flexing his muscles, then to a modern, vibrant plate of healthy food.",
+              "key_takeaway": "Popularized in Renaissance Italy by Catherine de' Medici and cemented as a health powerhouse by Popeye in the 20th century!",
+              "duration_sec": 7,
+              "overlay_text": "Medici & Popeye: Spinach's Legendary Power!"
+            }
+          ]
+        }
+      },
+      "timestamp": "2026-02-05T00:50:01.145Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "assembler-0",
+          "type": "assembler",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-05T00:50:01.146Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "assembler-0",
+          "type": "assembler",
+          "configuration": {}
+        },
+        "outputs": {
+          "video_structure": {
+            "video_title_internal": "SpinachHistoryUpbeat",
+            "estimated_total_duration": 30,
+            "scenes": [
+              {
+                "scene_id": 1,
+                "concept_description": "Animated map highlighting ancient Persia (modern Iran) with stylized scrolls and a vibrant spinach leaf unfurling.",
+                "key_takeaway": "Spinach originated in ancient Persia (modern-day Iran) over 2,000 years ago!",
+                "duration_sec": 7,
+                "overlay_text": "Spinach: Persia's 2,000-Year-Old Superfood!"
+              },
+              {
+                "scene_id": 2,
+                "concept_description": "Animated journey along the Silk Road with charming cartoon trade caravans (camels/boats) carrying spinach leaves towards a stylized ancient Chinese city. Chinese characters appear.",
+                "key_takeaway": "It journeyed eastward, reaching China in the 7th century via Nepal, where it was known as 'Persian vegetable.'",
+                "duration_sec": 8,
+                "overlay_text": "7th Century China: \"Persian Vegetable\""
+              },
+              {
+                "scene_id": 3,
+                "concept_description": "An animated map showing the Moors introducing spinach to Spain in the 11th century. A medieval Spanish castle and a noble's feast table with spinach dishes appear.",
+                "key_takeaway": "The Moors introduced spinach to Spain in the 11th century, from where it slowly spread across Europe.",
+                "duration_sec": 8,
+                "overlay_text": "Spinach: A Moorish gift to Europe."
+              },
+              {
+                "scene_id": 4,
+                "concept_description": "A whimsical animation of Catherine de' Medici enjoying a spinach dish in Renaissance Italy. Transitions to a classic Popeye cartoon scene flexing his muscles, then to a modern, vibrant plate of healthy food.",
+                "key_takeaway": "Popularized in Renaissance Italy by Catherine de' Medici and cemented as a health powerhouse by Popeye in the 20th century!",
+                "duration_sec": 7,
+                "overlay_text": "Medici & Popeye: Spinach's Legendary Power!"
+              }
+            ]
+          }
+        }
+      },
+      "timestamp": "2026-02-05T00:50:01.146Z"
+    },
+    {
+      "type": "output",
+      "data": {
+        "video_structure": {
+          "video_title_internal": "SpinachHistoryUpbeat",
+          "estimated_total_duration": 30,
+          "scenes": [
+            {
+              "scene_id": 1,
+              "concept_description": "Animated map highlighting ancient Persia (modern Iran) with stylized scrolls and a vibrant spinach leaf unfurling.",
+              "key_takeaway": "Spinach originated in ancient Persia (modern-day Iran) over 2,000 years ago!",
+              "duration_sec": 7,
+              "overlay_text": "Spinach: Persia's 2,000-Year-Old Superfood!"
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Animated journey along the Silk Road with charming cartoon trade caravans (camels/boats) carrying spinach leaves towards a stylized ancient Chinese city. Chinese characters appear.",
+              "key_takeaway": "It journeyed eastward, reaching China in the 7th century via Nepal, where it was known as 'Persian vegetable.'",
+              "duration_sec": 8,
+              "overlay_text": "7th Century China: \"Persian Vegetable\""
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "An animated map showing the Moors introducing spinach to Spain in the 11th century. A medieval Spanish castle and a noble's feast table with spinach dishes appear.",
+              "key_takeaway": "The Moors introduced spinach to Spain in the 11th century, from where it slowly spread across Europe.",
+              "duration_sec": 8,
+              "overlay_text": "Spinach: A Moorish gift to Europe."
+            },
+            {
+              "scene_id": 4,
+              "concept_description": "A whimsical animation of Catherine de' Medici enjoying a spinach dish in Renaissance Italy. Transitions to a classic Popeye cartoon scene flexing his muscles, then to a modern, vibrant plate of healthy food.",
+              "key_takeaway": "Popularized in Renaissance Italy by Catherine de' Medici and cemented as a health powerhouse by Popeye in the 20th century!",
+              "duration_sec": 7,
+              "overlay_text": "Medici & Popeye: Spinach's Legendary Power!"
+            }
+          ]
+        }
+      },
+      "timestamp": "2026-02-05T00:50:01.162Z"
+    }
+  ]
+}

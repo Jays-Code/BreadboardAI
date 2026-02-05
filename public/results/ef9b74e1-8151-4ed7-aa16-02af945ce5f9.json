@@ -1,0 +1,409 @@
+{
+  "id": "ef9b74e1-8151-4ed7-aa16-02af945ce5f9",
+  "slug": "prompt-to-post",
+  "startTime": "2026-02-05T00:06:48.611Z",
+  "endTime": "2026-02-05T00:07:01.669Z",
+  "inputs": {
+    "tone": "Educational and upbeat",
+    "topic": "Public school systems"
+  },
+  "trace": [
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                }
+              },
+              "required": []
+            }
+          }
+        }
+      },
+      "timestamp": "2026-02-05T00:06:48.643Z"
+    },
+    {
+      "type": "input",
+      "data": {
+        "tone": "Educational and upbeat",
+        "topic": "Public school systems"
+      },
+      "timestamp": "2026-02-05T00:06:48.644Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                }
+              },
+              "required": []
+            }
+          }
+        },
+        "outputs": {
+          "tone": "Educational and upbeat",
+          "topic": "Public school systems"
+        }
+      },
+      "timestamp": "2026-02-05T00:06:48.645Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "directorFlow-0",
+          "type": "directorFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-05T00:06:48.648Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "directorFlow-0",
+          "type": "directorFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenes": [
+            {
+              "scene_id": 1,
+              "concept_description": "Bright, welcoming animation of a stylized school building transforming into diverse students happily learning. Upbeat music starts. Text overlay appears: 'Public Schools: Building Futures!'",
+              "key_takeaway": "Public schools are community-led institutions dedicated to providing free, quality education to all children.",
+              "duration_sec": 6
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Dynamic animation showing diverse students engaged in various activities like reading, science experiments, art, and sports, then a globe icon with interconnected people. Text overlay: 'Open to ALL, empowering EACH!'",
+              "key_takeaway": "They offer comprehensive education, fostering diverse talents and ensuring equal opportunities for every student, regardless of background.",
+              "duration_sec": 8
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "Clean, educational graphic showing a simplified flow: 'Local & State Taxes' funneling into 'Our Schools'. Animation of school resources (books, computers, sports equipment) appearing. Text overlay: 'Funded by Our Community!'",
+              "key_takeaway": "Public schools are primarily funded by local and state taxes, reflecting a community's investment in its future generations.",
+              "duration_sec": 8
+            },
+            {
+              "scene_id": 4,
+              "concept_description": "Upbeat animation of a student graduating, then the community cheering and supporting the school. Positive, reinforcing message. Text overlay: 'Our Future, Our Schools!'",
+              "key_takeaway": "Supporting public schools strengthens communities, prepares students for success, and ensures a vibrant future for everyone.",
+              "duration_sec": 8
+            }
+          ],
+          "total_duration": 30,
+          "title": "Public School Power Up",
+          "fullData": {
+            "video_title_internal": "Public School Power Up",
+            "estimated_total_duration": 30,
+            "scenes": [
+              {
+                "scene_id": 1,
+                "concept_description": "Bright, welcoming animation of a stylized school building transforming into diverse students happily learning. Upbeat music starts. Text overlay appears: 'Public Schools: Building Futures!'",
+                "key_takeaway": "Public schools are community-led institutions dedicated to providing free, quality education to all children.",
+                "duration_sec": 6
+              },
+              {
+                "scene_id": 2,
+                "concept_description": "Dynamic animation showing diverse students engaged in various activities like reading, science experiments, art, and sports, then a globe icon with interconnected people. Text overlay: 'Open to ALL, empowering EACH!'",
+                "key_takeaway": "They offer comprehensive education, fostering diverse talents and ensuring equal opportunities for every student, regardless of background.",
+                "duration_sec": 8
+              },
+              {
+                "scene_id": 3,
+                "concept_description": "Clean, educational graphic showing a simplified flow: 'Local & State Taxes' funneling into 'Our Schools'. Animation of school resources (books, computers, sports equipment) appearing. Text overlay: 'Funded by Our Community!'",
+                "key_takeaway": "Public schools are primarily funded by local and state taxes, reflecting a community's investment in its future generations.",
+                "duration_sec": 8
+              },
+              {
+                "scene_id": 4,
+                "concept_description": "Upbeat animation of a student graduating, then the community cheering and supporting the school. Positive, reinforcing message. Text overlay: 'Our Future, Our Schools!'",
+                "key_takeaway": "Supporting public schools strengthens communities, prepares students for success, and ensures a vibrant future for everyone.",
+                "duration_sec": 8
+              }
+            ]
+          }
+        }
+      },
+      "timestamp": "2026-02-05T00:06:52.403Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "captionerFlow-0",
+          "type": "captionerFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-05T00:06:52.404Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "captionerFlow-0",
+          "type": "captionerFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "caption": "Ready to power up your knowledge about public schools? 🏫💡 Our video, \"Public School Power Up,\" explores how these essential institutions are building brighter futures for *everyone*!\n\nDiscover how public schools:\n✅ Provide free, quality education for all children.\n✅ Empower diverse talents & ensure equal opportunities.\n✅ Are funded by *our* community through local & state taxes.\n✅ Strengthen our neighborhoods & prepare students for success!\n\nInvesting in public education means investing in our collective future. Watch the full video to learn more & share why public schools matter to you! 👇 #PublicSchools #EducationForAll #CommunityInvestment #FutureLeaders #SchoolSystem"
+        }
+      },
+      "timestamp": "2026-02-05T00:06:57.530Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "copywriterFlow-0",
+          "type": "copywriterFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-05T00:06:57.531Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "copywriterFlow-0",
+          "type": "copywriterFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenesWithText": [
+            {
+              "scene_id": 1,
+              "concept_description": "Bright, welcoming animation of a stylized school building transforming into diverse students happily learning. Upbeat music starts. Text overlay appears: 'Public Schools: Building Futures!'",
+              "key_takeaway": "Public schools are community-led institutions dedicated to providing free, quality education to all children.",
+              "duration_sec": 6,
+              "overlay_text": "Community-Led Public Schools: Free Quality Education."
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Dynamic animation showing diverse students engaged in various activities like reading, science experiments, art, and sports, then a globe icon with interconnected people. Text overlay: 'Open to ALL, empowering EACH!'",
+              "key_takeaway": "They offer comprehensive education, fostering diverse talents and ensuring equal opportunities for every student, regardless of background.",
+              "duration_sec": 8,
+              "overlay_text": "Educate All. Nurture Talent. Equal Opportunity."
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "Clean, educational graphic showing a simplified flow: 'Local & State Taxes' funneling into 'Our Schools'. Animation of school resources (books, computers, sports equipment) appearing. Text overlay: 'Funded by Our Community!'",
+              "key_takeaway": "Public schools are primarily funded by local and state taxes, reflecting a community's investment in its future generations.",
+              "duration_sec": 8,
+              "overlay_text": "Your Taxes Fund Schools. Invest In Our Future."
+            },
+            {
+              "scene_id": 4,
+              "concept_description": "Upbeat animation of a student graduating, then the community cheering and supporting the school. Positive, reinforcing message. Text overlay: 'Our Future, Our Schools!'",
+              "key_takeaway": "Supporting public schools strengthens communities, prepares students for success, and ensures a vibrant future for everyone.",
+              "duration_sec": 8,
+              "overlay_text": "Invest in Schools, Invest in Our Future."
+            }
+          ]
+        }
+      },
+      "timestamp": "2026-02-05T00:07:01.632Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "assembler-0",
+          "type": "assembler",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-05T00:07:01.641Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "assembler-0",
+          "type": "assembler",
+          "configuration": {}
+        },
+        "outputs": {
+          "video_structure": {
+            "video_title_internal": "Public School Power Up",
+            "estimated_total_duration": 30,
+            "scenes": [
+              {
+                "scene_id": 1,
+                "concept_description": "Bright, welcoming animation of a stylized school building transforming into diverse students happily learning. Upbeat music starts. Text overlay appears: 'Public Schools: Building Futures!'",
+                "key_takeaway": "Public schools are community-led institutions dedicated to providing free, quality education to all children.",
+                "duration_sec": 6,
+                "overlay_text": "Community-Led Public Schools: Free Quality Education."
+              },
+              {
+                "scene_id": 2,
+                "concept_description": "Dynamic animation showing diverse students engaged in various activities like reading, science experiments, art, and sports, then a globe icon with interconnected people. Text overlay: 'Open to ALL, empowering EACH!'",
+                "key_takeaway": "They offer comprehensive education, fostering diverse talents and ensuring equal opportunities for every student, regardless of background.",
+                "duration_sec": 8,
+                "overlay_text": "Educate All. Nurture Talent. Equal Opportunity."
+              },
+              {
+                "scene_id": 3,
+                "concept_description": "Clean, educational graphic showing a simplified flow: 'Local & State Taxes' funneling into 'Our Schools'. Animation of school resources (books, computers, sports equipment) appearing. Text overlay: 'Funded by Our Community!'",
+                "key_takeaway": "Public schools are primarily funded by local and state taxes, reflecting a community's investment in its future generations.",
+                "duration_sec": 8,
+                "overlay_text": "Your Taxes Fund Schools. Invest In Our Future."
+              },
+              {
+                "scene_id": 4,
+                "concept_description": "Upbeat animation of a student graduating, then the community cheering and supporting the school. Positive, reinforcing message. Text overlay: 'Our Future, Our Schools!'",
+                "key_takeaway": "Supporting public schools strengthens communities, prepares students for success, and ensures a vibrant future for everyone.",
+                "duration_sec": 8,
+                "overlay_text": "Invest in Schools, Invest in Our Future."
+              }
+            ]
+          }
+        }
+      },
+      "timestamp": "2026-02-05T00:07:01.645Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "output-0",
+          "type": "output",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "social_caption": {
+                  "type": "string",
+                  "title": "Social Caption"
+                },
+                "video_structure": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false,
+                  "title": "Video Structure"
+                }
+              },
+              "required": [
+                "social_caption",
+                "video_structure"
+              ]
+            }
+          }
+        }
+      },
+      "timestamp": "2026-02-05T00:07:01.650Z"
+    },
+    {
+      "type": "output",
+      "data": {
+        "social_caption": "Ready to power up your knowledge about public schools? 🏫💡 Our video, \"Public School Power Up,\" explores how these essential institutions are building brighter futures for *everyone*!\n\nDiscover how public schools:\n✅ Provide free, quality education for all children.\n✅ Empower diverse talents & ensure equal opportunities.\n✅ Are funded by *our* community through local & state taxes.\n✅ Strengthen our neighborhoods & prepare students for success!\n\nInvesting in public education means investing in our collective future. Watch the full video to learn more & share why public schools matter to you! 👇 #PublicSchools #EducationForAll #CommunityInvestment #FutureLeaders #SchoolSystem",
+        "video_structure": {
+          "video_title_internal": "Public School Power Up",
+          "estimated_total_duration": 30,
+          "scenes": [
+            {
+              "scene_id": 1,
+              "concept_description": "Bright, welcoming animation of a stylized school building transforming into diverse students happily learning. Upbeat music starts. Text overlay appears: 'Public Schools: Building Futures!'",
+              "key_takeaway": "Public schools are community-led institutions dedicated to providing free, quality education to all children.",
+              "duration_sec": 6,
+              "overlay_text": "Community-Led Public Schools: Free Quality Education."
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Dynamic animation showing diverse students engaged in various activities like reading, science experiments, art, and sports, then a globe icon with interconnected people. Text overlay: 'Open to ALL, empowering EACH!'",
+              "key_takeaway": "They offer comprehensive education, fostering diverse talents and ensuring equal opportunities for every student, regardless of background.",
+              "duration_sec": 8,
+              "overlay_text": "Educate All. Nurture Talent. Equal Opportunity."
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "Clean, educational graphic showing a simplified flow: 'Local & State Taxes' funneling into 'Our Schools'. Animation of school resources (books, computers, sports equipment) appearing. Text overlay: 'Funded by Our Community!'",
+              "key_takeaway": "Public schools are primarily funded by local and state taxes, reflecting a community's investment in its future generations.",
+              "duration_sec": 8,
+              "overlay_text": "Your Taxes Fund Schools. Invest In Our Future."
+            },
+            {
+              "scene_id": 4,
+              "concept_description": "Upbeat animation of a student graduating, then the community cheering and supporting the school. Positive, reinforcing message. Text overlay: 'Our Future, Our Schools!'",
+              "key_takeaway": "Supporting public schools strengthens communities, prepares students for success, and ensures a vibrant future for everyone.",
+              "duration_sec": 8,
+              "overlay_text": "Invest in Schools, Invest in Our Future."
+            }
+          ]
+        }
+      },
+      "timestamp": "2026-02-05T00:07:01.665Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "output-0",
+          "type": "output",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "social_caption": {
+                  "type": "string",
+                  "title": "Social Caption"
+                },
+                "video_structure": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false,
+                  "title": "Video Structure"
+                }
+              },
+              "required": [
+                "social_caption",
+                "video_structure"
+              ]
+            }
+          }
+        },
+        "outputs": {}
+      },
+      "timestamp": "2026-02-05T00:07:01.667Z"
+    }
+  ]
+}

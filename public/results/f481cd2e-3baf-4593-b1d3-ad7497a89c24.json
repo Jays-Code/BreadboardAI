@@ -1,0 +1,376 @@
+{
+  "id": "f481cd2e-3baf-4593-b1d3-ad7497a89c24",
+  "slug": "prompt-to-post",
+  "startTime": "2026-02-04T23:14:30.841Z",
+  "endTime": "2026-02-04T23:14:32.024Z",
+  "inputs": {
+    "tone": "Educational and upbeat",
+    "topic": "School systems"
+  },
+  "trace": [
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                }
+              },
+              "required": []
+            }
+          }
+        }
+      },
+      "timestamp": "2026-02-04T23:14:30.850Z"
+    },
+    {
+      "type": "input",
+      "data": {
+        "tone": "Educational and upbeat",
+        "topic": "School systems"
+      },
+      "timestamp": "2026-02-04T23:14:30.850Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                }
+              },
+              "required": []
+            }
+          }
+        },
+        "outputs": {
+          "tone": "Educational and upbeat",
+          "topic": "School systems"
+        }
+      },
+      "timestamp": "2026-02-04T23:14:30.851Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "directorFlow-0",
+          "type": "directorFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-04T23:14:30.853Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "directorFlow-0",
+          "type": "directorFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenes": [
+            {
+              "scene_id": 1,
+              "concept_description": "DJ spinning vinyl",
+              "key_takeaway": "Origins in Chicago",
+              "duration_sec": 10
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Crowd dancing",
+              "key_takeaway": "Global expansion",
+              "duration_sec": 10
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "Modern festival",
+              "key_takeaway": "EDM evolution",
+              "duration_sec": 10
+            }
+          ],
+          "total_duration": 30,
+          "title": "The Pulse of House",
+          "fullData": {
+            "video_title_internal": "The Pulse of House",
+            "estimated_total_duration": 30,
+            "scenes": [
+              {
+                "scene_id": 1,
+                "concept_description": "DJ spinning vinyl",
+                "key_takeaway": "Origins in Chicago",
+                "duration_sec": 10
+              },
+              {
+                "scene_id": 2,
+                "concept_description": "Crowd dancing",
+                "key_takeaway": "Global expansion",
+                "duration_sec": 10
+              },
+              {
+                "scene_id": 3,
+                "concept_description": "Modern festival",
+                "key_takeaway": "EDM evolution",
+                "duration_sec": 10
+              }
+            ]
+          }
+        }
+      },
+      "timestamp": "2026-02-04T23:14:31.073Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "captionerFlow-0",
+          "type": "captionerFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-04T23:14:31.074Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "captionerFlow-0",
+          "type": "captionerFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "caption": "Check out the history of House music! #EDM #MusicHistory"
+        }
+      },
+      "timestamp": "2026-02-04T23:14:31.220Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "copywriterFlow-0",
+          "type": "copywriterFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-04T23:14:31.221Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "copywriterFlow-0",
+          "type": "copywriterFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenesWithText": [
+            {
+              "scene_id": 1,
+              "concept_description": "DJ spinning vinyl",
+              "key_takeaway": "Origins in Chicago",
+              "duration_sec": 10,
+              "overlay_text": "Chicago 80s Vibe"
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Crowd dancing",
+              "key_takeaway": "Global expansion",
+              "duration_sec": 10,
+              "overlay_text": "Chicago 80s Vibe"
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "Modern festival",
+              "key_takeaway": "EDM evolution",
+              "duration_sec": 10,
+              "overlay_text": "Chicago 80s Vibe"
+            }
+          ]
+        }
+      },
+      "timestamp": "2026-02-04T23:14:31.988Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "assembler-0",
+          "type": "assembler",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-04T23:14:31.989Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "assembler-0",
+          "type": "assembler",
+          "configuration": {}
+        },
+        "outputs": {
+          "video_structure": {
+            "video_title_internal": "The Pulse of House",
+            "estimated_total_duration": 30,
+            "scenes": [
+              {
+                "scene_id": 1,
+                "concept_description": "DJ spinning vinyl",
+                "key_takeaway": "Origins in Chicago",
+                "duration_sec": 10,
+                "overlay_text": "Chicago 80s Vibe"
+              },
+              {
+                "scene_id": 2,
+                "concept_description": "Crowd dancing",
+                "key_takeaway": "Global expansion",
+                "duration_sec": 10,
+                "overlay_text": "Chicago 80s Vibe"
+              },
+              {
+                "scene_id": 3,
+                "concept_description": "Modern festival",
+                "key_takeaway": "EDM evolution",
+                "duration_sec": 10,
+                "overlay_text": "Chicago 80s Vibe"
+              }
+            ]
+          }
+        }
+      },
+      "timestamp": "2026-02-04T23:14:32.005Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "output-0",
+          "type": "output",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "social_caption": {
+                  "type": "string",
+                  "title": "Social Caption"
+                },
+                "video_structure": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false,
+                  "title": "Video Structure"
+                }
+              },
+              "required": [
+                "social_caption",
+                "video_structure"
+              ]
+            }
+          }
+        }
+      },
+      "timestamp": "2026-02-04T23:14:32.021Z"
+    },
+    {
+      "type": "output",
+      "data": {
+        "social_caption": "Check out the history of House music! #EDM #MusicHistory",
+        "video_structure": {
+          "video_title_internal": "The Pulse of House",
+          "estimated_total_duration": 30,
+          "scenes": [
+            {
+              "scene_id": 1,
+              "concept_description": "DJ spinning vinyl",
+              "key_takeaway": "Origins in Chicago",
+              "duration_sec": 10,
+              "overlay_text": "Chicago 80s Vibe"
+            },
+            {
+              "scene_id": 2,
+              "concept_description": "Crowd dancing",
+              "key_takeaway": "Global expansion",
+              "duration_sec": 10,
+              "overlay_text": "Chicago 80s Vibe"
+            },
+            {
+              "scene_id": 3,
+              "concept_description": "Modern festival",
+              "key_takeaway": "EDM evolution",
+              "duration_sec": 10,
+              "overlay_text": "Chicago 80s Vibe"
+            }
+          ]
+        }
+      },
+      "timestamp": "2026-02-04T23:14:32.023Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "output-0",
+          "type": "output",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "social_caption": {
+                  "type": "string",
+                  "title": "Social Caption"
+                },
+                "video_structure": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false,
+                  "title": "Video Structure"
+                }
+              },
+              "required": [
+                "social_caption",
+                "video_structure"
+              ]
+            }
+          }
+        },
+        "outputs": {}
+      },
+      "timestamp": "2026-02-04T23:14:32.023Z"
+    }
+  ]
+}
