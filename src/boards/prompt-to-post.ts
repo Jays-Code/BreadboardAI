@@ -160,13 +160,39 @@ const assembler = assemblerDef({
     scenes: copywriterFlow.outputs.scenesWithText
 });
 
-// --- 6. Export Board ---
+// --- 6. Video Renderer ---
+/**
+ * Triggers the Remotion render on the Bridge Server.
+ */
+export const rendererDef = defineNodeType({
+    name: "renderer",
+    inputs: {
+        video_structure: { type: object({}) },
+    },
+    outputs: {
+        video_url: { type: "string" }
+    },
+    invoke: async ({ video_structure }) => {
+        const response = await fetch("http://localhost:3000/api/render", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                video_structure: video_structure
+            })
+        });
+        const result = await response.json();
+        return { video_url: result.video_url };
+    }
+});
+const renderer = rendererDef({ video_structure: assembler.outputs.video_structure });
+
+// --- Graph Export ---
 export default board({
-    title: "Prompt-to-Post Director (Modern API)",
-    description: "An autonomous content production pipeline using Antigravity Bridge.",
+    title: "Prompt to Video Post",
+    description: "Converts a topic into a Remotion-ready video structure and renders it.",
     inputs: { topic, tone },
     outputs: {
-        video_structure: output(assembler.outputs.video_structure, { title: "Video Structure" }),
-        social_caption: output(captionerFlow.outputs.caption, { title: "Social Caption" })
+        video_structure: assembler.outputs.video_structure,
+        video_url: renderer.outputs.video_url
     }
 });

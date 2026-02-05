@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import os from 'os';
 import { pathToFileURL } from 'url';
 import { createLoader, invokeGraph } from "@google-labs/breadboard";
 import { directorFlowDef, copywriterFlowDef, captionerFlowDef, assemblerDef } from "../boards/prompt-to-post.js";
@@ -20,16 +21,19 @@ const BRAIN_DIR = path.resolve(process.cwd(), '.agent', 'brain');
 const REQUESTS_FILE = path.join(BRAIN_DIR, 'requests.json');
 const RESPONSES_FILE = path.join(BRAIN_DIR, 'responses.json');
 const RESULTS_DIR = path.resolve(process.cwd(), 'public', 'results');
+const VIDEO_OUT_DIR = path.resolve(process.cwd(), 'public', 'videos');
 
 // Ensure directories exist
 if (!fs.existsSync(BRAIN_DIR)) fs.mkdirSync(BRAIN_DIR, { recursive: true });
 if (!fs.existsSync(RESULTS_DIR)) fs.mkdirSync(RESULTS_DIR, { recursive: true });
+if (!fs.existsSync(VIDEO_OUT_DIR)) fs.mkdirSync(VIDEO_OUT_DIR, { recursive: true });
 
 // Initialize files if they don't exist
 if (!fs.existsSync(REQUESTS_FILE)) fs.writeFileSync(REQUESTS_FILE, '[]');
 if (!fs.existsSync(RESPONSES_FILE)) fs.writeFileSync(RESPONSES_FILE, '[]');
 
 app.use(bodyParser.json());
+app.use('/videos', express.static(VIDEO_OUT_DIR));
 
 // --- Generic Run Endpoint (Wait for completion) ---
 app.post('/api/run', async (req, res) => {
@@ -173,6 +177,48 @@ app.get('/api/run-stream', async (req, res) => {
     } catch (error) {
         sendEvent('error', { message: String(error) });
         res.end();
+    }
+});
+
+// --- Render API ---
+app.post('/api/render', async (req, res) => {
+    const { video_structure, runId } = req.body;
+    if (!video_structure) return res.status(400).json({ error: "No video structure provided" });
+
+    const propsFile = path.join(os.tmpdir(), `props-${runId || Date.now()}.json`);
+    const outputFilename = `${runId || 'video'}.mp4`;
+    const outputPath = path.join(VIDEO_OUT_DIR, outputFilename);
+
+    try {
+        fs.writeFileSync(propsFile, JSON.stringify(video_structure));
+
+        console.log(`[Renderer] Starting render for ${outputFilename}...`);
+
+        // Execute Remotion render
+        const { exec } = await import('child_process');
+        const cmd = `npx remotion render src/video/index.tsx Main ${outputPath} --props=${propsFile}`;
+
+        exec(cmd, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`[Renderer] Error: ${error.message}`);
+                return;
+            }
+            console.log(`[Renderer] Render complete: ${outputFilename}`);
+            // Clean up props file
+            fs.unlinkSync(propsFile);
+        });
+
+        // We return immediately with the expected path (async render)
+        // In a more complex app, we'd use a webhook or polling
+        res.json({
+            success: true,
+            video_url: `/videos/${outputFilename}`,
+            status: "rendering"
+        });
+
+    } catch (error: any) {
+        console.error("[Renderer] Setup Failed:", error);
+        res.status(500).json({ error: "Render failed to start", details: error.message });
     }
 });
 
