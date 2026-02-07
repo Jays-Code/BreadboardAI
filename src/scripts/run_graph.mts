@@ -7,74 +7,72 @@ import graph, {
     voiceoverFlowDef,
     assemblerDef,
     rendererDef
-} from "../boards/prompt-to-post.ts";
+} from "../boards/prompt-to-post.js";
 import { serialize, kit } from "@breadboard-ai/build";
-import { invokeGraph } from "@google-labs/breadboard";
+import { invokeGraph, run } from "@google-labs/breadboard";
 import fs from "fs";
 import path from "path";
 
-async function run() {
-    console.log("Initializing Custom Kit...");
-    // Create a Kit containing our custom node definitions
-    // Note: kit() is async in the build API!
-    const customKit = await kit({
-        title: "Custom Agent Kit",
-        description: "Kit containing custom handlers for proper graph execution",
-        url: "npm:custom-agent-kit",
-        version: "1.0.0",
-        components: {
-            directorFlow: directorFlowDef,
-            copywriterFlow: copywriterFlowDef,
-            visualArchitectFlow: visualArchitectFlowDef,
-            assetSourcingFlow: assetSourcingFlowDef,
-            voiceoverFlow: voiceoverFlowDef,
-            assembler: assemblerDef,
-            renderer: rendererDef
-        }
-    });
-
+async function main() {
     console.log("Running Prompt-to-Post Graph...");
 
-    const inputData = {
+    const inputData: any = {
         topic: "The History of Spinach",
         tone: "Educational and slightly prehistoric"
     };
 
-    console.log("Input:", inputData);
+    console.log("Initial Input:", inputData);
 
     try {
-        // 1. Serialize the board to BGL
-        // Handle potential default export wrapping
         const boardToSerialize = (graph as any).default ?? graph;
         const bgl = serialize(boardToSerialize);
         console.log("Graph serialized successfully.");
 
-        // 2. Run the graph using invokeGraph, passing our custom kit handlers
-        const result = await invokeGraph(
-            { graph: bgl },
-            inputData,
-            { kits: [customKit] }
-        );
+        let currentResult: any = null;
+        let attempts = 0;
+        const MAX_ATTEMPTS = 2;
 
-        console.log("Graph Execution Complete!");
-        // The output might be named differently depending on graph structure.
-        // Let's log the whole result to be sure found keys.
-        console.log("Result keys:", Object.keys(result));
-        console.log("Social Caption:", result.social_caption);
+        const customKit = await kit({
+            title: "Custom Agent Kit",
+            description: "Bridge communication kit",
+            url: "bundle:custom-kit",
+            components: {
+                directorFlow: directorFlowDef,
+                copywriterFlow: copywriterFlowDef,
+                visualArchitectFlow: visualArchitectFlowDef,
+                assetSourcingFlow: assetSourcingFlowDef,
+                voiceoverFlow: voiceoverFlowDef,
+                assembler: assemblerDef,
+                renderer: rendererDef
+            }
+        }) as any;
 
-        if (result.video_url) {
-            const outputPath = path.resolve(process.cwd(), "output", "spinach_history.json");
-            console.log("Video URL:", result.video_url);
+        while (attempts < MAX_ATTEMPTS) {
+            attempts++;
+            console.log(`\n--- 🚀 EXECUTION PASS ${attempts}/${MAX_ATTEMPTS} ---`);
 
-            // --- Phase II: Visual QA Loop ---
+            currentResult = await invokeGraph(
+                { graph: bgl },
+                inputData,
+                { kits: [customKit] }
+            );
+
+            if (!currentResult.video_url) {
+                console.error("Missing video_url in output. Result:", currentResult);
+                break;
+            }
+
+            console.log("Video URL:", currentResult.video_url);
+
+            // --- Phase III: Visual QA Loop (The Critic) ---
             console.log("🔍 Triggering Visual QA Loop...");
             try {
                 const qaResp = await fetch("http://localhost:3000/api/visual-qa", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        video_structure: result.video_structure,
-                        runId: (result.video_url as string).split('/').pop()?.split('.')[0]
+                        video_structure: currentResult.video_structure,
+                        runId: (currentResult.video_url as string).split('/').pop()?.split('.')[0]
                     })
                 });
                 const qaResult = await qaResp.json();
@@ -82,26 +80,33 @@ async function run() {
                 console.log(`Score: ${qaResult.report.score}/100`);
                 console.log(`Passed: ${qaResult.report.passed ? '✅ YES' : '❌ NO'}`);
                 console.log(`Critique: ${qaResult.report.critique}`);
-                console.log("Suggestions:");
-                qaResult.report.improvement_suggestions.forEach((s: string) => console.log(` - ${s}`));
-                console.log("---------------------------\n");
 
                 // Merge QA report into final output
-                (result as any).qa_report = qaResult.report;
+                currentResult.qa_report = qaResult.report;
+
+                // CHECK: Should we refine?
+                if (qaResult.report.score < 80 && attempts < MAX_ATTEMPTS) {
+                    console.log("\n⚠️ QUALITY BELOW THRESHOLD. TRIGGERING REFINEMENT PASS...");
+                    inputData.visual_critique = `${qaResult.report.critique}\n\nKey areas to fix: ${qaResult.report.improvement_suggestions.join(", ")}`;
+                    continue;
+                } else {
+                    console.log("\n✅ QUALITY SATISFACTORY OR MAX ATTEMPTS REACHED.");
+                    break;
+                }
             } catch (qaErr) {
                 console.error("QA Loop failed:", qaErr);
+                break;
             }
-
-            console.log("Writing full output to:", outputPath);
-            fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
-            console.log("Done.");
-        } else {
-            console.error("Missing video_url in output", result);
         }
+
+        const outputPath = path.resolve(process.cwd(), "output", "spinach_history.json");
+        console.log("Writing final output to:", outputPath);
+        fs.writeFileSync(outputPath, JSON.stringify(currentResult, null, 2));
+        console.log("Done.");
 
     } catch (error) {
         console.error("Error during graph execution:", error);
     }
 }
 
-run();
+main();

@@ -1,0 +1,19 @@
+# Ignore assets and data
+public/
+assets/
+*.png
+*.jpg
+*.svg
+*.mp4
+*.json
+
+# Ignore build outputs
+dist/
+output/
+test-results/
+
+# Ignore documentation/agent logs
+.agent/
+PROJECT_OVERSIGHT.md
+bridge.log
+proxy.log

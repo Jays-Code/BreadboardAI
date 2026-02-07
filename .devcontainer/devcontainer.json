@@ -1,22 +1,56 @@
 {
     "name": "AI Sandbox",
-    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:20",
     "remoteUser": "root",
     "containerEnv": {
         "NODE_TLS_REJECT_UNAUTHORIZED": "0",
-        "GOOGLE_API_KEY": "${localEnv:GOOGLE_API_KEY}"
+        "GOOGLE_API_KEY": "${localEnv:GOOGLE_API_KEY}",
+        "OLLAMA_HOST": "host.docker.internal:11434"
     },
     "remoteEnv": {
-        "GOOGLE_API_KEY": "${localEnv:GOOGLE_API_KEY}"
+        "GOOGLE_API_KEY": "${localEnv:GOOGLE_API_KEY}",
+        "OLLAMA_HOST": "host.docker.internal:11434"
     },
+    "runArgs": [
+        "--add-host=host.docker.internal:host-gateway"
+    ],
     "forwardPorts": [
-        5173
+        5173,
+        3000,
+        6333,
+        6334
     ],
     "portsAttributes": {
         "5173": {
             "label": "Vite Dev Server",
+            "onAutoForward": "notify",
+            "elevateIfNeeded": true
+        },
+        "3000": {
+            "label": "Bridge Server",
+            "onAutoForward": "notify",
+            "elevateIfNeeded": true
+        },
+        "6333": {
+            "label": "Qdrant REST",
+            "onAutoForward": "notify"
+        },
+        "6334": {
+            "label": "Qdrant gRPC",
             "onAutoForward": "notify"
         }
     },
-    "postAttachCommand": "echo '--- ENVIRONMENT STATUS ---'; echo \"API Key: ${GOOGLE_API_KEY:0:4}****\"; if ! lsof -i :5173; then nohup npm run dev > /dev/null 2>&1 & fi"
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "kilocode.ollama.address": "http://host.docker.internal:11434"
+            },
+            "extensions": [
+                "kilocode.kilo-code",
+                "Continue.continue",
+                "dbaeumer.vscode-eslint"
+            ]
+        }
+    },
+    "postAttachCommand": "bash .devcontainer/startup.sh"
 }

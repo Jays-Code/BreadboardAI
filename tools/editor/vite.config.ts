@@ -36,7 +36,7 @@ export default defineConfig(async () => {
             target: 'esnext',
         },
         server: {
-            port: 3000,
+            port: 5174,
             host: '0.0.0.0',
             fs: {
                 allow: [rootDir]

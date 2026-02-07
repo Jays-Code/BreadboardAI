@@ -7,6 +7,9 @@ export default defineConfig({
     define: {
         'ASSET_PACK_ICONS': JSON.stringify({})
     },
+    resolve: {
+        modules: ['node_modules', 'tools/editor/node_modules']
+    },
     server: {
         port: 5173,
         host: true,

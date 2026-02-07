@@ -1,7 +1,11 @@
-import graph from "../boards/prompt-to-post.ts";
-import { serialize } from "@breadboard-ai/build";
-import fs from "fs";
+import graph from '../boards/prompt-to-post.js';
+import { serialize } from '@breadboard-ai/build';
+import fs from 'fs';
 
-const bgl = serialize(graph);
-fs.writeFileSync("src/boards/prompt-to-post.bgl.json", JSON.stringify(bgl, null, 2));
-console.log("Serialized graph to src/boards/prompt-to-post.bgl.json");
+try {
+    const bgl = serialize(graph);
+    fs.writeFileSync('graph.json', JSON.stringify(bgl, null, 2));
+    console.log('Successfully serialized graph to graph.json');
+} catch (e) {
+    console.error('Serialization failed:', e);
+}

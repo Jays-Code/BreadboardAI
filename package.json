@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "editor": "npm run sync-boards && cd tools/editor && npm run dev",
-    "bridge": "tsx src/bridge/server.ts",
+    "bridge": "mkdir -p node_modules/@breadboard-ai node_modules/@google-labs && cp -Rn tools/editor/node_modules/@breadboard-ai/. node_modules/@breadboard-ai/ 2>/dev/null || true && cp -Rn tools/editor/node_modules/@google-labs/. node_modules/@google-labs/ 2>/dev/null || true && (mkdir -p node_modules/@breadboard-ai/build/node_modules/@google-labs && ln -snf ../../../@google-labs/breadboard node_modules/@breadboard-ai/build/node_modules/@google-labs/breadboard || true) && tsx src/bridge/server.ts",
     "run-graph": "tsx src/scripts/run_graph.mts",
     "sync-boards": "tsx src/scripts/serialize_boards.ts",
     "verify": "tsx .agent/skills/visual_verification/scripts/capture_screenshot.ts",
@@ -51,6 +51,7 @@
     "lit": "^3.3.2",
     "mime": "^4.1.0",
     "tsx": "^4.21.0",
+    "vite": "^6.4.1",
     "zod": "3.22.3"
   }
 }

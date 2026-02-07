@@ -18,6 +18,13 @@ const tone = input({
     default: "Educational and upbeat"
 });
 
+const visual_critique = input({
+    title: "Visual Critique",
+    description: "Feedback from the Visual QA Critic to improve the visuals in a second pass",
+    default: "",
+    optional: true
+});
+
 // --- 2. Director Stage ---
 /**
  * Communicates with the Antigravity Bridge to generate a video outline.
@@ -35,10 +42,12 @@ export const directorFlowDef = defineNodeType({
     outputs: {
         scenes: { type: array(object({})) },
         total_duration: { type: "number" },
-        title: { type: "string" }
+        title: { type: "string" },
+        ambient_mood: { type: "string" }
     },
     invoke: async ({ topic, tone }) => {
-        const response = await fetch("http://localhost:3000/generate", {
+        console.log(`[Director] Generating arc for topic: ${topic}`);
+        const response = await fetch("http://127.0.0.1:3000/generate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -52,6 +61,7 @@ export const directorFlowDef = defineNodeType({
                 Output strict JSON with the following structure:
                 {
                   "video_title_internal": "string",
+                  "ambient_mood": "string summarizing the color/visual vibe (e.g. prehistoric earthy, neon futuristic)",
                   "estimated_total_duration": number,
                   "scenes": [
                     {
@@ -73,7 +83,8 @@ export const directorFlowDef = defineNodeType({
         return {
             scenes: data.scenes || [],
             total_duration: data.estimated_total_duration || 0,
-            title: data.video_title_internal || "Untitled"
+            title: data.video_title_internal || "Untitled",
+            ambient_mood: data.ambient_mood || "neutral"
         };
     }
 });
@@ -90,15 +101,17 @@ export const copywriterFlowDef = defineNodeType({
         description: "Drafting engine that writes high-quality scripts or long-form content."
     },
     inputs: {
-        scenes: { type: array(object({})) }
+        scenes: { type: array(object({})) },
+        tone: { type: "string" }
     },
     outputs: {
         scenesWithText: { type: array(object({})) }
     },
     invoke: async ({ scenes }) => {
+        console.log("[Copywriter] Condensing overlay text...");
         const scenesArray = scenes as any[];
         const results = await Promise.all(scenesArray.map(async (scene) => {
-            const response = await fetch("http://localhost:3000/generate", {
+            const response = await fetch("http://127.0.0.1:3000/generate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -116,7 +129,7 @@ export const copywriterFlowDef = defineNodeType({
         return { scenesWithText: results };
     }
 });
-const copywriterFlow = copywriterFlowDef({ scenes: directorFlow.outputs.scenes });
+const copywriterFlow = copywriterFlowDef({ scenes: directorFlow.outputs.scenes, tone: tone });
 
 // --- 4. Visual Architect Stage ---
 /**
@@ -130,55 +143,72 @@ export const visualArchitectFlowDef = defineNodeType({
     },
     inputs: {
         scenes: { type: array(object({})) },
-        tone: { type: "string" }
+        tone: { type: "string" },
+        ambient_mood: { type: "string" },
+        critique: { type: "string", optional: true }
     },
     outputs: {
         scenesWithVisuals: { type: array(object({})) }
     },
-    invoke: async ({ scenes, tone }) => {
+    invoke: async ({ scenes, tone, ambient_mood, critique }) => {
+        console.log("[VisualArchitect] Directing kinetic motion...");
         const scenesArray = scenes as any[];
-        const results = await Promise.all(scenesArray.map(async (scene) => {
-            const response = await fetch("http://localhost:3000/generate", {
+        const results = [];
+        for (const scene of scenesArray) {
+            console.log(`   🎨 Designing Scene ${scene.scene_id}: ${scene.arc_phase}`);
+            const response = await fetch("http://127.0.0.1:3000/generate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    task: `Act as a Motion Designer. Transform this scene description into a detailed multi-layer Visual Script JSON for Remotion.
+                    task: `Act as a Motion Director. Transform this scene description into a KINETIC Scene Composition JSON for Remotion.
                     
                     Description: "${scene.concept_description}"
-                    Phase: "${(scene as any).arc_phase}"
                     Tone: "${tone}"
+                    Ambient Mood: "${ambient_mood}"
+                    ${critique ? `IMPORTANT CRITIQUE TO FIX: "${critique}"` : ""}
 
-                    Design the scene in LAYERS:
-                    1. Background: The environment/mood.
-                    2. Primary: The main subject (should be a detailed image prompt).
-                    3. Particles/Camera: To add depth.
+                    Design the scene as a MULTI-ASSET STAGE:
+                    1. Background: The environmental vibe (color/mood).
+                    2. Composition: An array of elements (sprites) that move.
+                       - Each sprite needs a 'depth' (0.5 for mid, 1.0 for fore).
+                       - Each sprite needs a 'motion' object with start_pos and end_pos (x/y as percentages of stage, scale 0.5 to 1.5).
+                       - Multiple sprites create action (e.g., Background stadium + Foreground Gladiator).
 
                     Output strict JSON with this exact structure:
                     {
                       "background_color": "hex string",
-                      "primary_element": {
-                        "type": "image",
-                        "image_prompt": "highly detailed descriptive prompt for this specific scene's subject",
-                        "animation": "pulse | slide | spin | float",
-                        "position": "center | bottom | top"
-                      },
+                      "composition": [
+                        {
+                          "type": "image",
+                          "image_prompt": "highly detailed subject specific prompt. Must match ${ambient_mood}.",
+                          "depth": number (0.5 to 1.0),
+                          "zIndex": number,
+                          "motion": {
+                            "type": "linear | ease",
+                            "start_pos": { "x": number, "y": number, "scale": number },
+                            "end_pos": { "x": number, "y": number, "scale": number }
+                          }
+                        }
+                      ],
                       "particles": "none | dust | sparks | bubbles",
                       "camera_motion": "none | zoom_in | pan_left"
                     }
-                    No other text. Just the JSON object.`,
-                    persona: "Visual Designer",
+                    Ensure the compositions are DYNAMIC. No static scenes.`,
+                    persona: "Motion Director",
                     model: "antigravity-bridge"
                 })
             });
             const result = await response.json();
-            return { ...scene, visual_script: result.response };
-        }));
+            results.push({ ...scene, visual_script: result.response });
+        }
         return { scenesWithVisuals: results };
     }
 });
 const visualArchitectFlow = visualArchitectFlowDef({
     scenes: copywriterFlow.outputs.scenesWithText,
-    tone: tone
+    tone: tone,
+    ambient_mood: directorFlow.outputs.ambient_mood,
+    critique: visual_critique
 });
 
 // --- 5. Asset Sourcing Stage ---
@@ -198,32 +228,41 @@ export const assetSourcingFlowDef = defineNodeType({
         scenesWithAssets: { type: array(object({})) }
     },
     invoke: async ({ scenes }) => {
+        console.log("[AssetSourcing] Sourcing production layers...");
         const scenesArray = scenes as any[];
-        const results = await Promise.all(scenesArray.map(async (scene) => {
-            const script = scene.visual_script;
-            if (script && script.primary_element && script.primary_element.type === 'image' && script.primary_element.image_prompt) {
-                // Call Bridge to generate image
-                const response = await fetch("http://localhost:3000/generate-image", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        prompt: script.primary_element.image_prompt
-                    })
-                });
-                const result = await response.json();
+        const results = [];
 
-                // Update the visual script with the generated asset URL
-                const updatedScript = {
-                    ...script,
-                    primary_element: {
-                        ...script.primary_element,
-                        label: result.url // The label becomes the URL for type='image'
+        for (const scene of scenesArray) {
+            const script = scene.visual_script;
+            if (script && script.composition && Array.isArray(script.composition)) {
+                console.log(`   📷 Sourcing assets for Scene ${scene.scene_id}...`);
+                // Source EACH image in the composition (Parallel for sprites within a scene is fine)
+                const updatedComposition = await Promise.all(script.composition.map(async (element: any) => {
+                    if (element.type === 'image' && element.image_prompt) {
+                        const response = await fetch("http://127.0.0.1:3000/generate-image", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                prompt: element.image_prompt
+                            })
+                        });
+                        const result = await response.json();
+                        return { ...element, url: result.url };
                     }
-                };
-                return { ...scene, visual_script: updatedScript };
+                    return element;
+                }));
+
+                results.push({
+                    ...scene,
+                    visual_script: {
+                        ...script,
+                        composition: updatedComposition
+                    }
+                });
+            } else {
+                results.push(scene);
             }
-            return scene; // No change if no image needed
-        }));
+        }
         return { scenesWithAssets: results };
     }
 });
@@ -248,7 +287,7 @@ export const captionerFlowDef = defineNodeType({
         caption: { type: "string" }
     },
     invoke: async ({ topic, scenes }) => {
-        const response = await fetch("http://localhost:3000/generate", {
+        const response = await fetch("http://127.0.0.1:3000/generate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -280,13 +319,14 @@ export const voiceoverFlowDef = defineNodeType({
         scenesWithAudio: { type: array(object({})) }
     },
     invoke: async ({ scenes }) => {
+        console.log("[Voiceover] Generating high-fidelity audio...");
         const scenesArray = scenes as any[];
         const results = await Promise.all(scenesArray.map(async (scene) => {
             // Use key_takeaway or overlay_text for the voiceover script
             const scriptText = scene.key_takeaway || scene.overlay_text || "";
             if (!scriptText) return scene;
 
-            const response = await fetch("http://localhost:3000/generate-audio", {
+            const response = await fetch("http://127.0.0.1:3000/generate-audio", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -351,7 +391,8 @@ export const rendererDef = defineNodeType({
         video_url: { type: "string" }
     },
     invoke: async ({ video_structure }) => {
-        const response = await fetch("http://localhost:3000/api/render", {
+        console.log("[Renderer] Triggering Remotion production...");
+        const response = await fetch("http://127.0.0.1:3000/api/render", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -368,7 +409,7 @@ const renderer = rendererDef({ video_structure: assembler.outputs.video_structur
 export default board({
     title: "Prompt to Video Post",
     description: "Converts a topic into a Remotion-ready video structure and renders it.",
-    inputs: { topic, tone },
+    inputs: { topic, tone, visual_critique },
     outputs: {
         video_structure: assembler.outputs.video_structure,
         video_url: renderer.outputs.video_url
