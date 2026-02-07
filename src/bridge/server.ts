@@ -18,6 +18,7 @@ import {
 } from "../boards/prompt-to-post.ts";
 import { kit } from "@breadboard-ai/build";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleAIFileManager } from "@google/generative-ai/server";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -42,6 +43,8 @@ if (!fs.existsSync(REQUESTS_FILE)) fs.writeFileSync(REQUESTS_FILE, '[]');
 if (!fs.existsSync(RESPONSES_FILE)) fs.writeFileSync(RESPONSES_FILE, '[]');
 
 app.use(bodyParser.json());
+app.use(express.static(path.resolve(process.cwd(), 'ui')));
+app.use('/api', express.static(path.resolve(process.cwd(), 'public', 'api')));
 app.use('/videos', express.static(VIDEO_OUT_DIR));
 
 // --- Generic Run Endpoint (Wait for completion) ---
@@ -539,6 +542,95 @@ app.post('/api/visual-qa', async (req, res) => {
     } catch (error: any) {
         console.error("[Visual QA] Failed:", error);
         res.status(500).json({ error: "QA Analysis failed", details: error.message });
+    }
+});
+
+// --- Deep Video Analysis Endpoint (Native Gemini 2.5 Video Support) ---
+app.post('/api/analyze-video', async (req, res) => {
+    const { runId } = req.body;
+    if (!runId) return res.status(400).json({ error: "Missing runId" });
+
+    console.log(`[Deep Analysis] Starting full video assessment for ${runId}...`);
+
+    try {
+        const videoPath = path.join(VIDEO_OUT_DIR, `${runId}.mp4`);
+        if (!fs.existsSync(videoPath)) {
+            // Try to find it by looking for the file in the directory if runId is a slug
+            const files = fs.readdirSync(VIDEO_OUT_DIR).filter(f => f.includes(runId) && f.endsWith('.mp4'));
+            if (files.length === 0) return res.status(404).json({ error: "Video file not found for this run" });
+            var finalVideoPath = path.join(VIDEO_OUT_DIR, files[0]);
+        } else {
+            var finalVideoPath = videoPath;
+        }
+
+        const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+        const fileManager = new GoogleAIFileManager(apiKey!);
+        const genAI = new GoogleGenerativeAI(apiKey!);
+
+        // 1. Upload the video to Google AI File API
+        console.log(`[Deep Analysis] Uploading video: ${finalVideoPath}`);
+        const uploadResult = await fileManager.uploadFile(finalVideoPath, {
+            mimeType: "video/mp4",
+            displayName: `Analysis for ${runId}`,
+        });
+
+        // 2. Poll for processing status
+        let file = await fileManager.getFile(uploadResult.file.name);
+        while (file.state === "PROCESSING") {
+            process.stdout.write(".");
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+            file = await fileManager.getFile(uploadResult.file.name);
+        }
+
+        if (file.state === "FAILED") {
+            throw new Error("Video processing failed on Google servers.");
+        }
+
+        console.log(`[Deep Analysis] Video active, generating critique...`);
+
+        // 3. Generate Content with Video context
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        const prompt = `Act as a Senior Creative Director and Motion Graphics Critic. Analyze this video in its entirety.
+                
+                CRITERIA:
+                1. MOTION QUALITY: Is the motion smooth, purposeful, and engaging?
+                2. PACING & RHYTHM: Does the timing match the narrative arc? 
+                3. AUDIO-VISUAL SYNC: How well do the animations align with the audio/voiceover?
+                4. CONSISTENCY: Is the visual style (colors, assets) consistent throughout?
+                5. OVERALL IMPACT: Does this video effectively communicate its topic?
+
+                Output strict JSON:
+                {
+                  "score": number (0-100), 
+                  "passed": boolean, 
+                  "critique": "A detailed multi-paragraph critique covering the above points.", 
+                  "improvement_suggestions": ["specific actionable suggestion 1", "suggestion 2"]
+                }`;
+
+        const result = await model.generateContent([
+            prompt,
+            {
+                fileData: {
+                    fileUri: file.uri,
+                    mimeType: file.mimeType,
+                },
+            },
+        ]);
+
+        const responseText = result.response.text().replace(/```json\n?|\n?```/g, '').trim();
+        const report = JSON.parse(responseText);
+
+        console.log(`[Deep Analysis] Analysis complete for ${runId}`);
+
+        res.json({
+            success: true,
+            report,
+            video_uri: file.uri
+        });
+
+    } catch (error: any) {
+        console.error("[Deep Analysis] Failed:", error);
+        res.status(500).json({ error: "Deep Analysis failed", details: error.message });
     }
 });
 

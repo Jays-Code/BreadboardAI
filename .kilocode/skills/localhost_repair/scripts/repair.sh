@@ -8,14 +8,39 @@ PORT=5173
 START_CMD="npm run dev"
 PROC_TYPE="vite"
 
-if [ -f "vite.config.ts" ] || [ -f "vite.config.js" ]; then
-  DETECTED_PORT=$(grep -oP 'port:\s*\K\d+' vite.config.* | head -n 1)
-  [ -n "$DETECTED_PORT" ] && PORT=$DETECTED_PORT
+# Determine Vite config file path and detect port
+VITE_CONFIG_FILE=""
+DETECTED_PORT=""
+
+# Prioritize tools/editor/vite.config.ts
+if [ -f "tools/editor/vite.config.ts" ]; then
+  VITE_CONFIG_FILE="tools/editor/vite.config.ts"
+  DETECTED_PORT=$(grep -oP 'port:\s*\K\d+' "$VITE_CONFIG_FILE" | head -n 1)
+fi
+
+  # If vite config is in tools/editor, adjust START_CMD
+  if [ "$VITE_CONFIG_FILE" = "tools/editor/vite.config.ts" ]; then
+    START_CMD="cd tools/editor && npm run dev"
+  fi
+
+# If no port detected, check root vite.config.ts or vite.config.js
+if [ -z "$DETECTED_PORT" ]; then
+  if [ -f "vite.config.ts" ]; then
+    VITE_CONFIG_FILE="vite.config.ts"
+    DETECTED_PORT=$(grep -oP 'port:\s*\K\d+' "$VITE_CONFIG_FILE" | head -n 1)
+  elif [ -f "vite.config.js" ]; then
+    VITE_CONFIG_FILE="vite.config.js"
+    DETECTED_PORT=$(grep -oP 'port:\s*\K\d+' "$VITE_CONFIG_FILE" | head -n 1)
+  fi
+fi
+
+if [ -n "$DETECTED_PORT" ]; then
+  PORT=$DETECTED_PORT
   PROC_TYPE="vite"
 elif [ -f "package.json" ]; then
-  if grep -q "next" package.json; then 
-    PORT=3000; 
-    PROC_TYPE="next-server"; 
+  if grep -q "next" package.json; then
+    PORT=3000;
+    PROC_TYPE="next-server";
     START_CMD="npm run dev";
   fi
 fi
@@ -32,7 +57,7 @@ pkill -f $PROC_TYPE || true
 
 # 3. Restart the server in the background
 echo "Restarting server using '$START_CMD'..."
-nohup $START_CMD > dev_output.txt 2>&1 &
+nohup bash -c "$START_CMD" > dev_output.txt 2>&1 &
 
 # 4. Wait for startup
 echo "Waiting for server to initialize..."

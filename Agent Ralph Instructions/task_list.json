@@ -139,6 +139,16 @@
             "id": 28,
             "description": "Implement Quality Control & Visual Verification Loop",
             "status": "complete"
+        },
+        {
+            "id": 29,
+            "description": "Implement Dual-Mode Video Analysis (Frames + Full Video) using Gemini 2.5 Flash",
+            "status": "complete"
+        },
+        {
+            "id": 30,
+            "description": "Implement Automated Video Feedback Loop (Self-Correct & Rerender)",
+            "status": "complete"
         }
     ]
 }

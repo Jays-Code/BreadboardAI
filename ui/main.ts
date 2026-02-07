@@ -617,8 +617,14 @@ async function runBoard(slug: string, inputsList: any[]) {
                     <div style="margin-top:1rem; margin-bottom:1rem; background:black; border-radius:8px; overflow:hidden">
                         <video controls src="${outputs.video_url}" style="width:100%; display:block;"></video>
                     </div>
-                    <div style="text-align:center; margin-bottom:1rem">
-                        <a href="${outputs.video_url}" target="_blank" class="btn" style="text-decoration:none; font-size:0.8rem">⬇️ Download Video</a>
+                    <div style="text-align:center; margin-bottom:1rem; display:flex; justify-content:center; gap:0.5rem">
+                        <a href="${outputs.video_url}" target="_blank" class="btn btn-secondary" style="text-decoration:none; font-size:0.8rem">⬇️ Download</a>
+                        <button class="btn" style="font-size:0.8rem; background:var(--accent-color)" onclick="runVisualQA('${data.runId}')">🔍 Quick QA (Frames)</button>
+                        <button class="btn" style="font-size:0.8rem; background:#fb8c00" onclick="runDeepAnalysis('${data.runId}')">🎬 Deep Analysis (Video)</button>
+                    </div>
+                    <div id="analysis-results-${data.runId}" style="margin-top:1rem; display:none; padding:1rem; background:rgba(255,255,255,0.05); border-radius:8px; border:1px solid rgba(255,255,255,0.1)">
+                        <div id="analysis-loader-${data.runId}" style="text-align:center; color:var(--text-secondary); font-size:0.9rem">Analyzing...</div>
+                        <div id="analysis-content-${data.runId}"></div>
                     </div>
                 `;
             }
@@ -1130,3 +1136,148 @@ function showEdgePill(fromNodeId: string, dataSnippet: string) {
     setTimeout(() => pill.remove(), 2500);
 }
 
+// --- Video Analysis Handlers ---
+
+(window as any).runVisualQA = async (runId: string) => {
+    const loader = document.getElementById(`analysis-loader-${runId}`);
+    const content = document.getElementById(`analysis-content-${runId}`);
+    const panel = document.getElementById(`analysis-results-${runId}`);
+    if (!loader || !content || !panel) return;
+
+    panel.style.display = 'block';
+    loader.style.display = 'block';
+    loader.textContent = 'Capturing Stills & Analyzing Frames...';
+    content.innerHTML = '';
+
+    try {
+        // Fetch the actual result manifest to get video_structure
+        const res = await fetch(`/api/result?id=${runId}`);
+        const runData = await res.json();
+
+        // Find the assembler output (video_structure)
+        const assemblerNode = runData.trace.findLast((t: any) => t.data?.node?.id?.includes('assembler'))?.data?.outputs;
+        const video_structure = assemblerNode?.video_structure;
+
+        if (!video_structure) throw new Error("Could not find video structure in run trace.");
+
+        const response = await fetch('/api/visual-qa', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ video_structure, runId })
+        });
+        const result = await response.json();
+
+        if (!result.success) throw new Error(result.error || "Analysis failed");
+
+        loader.style.display = 'none';
+        renderAnalysisReport(content, result.report, result.screenshots, "Quick Frame Analysis");
+    } catch (e: any) {
+        loader.textContent = `Error: ${e.message}`;
+        loader.style.color = '#cf6679';
+    }
+};
+
+(window as any).runDeepAnalysis = async (runId: string) => {
+    const loader = document.getElementById(`analysis-loader-${runId}`);
+    const content = document.getElementById(`analysis-content-${runId}`);
+    const panel = document.getElementById(`analysis-results-${runId}`);
+    if (!loader || !content || !panel) return;
+
+    panel.style.display = 'block';
+    loader.style.display = 'block';
+    loader.textContent = 'Uploading Video to Gemini (2.5 Flash)... This may take 30-60s.';
+    content.innerHTML = '';
+
+    try {
+        const response = await fetch('/api/analyze-video', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ runId })
+        });
+        const result = await response.json();
+
+        if (!result.success) throw new Error(result.error || "Deep analysis failed");
+
+        loader.style.display = 'none';
+        renderAnalysisReport(content, result.report, null, "Native Video Analysis");
+    } catch (e: any) {
+        loader.textContent = `Error: ${e.message}`;
+        loader.style.color = '#cf6679';
+    }
+};
+
+function renderAnalysisReport(container: HTMLElement, report: any, screenshots: string[] | null, title: string) {
+    let shotsHtml = '';
+    if (screenshots) {
+        shotsHtml = `<div style="display:flex; gap:0.5rem; margin-bottom:1rem; overflow-x:auto; padding-bottom:0.5rem">
+            ${screenshots.map(s => `<img src="${s}" style="height:80px; border-radius:4px; border:1px solid rgba(255,255,255,0.1)">`).join('')}
+        </div>`;
+    }
+
+    const scoreColor = report.score >= 80 ? 'var(--success-color)' : (report.score >= 60 ? '#ffb74d' : '#cf6679');
+
+    container.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem">
+            <h4 style="margin:0">${title}</h4>
+            <div style="font-size:1.2rem; font-weight:800; color:${scoreColor}">${report.score}/100</div>
+        </div>
+        ${shotsHtml}
+        <div style="font-size:0.85rem; color:var(--text-primary); line-height:1.5; margin-bottom:1rem; white-space:pre-wrap">${report.critique}</div>
+        <div style="background:rgba(0,0,0,0.2); padding:0.75rem; border-radius:6px;">
+            <div style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase; margin-bottom:0.4rem; font-weight:700">Suggestions for Improvement</div>
+            <ul style="margin:0; padding-left:1.2rem; font-size:0.8rem; color:var(--text-secondary)">
+                ${report.improvement_suggestions.map((s: string) => `<li style="margin-bottom:0.3rem">${s}</li>`).join('')}
+            </ul>
+        </div>
+        <div style="margin-top:1.5rem; text-align:center">
+            <button class="btn" style="width:100%; background:var(--success-color); font-weight:700" onclick="applyFeedback('${container.id.split('-').pop()}', \`${report.critique.replace(/`/g, '\\`').replace(/\n/g, '\\n')}\`)">✨ Apply Feedback & Rerender</button>
+        </div>
+    `;
+}
+
+(window as any).applyFeedback = async (runId: string, critique: string) => {
+    console.log(`[Feedback Loop] Applying critique for ${runId}...`);
+
+    try {
+        // 1. Fetch original run data to get the inputs
+        const res = await fetch(`/api/result?id=${runId}`);
+        const runData = await res.json();
+        const inputs = runData.inputs || {};
+        const slug = runData.slug;
+
+        // 2. Prepare new inputs with the critique injected
+        const newInputs = {
+            ...inputs,
+            visual_critique: critique
+        };
+
+        // 3. Scroll to the run panel and populate it (visual feedback for user)
+        const topicInput = document.querySelector('input[id*="topic"]') as HTMLInputElement;
+        const critiqueInput = document.querySelector('input[id*="visual_critique"]') as HTMLInputElement;
+
+        if (topicInput && inputs.topic) topicInput.value = inputs.topic;
+        if (critiqueInput) {
+            critiqueInput.value = critique;
+            critiqueInput.parentElement?.scrollIntoView({ behavior: 'smooth' });
+
+            // Highlight the critique input to show it changed
+            critiqueInput.style.borderColor = 'var(--success-color)';
+            critiqueInput.style.boxShadow = '0 0 10px var(--success-color)';
+            setTimeout(() => {
+                critiqueInput.style.borderColor = '';
+                critiqueInput.style.boxShadow = '';
+            }, 2000);
+        }
+
+        // 4. Trigger a new run
+        console.log(`[Feedback Loop] Starting Pass 2 for ${slug}...`);
+        // We can't easily call the internal runBoard if inputs are not in elements, 
+        // but we've populated the elements above, so we can just click "Run Board"
+        const runBtn = document.getElementById('run-btn');
+        if (runBtn) {
+            runBtn.click();
+        }
+    } catch (e: any) {
+        alert(`Failed to apply feedback: ${e.message}`);
+    }
+};

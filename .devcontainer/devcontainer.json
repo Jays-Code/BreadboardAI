@@ -52,5 +52,6 @@
             ]
         }
     },
-    "postAttachCommand": "bash .devcontainer/startup.sh"
+    "postCreateCommand": "bash .devcontainer/fix-antigravity.sh",
+    "postAttachCommand": "bash .devcontainer/fix-antigravity.sh && bash .devcontainer/startup.sh"
 }
