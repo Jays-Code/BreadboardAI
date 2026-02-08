@@ -37,6 +37,7 @@ export default defineConfig(async () => {
         },
         server: {
             port: 5174,
+            strictPort: true,
             host: '0.0.0.0',
             fs: {
                 allow: [rootDir]

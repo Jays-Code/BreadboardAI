@@ -6,13 +6,21 @@ let mermaid: any = null;
 
 async function initMermaid() {
     try {
-        const m = await import('mermaid');
-        mermaid = m.default;
-        mermaid.initialize({
-            startOnLoad: false,
-            theme: 'dark',
-            securityLevel: 'loose'
-        });
+        // Check if already loaded via CDN/importmap
+        if ((window as any).mermaid) {
+            mermaid = (window as any).mermaid;
+        } else {
+            const m = await import('mermaid');
+            mermaid = m.default || m;
+        }
+
+        if (mermaid) {
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: 'dark',
+                securityLevel: 'loose'
+            });
+        }
     } catch (e) {
         console.error("Failed to load mermaid", e);
     }
@@ -199,9 +207,10 @@ async function renderBoardDetail(slug: string) {
             
             <div class="detail-layout" style="display:block">
                 <div id="flow-health" class="health-banner" style="display:none">
-                    <div class="health-stat">
+                    <div class="health-stat" style="min-width: 120px;">
                         <span class="health-label">Status</span>
                         <span id="health-status" class="health-value">IDLE</span>
+                        <div id="health-description" style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;"></div>
                     </div>
                     <div class="health-stat" style="flex:1">
                         <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem">
@@ -474,6 +483,7 @@ async function runBoard(slug: string, inputsList: any[]) {
     // Health UI elements
     const healthBanner = document.getElementById('flow-health');
     const healthStatus = document.getElementById('health-status');
+    const healthDescription = document.getElementById('health-description');
     const healthProgressText = document.getElementById('health-progress-text');
     const healthProgressBar = document.getElementById('health-progress-bar');
     const healthTimer = document.getElementById('health-timer');
@@ -518,6 +528,7 @@ async function runBoard(slug: string, inputsList: any[]) {
         healthStatus.textContent = 'RUNNING';
         healthStatus.style.color = 'var(--accent-color)';
     }
+    if (healthDescription) healthDescription.textContent = '';
 
     // Start Timer
     timerInterval = setInterval(() => {
@@ -553,6 +564,7 @@ async function runBoard(slug: string, inputsList: any[]) {
             healthStatus.textContent = finalStatus;
             healthStatus.style.color = finalStatus === 'SUCCESS' ? 'var(--success-color)' : (finalStatus === 'ERROR' ? '#cf6679' : 'var(--text-secondary)');
         }
+        if (healthDescription) healthDescription.textContent = '';
     };
 
     const getOrCreateNodeBucket = (nodeId: string) => {
@@ -581,6 +593,15 @@ async function runBoard(slug: string, inputsList: any[]) {
         showEdgePill(data.id, 'Starting...');
         const bucketPre = getOrCreateNodeBucket(data.id);
         if (bucketPre) bucketPre.textContent = `[Processing...]\n`;
+
+        // Update Health UI
+        if (healthStatus) {
+            healthStatus.textContent = data.title || formatNodeLabel(data.id);
+        }
+        if (healthDescription) {
+            const node = currentNodes.find(n => n.id === data.id);
+            healthDescription.textContent = node ? getNodeDescription(node) : '';
+        }
     });
 
     eventSource.addEventListener('node-end', (e) => {

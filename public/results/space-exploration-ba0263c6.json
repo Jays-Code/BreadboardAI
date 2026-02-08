@@ -1,0 +1,2347 @@
+{
+  "id": "space-exploration-ba0263c6",
+  "slug": "prompt-to-post",
+  "startTime": "2026-02-08T16:01:34.859Z",
+  "endTime": "2026-02-08T16:03:00.132Z",
+  "inputs": {
+    "tone": "Inspirational, informative, and upbeat",
+    "topic": "Space exploration",
+    "visual_critique": "Enticing animated visuals"
+  },
+  "trace": [
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                },
+                "visual_critique": {
+                  "type": "string",
+                  "title": "Visual Critique",
+                  "description": "Feedback from the Visual QA Critic to improve the visuals in a second pass",
+                  "default": ""
+                }
+              },
+              "required": []
+            }
+          }
+        }
+      },
+      "timestamp": "2026-02-08T16:01:34.865Z"
+    },
+    {
+      "type": "input",
+      "data": {
+        "tone": "Inspirational, informative, and upbeat",
+        "topic": "Space exploration",
+        "visual_critique": "Enticing animated visuals"
+      },
+      "timestamp": "2026-02-08T16:01:34.866Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                },
+                "visual_critique": {
+                  "type": "string",
+                  "title": "Visual Critique",
+                  "description": "Feedback from the Visual QA Critic to improve the visuals in a second pass",
+                  "default": ""
+                }
+              },
+              "required": []
+            }
+          }
+        },
+        "outputs": {
+          "tone": "Inspirational, informative, and upbeat",
+          "topic": "Space exploration",
+          "visual_critique": "Enticing animated visuals"
+        }
+      },
+      "timestamp": "2026-02-08T16:01:34.866Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "directorFlow-0",
+          "type": "directorFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-08T16:01:34.867Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "directorFlow-0",
+          "type": "directorFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenes": [
+            {
+              "scene_id": 1,
+              "arc_phase": "hook",
+              "concept_description": "Vast starfield with nebulae, slowly zooming out to reveal more galaxies. Text appears with 'snap_zoom' effect.",
+              "key_takeaway": "Did you know there are more stars in the universe than grains of sand on all Earth's beaches? An unfathomable frontier!",
+              "duration_sec": 6
+            },
+            {
+              "scene_id": 2,
+              "arc_phase": "journey",
+              "concept_description": "Montage grid showing historical space images: a rocket launch, an astronaut on the moon, a Mars rover. Smooth camera pan_left.",
+              "key_takeaway": "From the first rockets to setting foot on the Moon, humanity has always gazed upwards, driven by curiosity and courage.",
+              "duration_sec": 6
+            },
+            {
+              "scene_id": 3,
+              "arc_phase": "climax",
+              "concept_description": "Stylized animation of Earth with a protective shield/aurora, then transitioning to a futuristic space habitat. Text in 'box_highlight' style.",
+              "key_takeaway": "Space exploration isn't just about distant planets; it's about pushing boundaries, innovating, and inspiring a new generation right here.",
+              "duration_sec": 6
+            },
+            {
+              "scene_id": 4,
+              "arc_phase": "outro",
+              "concept_description": "Polaroid scatter of diverse people looking at a starry sky, then a stylized spaceship flying towards a new planet. 'Sparks' particles.",
+              "key_takeaway": "The universe awaits! Let's continue to explore, discover, and build a brighter future among the stars.",
+              "duration_sec": 6
+            }
+          ],
+          "total_duration": 24,
+          "title": "CosmicVoyage",
+          "ambient_mood": "neon futuristic",
+          "topic": "Space exploration",
+          "tone": "Inspirational, informative, and upbeat"
+        }
+      },
+      "timestamp": "2026-02-08T16:01:42.834Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "copywriterFlow-0",
+          "type": "copywriterFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-08T16:01:42.835Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "copywriterFlow-0",
+          "type": "copywriterFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenesWithText": [
+            {
+              "scene_id": 1,
+              "arc_phase": "hook",
+              "concept_description": "Vast starfield with nebulae, slowly zooming out to reveal more galaxies. Text appears with 'snap_zoom' effect.",
+              "key_takeaway": "Did you know there are more stars in the universe than grains of sand on all Earth's beaches? An unfathomable frontier!",
+              "duration_sec": 6,
+              "overlay_text": "Universe: More Stars Than Sand!"
+            },
+            {
+              "scene_id": 2,
+              "arc_phase": "journey",
+              "concept_description": "Montage grid showing historical space images: a rocket launch, an astronaut on the moon, a Mars rover. Smooth camera pan_left.",
+              "key_takeaway": "From the first rockets to setting foot on the Moon, humanity has always gazed upwards, driven by curiosity and courage.",
+              "duration_sec": 6,
+              "overlay_text": "Curiosity & Courage: Humanity's Cosmic Journey."
+            },
+            {
+              "scene_id": 3,
+              "arc_phase": "climax",
+              "concept_description": "Stylized animation of Earth with a protective shield/aurora, then transitioning to a futuristic space habitat. Text in 'box_highlight' style.",
+              "key_takeaway": "Space exploration isn't just about distant planets; it's about pushing boundaries, innovating, and inspiring a new generation right here.",
+              "duration_sec": 6,
+              "overlay_text": "Space: Innovate. Inspire. Our Future."
+            },
+            {
+              "scene_id": 4,
+              "arc_phase": "outro",
+              "concept_description": "Polaroid scatter of diverse people looking at a starry sky, then a stylized spaceship flying towards a new planet. 'Sparks' particles.",
+              "key_takeaway": "The universe awaits! Let's continue to explore, discover, and build a brighter future among the stars.",
+              "duration_sec": 6,
+              "overlay_text": "EXPLORE. DISCOVER. BUILD AMONG STARS."
+            }
+          ]
+        }
+      },
+      "timestamp": "2026-02-08T16:01:49.673Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "visualArchitectFlow-0",
+          "type": "visualArchitectFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-08T16:01:49.675Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "visualArchitectFlow-0",
+          "type": "visualArchitectFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenesWithVisuals": [
+            {
+              "scene_id": 1,
+              "arc_phase": "hook",
+              "concept_description": "Vast starfield with nebulae, slowly zooming out to reveal more galaxies. Text appears with 'snap_zoom' effect.",
+              "key_takeaway": "Did you know there are more stars in the universe than grains of sand on all Earth's beaches? An unfathomable frontier!",
+              "duration_sec": 6,
+              "overlay_text": "Universe: More Stars Than Sand!",
+              "visual_script": {
+                "background_color": "#0A001A",
+                "layout_style": "fullscreen",
+                "typography_style": "word_pop",
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "Vast cosmic nebula with swirling neon gas and distant galaxies, ultra high definition, futuristic, deep space, vibrant purple and blue hues",
+                    "depth": 0.5,
+                    "zIndex": 10,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.4
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "Futuristic glowing cosmic dust trails, neon particle stream, deep space environment, streaks of light, purple and cyan colors",
+                    "depth": 0.7,
+                    "zIndex": 20,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.2,
+                        "y": 0.3,
+                        "scale": 0.8
+                      },
+                      "end_pos": {
+                        "x": 0.8,
+                        "y": 0.7,
+                        "scale": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "Close-up of a holographic celestial object, ethereal glow, neon outline, deep space, intricate geometric patterns, floating crystal",
+                    "depth": 0.9,
+                    "zIndex": 30,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.7,
+                        "y": 0.1,
+                        "scale": 0.6
+                      },
+                      "end_pos": {
+                        "x": 0.3,
+                        "y": 0.9,
+                        "scale": 0.7
+                      }
+                    }
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "none",
+                "transition_style": "glitch",
+                "sfx_triggers": [
+                  {
+                    "frame": 15,
+                    "url": "https://example.com/snap_zoom_text_sfx.mp3"
+                  }
+                ]
+              }
+            },
+            {
+              "scene_id": 2,
+              "arc_phase": "journey",
+              "concept_description": "Montage grid showing historical space images: a rocket launch, an astronaut on the moon, a Mars rover. Smooth camera pan_left.",
+              "key_takeaway": "From the first rockets to setting foot on the Moon, humanity has always gazed upwards, driven by curiosity and courage.",
+              "duration_sec": 6,
+              "overlay_text": "Curiosity & Courage: Humanity's Cosmic Journey.",
+              "visual_script": {
+                "background_color": "#0a001a",
+                "layout_style": "montage_grid",
+                "typography_style": "cinematic_fade",
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "abstract neon futuristic glowing lines and shapes, subtle, high resolution, dark background, space theme, volumetric lighting, gentle movement",
+                    "depth": 0.5,
+                    "zIndex": 0,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.1
+                      }
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly detailed neon futuristic rocket launch, dramatic, glowing engines, space, stars, cinematic, vapor trail, vibrant colors, ascending",
+                    "depth": 0.7,
+                    "zIndex": 1,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly detailed neon futuristic astronaut on moon, glowing visor, distant Earth, alien landscape, cinematic lighting, dramatic pose, exploring",
+                    "depth": 0.7,
+                    "zIndex": 2,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly detailed neon futuristic Mars rover exploring alien landscape, glowing sensors, red dust, sci-fi, cinematic, advanced technology, traversing",
+                    "depth": 0.7,
+                    "zIndex": 3,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    }
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "pan_left",
+                "transition_style": "none",
+                "sfx_triggers": []
+              }
+            },
+            {
+              "scene_id": 3,
+              "arc_phase": "climax",
+              "concept_description": "Stylized animation of Earth with a protective shield/aurora, then transitioning to a futuristic space habitat. Text in 'box_highlight' style.",
+              "key_takeaway": "Space exploration isn't just about distant planets; it's about pushing boundaries, innovating, and inspiring a new generation right here.",
+              "duration_sec": 6,
+              "overlay_text": "Space: Innovate. Inspire. Our Future.",
+              "visual_script": {
+                "background_color": "#0A0E2B",
+                "layout_style": "fullscreen",
+                "typography_style": "box_highlight",
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "futuristic space station, intricate architecture, glowing neon elements, orbiting planets in background, deep space, highly detailed, neon futuristic, cyberpunk style",
+                    "depth": 0.7,
+                    "zIndex": 2,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 0.9
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "glowing energy shield aura surrounding a futuristic structure, neon light particles, vibrant blue and purple energy effects, abstract, dynamic, neon futuristic",
+                    "depth": 0.9,
+                    "zIndex": 3,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.1
+                      }
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "deep space background, twinkling stars, subtle distant nebula, cosmic dust, dark blue and purple tones, neon futuristic",
+                    "depth": 0.5,
+                    "zIndex": 1,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.02
+                      }
+                    }
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "snap_zoom",
+                "transition_style": "glitch",
+                "sfx_triggers": []
+              }
+            },
+            {
+              "scene_id": 4,
+              "arc_phase": "outro",
+              "concept_description": "Polaroid scatter of diverse people looking at a starry sky, then a stylized spaceship flying towards a new planet. 'Sparks' particles.",
+              "key_takeaway": "The universe awaits! Let's continue to explore, discover, and build a brighter future among the stars.",
+              "duration_sec": 6,
+              "overlay_text": "EXPLORE. DISCOVER. BUILD AMONG STARS.",
+              "visual_script": {
+                "background_color": "#0A001A",
+                "layout_style": "polaroid_scatter",
+                "typography_style": null,
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "diverse people, futuristic clothing, looking up at a vibrant neon starry sky, celestial inspiration, digital art, high detail, 4k",
+                    "depth": 0.6,
+                    "zIndex": 1,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.2,
+                        "y": 0.3,
+                        "scale": 0.8
+                      },
+                      "end_pos": {
+                        "x": 0.25,
+                        "y": 0.35,
+                        "scale": 0.85
+                      }
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "close-up of a person's face, awe, reflecting a stunning neon starry sky in their eyes, futuristic glow, intricate details, digital art, 4k",
+                    "depth": 0.7,
+                    "zIndex": 2,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.6,
+                        "scale": 0.9
+                      },
+                      "end_pos": {
+                        "x": 0.45,
+                        "y": 0.55,
+                        "scale": 0.95
+                      }
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "vast neon futuristic starry sky, glowing constellations, distant vibrant nebulae, sense of wonder, digital painting, 4k",
+                    "depth": 0.5,
+                    "zIndex": 0,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.8,
+                        "y": 0.2,
+                        "scale": 0.7
+                      },
+                      "end_pos": {
+                        "x": 0.75,
+                        "y": 0.25,
+                        "scale": 0.75
+                      }
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly stylized neon futuristic spaceship, sleek design, glowing engine trails, flying dynamically through deep space, digital art, 4k",
+                    "depth": 1,
+                    "zIndex": 5,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": -0.1,
+                        "y": 0.8,
+                        "scale": 0.7
+                      },
+                      "end_pos": {
+                        "x": 1.1,
+                        "y": 0.2,
+                        "scale": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "vibrant neon futuristic alien planet, glowing rings, ethereal atmosphere, distant and majestic, digital concept art, high detail, 4k",
+                    "depth": 0.8,
+                    "zIndex": 4,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.7,
+                        "y": -0.1,
+                        "scale": 0.6
+                      },
+                      "end_pos": {
+                        "x": 0.8,
+                        "y": 0.15,
+                        "scale": 0.9
+                      }
+                    }
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "zoom_in",
+                "transition_style": "none",
+                "sfx_triggers": []
+              }
+            }
+          ],
+          "topic": "",
+          "tone": ""
+        }
+      },
+      "timestamp": "2026-02-08T16:02:51.075Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "assetSourcingFlow-0",
+          "type": "assetSourcingFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-08T16:02:51.076Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "assetSourcingFlow-0",
+          "type": "assetSourcingFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenesWithAssets": [
+            {
+              "scene_id": 1,
+              "arc_phase": "hook",
+              "concept_description": "Vast starfield with nebulae, slowly zooming out to reveal more galaxies. Text appears with 'snap_zoom' effect.",
+              "key_takeaway": "Did you know there are more stars in the universe than grains of sand on all Earth's beaches? An unfathomable frontier!",
+              "duration_sec": 6,
+              "overlay_text": "Universe: More Stars Than Sand!",
+              "visual_script": {
+                "background_color": "#0A001A",
+                "layout_style": "fullscreen",
+                "typography_style": "word_pop",
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "Vast cosmic nebula with swirling neon gas and distant galaxies, ultra high definition, futuristic, deep space, vibrant purple and blue hues",
+                    "depth": 0.5,
+                    "zIndex": 10,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.4
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?Vast%2Ccosmic%2Cnebula%2Cwith%2Cswirling"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "Futuristic glowing cosmic dust trails, neon particle stream, deep space environment, streaks of light, purple and cyan colors",
+                    "depth": 0.7,
+                    "zIndex": 20,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.2,
+                        "y": 0.3,
+                        "scale": 0.8
+                      },
+                      "end_pos": {
+                        "x": 0.8,
+                        "y": 0.7,
+                        "scale": 1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?Futuristic%2Cglowing%2Ccosmic%2Cdust%2Ctrails%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "Close-up of a holographic celestial object, ethereal glow, neon outline, deep space, intricate geometric patterns, floating crystal",
+                    "depth": 0.9,
+                    "zIndex": 30,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.7,
+                        "y": 0.1,
+                        "scale": 0.6
+                      },
+                      "end_pos": {
+                        "x": 0.3,
+                        "y": 0.9,
+                        "scale": 0.7
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?Close-up%2Cof%2Ca%2Cholographic%2Ccelestial"
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "none",
+                "transition_style": "glitch",
+                "sfx_triggers": [
+                  {
+                    "frame": 15,
+                    "url": "https://example.com/snap_zoom_text_sfx.mp3"
+                  }
+                ]
+              }
+            },
+            {
+              "scene_id": 2,
+              "arc_phase": "journey",
+              "concept_description": "Montage grid showing historical space images: a rocket launch, an astronaut on the moon, a Mars rover. Smooth camera pan_left.",
+              "key_takeaway": "From the first rockets to setting foot on the Moon, humanity has always gazed upwards, driven by curiosity and courage.",
+              "duration_sec": 6,
+              "overlay_text": "Curiosity & Courage: Humanity's Cosmic Journey.",
+              "visual_script": {
+                "background_color": "#0a001a",
+                "layout_style": "montage_grid",
+                "typography_style": "cinematic_fade",
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "abstract neon futuristic glowing lines and shapes, subtle, high resolution, dark background, space theme, volumetric lighting, gentle movement",
+                    "depth": 0.5,
+                    "zIndex": 0,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?abstract%2Cneon%2Cfuturistic%2Cglowing%2Clines"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly detailed neon futuristic rocket launch, dramatic, glowing engines, space, stars, cinematic, vapor trail, vibrant colors, ascending",
+                    "depth": 0.7,
+                    "zIndex": 1,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2Crocket"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly detailed neon futuristic astronaut on moon, glowing visor, distant Earth, alien landscape, cinematic lighting, dramatic pose, exploring",
+                    "depth": 0.7,
+                    "zIndex": 2,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2Castronaut"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly detailed neon futuristic Mars rover exploring alien landscape, glowing sensors, red dust, sci-fi, cinematic, advanced technology, traversing",
+                    "depth": 0.7,
+                    "zIndex": 3,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2CMars"
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "pan_left",
+                "transition_style": "none",
+                "sfx_triggers": []
+              }
+            },
+            {
+              "scene_id": 3,
+              "arc_phase": "climax",
+              "concept_description": "Stylized animation of Earth with a protective shield/aurora, then transitioning to a futuristic space habitat. Text in 'box_highlight' style.",
+              "key_takeaway": "Space exploration isn't just about distant planets; it's about pushing boundaries, innovating, and inspiring a new generation right here.",
+              "duration_sec": 6,
+              "overlay_text": "Space: Innovate. Inspire. Our Future.",
+              "visual_script": {
+                "background_color": "#0A0E2B",
+                "layout_style": "fullscreen",
+                "typography_style": "box_highlight",
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "futuristic space station, intricate architecture, glowing neon elements, orbiting planets in background, deep space, highly detailed, neon futuristic, cyberpunk style",
+                    "depth": 0.7,
+                    "zIndex": 2,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 0.9
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?futuristic%2Cspace%2Cstation%2C%2Cintricate%2Carchitecture%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "glowing energy shield aura surrounding a futuristic structure, neon light particles, vibrant blue and purple energy effects, abstract, dynamic, neon futuristic",
+                    "depth": 0.9,
+                    "zIndex": 3,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?glowing%2Cenergy%2Cshield%2Caura%2Csurrounding"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "deep space background, twinkling stars, subtle distant nebula, cosmic dust, dark blue and purple tones, neon futuristic",
+                    "depth": 0.5,
+                    "zIndex": 1,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.02
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?deep%2Cspace%2Cbackground%2C%2Ctwinkling%2Cstars%2C"
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "snap_zoom",
+                "transition_style": "glitch",
+                "sfx_triggers": []
+              }
+            },
+            {
+              "scene_id": 4,
+              "arc_phase": "outro",
+              "concept_description": "Polaroid scatter of diverse people looking at a starry sky, then a stylized spaceship flying towards a new planet. 'Sparks' particles.",
+              "key_takeaway": "The universe awaits! Let's continue to explore, discover, and build a brighter future among the stars.",
+              "duration_sec": 6,
+              "overlay_text": "EXPLORE. DISCOVER. BUILD AMONG STARS.",
+              "visual_script": {
+                "background_color": "#0A001A",
+                "layout_style": "polaroid_scatter",
+                "typography_style": null,
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "diverse people, futuristic clothing, looking up at a vibrant neon starry sky, celestial inspiration, digital art, high detail, 4k",
+                    "depth": 0.6,
+                    "zIndex": 1,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.2,
+                        "y": 0.3,
+                        "scale": 0.8
+                      },
+                      "end_pos": {
+                        "x": 0.25,
+                        "y": 0.35,
+                        "scale": 0.85
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?diverse%2Cpeople%2C%2Cfuturistic%2Cclothing%2C%2Clooking"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "close-up of a person's face, awe, reflecting a stunning neon starry sky in their eyes, futuristic glow, intricate details, digital art, 4k",
+                    "depth": 0.7,
+                    "zIndex": 2,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.6,
+                        "scale": 0.9
+                      },
+                      "end_pos": {
+                        "x": 0.45,
+                        "y": 0.55,
+                        "scale": 0.95
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?close-up%2Cof%2Ca%2Cperson's%2Cface%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "vast neon futuristic starry sky, glowing constellations, distant vibrant nebulae, sense of wonder, digital painting, 4k",
+                    "depth": 0.5,
+                    "zIndex": 0,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.8,
+                        "y": 0.2,
+                        "scale": 0.7
+                      },
+                      "end_pos": {
+                        "x": 0.75,
+                        "y": 0.25,
+                        "scale": 0.75
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?vast%2Cneon%2Cfuturistic%2Cstarry%2Csky%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly stylized neon futuristic spaceship, sleek design, glowing engine trails, flying dynamically through deep space, digital art, 4k",
+                    "depth": 1,
+                    "zIndex": 5,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": -0.1,
+                        "y": 0.8,
+                        "scale": 0.7
+                      },
+                      "end_pos": {
+                        "x": 1.1,
+                        "y": 0.2,
+                        "scale": 1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?highly%2Cstylized%2Cneon%2Cfuturistic%2Cspaceship%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "vibrant neon futuristic alien planet, glowing rings, ethereal atmosphere, distant and majestic, digital concept art, high detail, 4k",
+                    "depth": 0.8,
+                    "zIndex": 4,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.7,
+                        "y": -0.1,
+                        "scale": 0.6
+                      },
+                      "end_pos": {
+                        "x": 0.8,
+                        "y": 0.15,
+                        "scale": 0.9
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?vibrant%2Cneon%2Cfuturistic%2Calien%2Cplanet%2C"
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "zoom_in",
+                "transition_style": "none",
+                "sfx_triggers": []
+              }
+            }
+          ]
+        }
+      },
+      "timestamp": "2026-02-08T16:02:59.285Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "voiceoverFlow-0",
+          "type": "voiceoverFlow",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-08T16:02:59.285Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "voiceoverFlow-0",
+          "type": "voiceoverFlow",
+          "configuration": {}
+        },
+        "outputs": {
+          "scenesWithAudio": [
+            {
+              "scene_id": 1,
+              "arc_phase": "hook",
+              "concept_description": "Vast starfield with nebulae, slowly zooming out to reveal more galaxies. Text appears with 'snap_zoom' effect.",
+              "key_takeaway": "Did you know there are more stars in the universe than grains of sand on all Earth's beaches? An unfathomable frontier!",
+              "duration_sec": 6,
+              "overlay_text": "Universe: More Stars Than Sand!",
+              "visual_script": {
+                "background_color": "#0A001A",
+                "layout_style": "fullscreen",
+                "typography_style": "word_pop",
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "Vast cosmic nebula with swirling neon gas and distant galaxies, ultra high definition, futuristic, deep space, vibrant purple and blue hues",
+                    "depth": 0.5,
+                    "zIndex": 10,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.4
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?Vast%2Ccosmic%2Cnebula%2Cwith%2Cswirling"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "Futuristic glowing cosmic dust trails, neon particle stream, deep space environment, streaks of light, purple and cyan colors",
+                    "depth": 0.7,
+                    "zIndex": 20,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.2,
+                        "y": 0.3,
+                        "scale": 0.8
+                      },
+                      "end_pos": {
+                        "x": 0.8,
+                        "y": 0.7,
+                        "scale": 1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?Futuristic%2Cglowing%2Ccosmic%2Cdust%2Ctrails%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "Close-up of a holographic celestial object, ethereal glow, neon outline, deep space, intricate geometric patterns, floating crystal",
+                    "depth": 0.9,
+                    "zIndex": 30,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.7,
+                        "y": 0.1,
+                        "scale": 0.6
+                      },
+                      "end_pos": {
+                        "x": 0.3,
+                        "y": 0.9,
+                        "scale": 0.7
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?Close-up%2Cof%2Ca%2Cholographic%2Ccelestial"
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "none",
+                "transition_style": "glitch",
+                "sfx_triggers": [
+                  {
+                    "frame": 15,
+                    "url": "https://example.com/snap_zoom_text_sfx.mp3"
+                  }
+                ]
+              },
+              "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            },
+            {
+              "scene_id": 2,
+              "arc_phase": "journey",
+              "concept_description": "Montage grid showing historical space images: a rocket launch, an astronaut on the moon, a Mars rover. Smooth camera pan_left.",
+              "key_takeaway": "From the first rockets to setting foot on the Moon, humanity has always gazed upwards, driven by curiosity and courage.",
+              "duration_sec": 6,
+              "overlay_text": "Curiosity & Courage: Humanity's Cosmic Journey.",
+              "visual_script": {
+                "background_color": "#0a001a",
+                "layout_style": "montage_grid",
+                "typography_style": "cinematic_fade",
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "abstract neon futuristic glowing lines and shapes, subtle, high resolution, dark background, space theme, volumetric lighting, gentle movement",
+                    "depth": 0.5,
+                    "zIndex": 0,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?abstract%2Cneon%2Cfuturistic%2Cglowing%2Clines"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly detailed neon futuristic rocket launch, dramatic, glowing engines, space, stars, cinematic, vapor trail, vibrant colors, ascending",
+                    "depth": 0.7,
+                    "zIndex": 1,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2Crocket"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly detailed neon futuristic astronaut on moon, glowing visor, distant Earth, alien landscape, cinematic lighting, dramatic pose, exploring",
+                    "depth": 0.7,
+                    "zIndex": 2,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2Castronaut"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly detailed neon futuristic Mars rover exploring alien landscape, glowing sensors, red dust, sci-fi, cinematic, advanced technology, traversing",
+                    "depth": 0.7,
+                    "zIndex": 3,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2CMars"
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "pan_left",
+                "transition_style": "none",
+                "sfx_triggers": []
+              },
+              "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            },
+            {
+              "scene_id": 3,
+              "arc_phase": "climax",
+              "concept_description": "Stylized animation of Earth with a protective shield/aurora, then transitioning to a futuristic space habitat. Text in 'box_highlight' style.",
+              "key_takeaway": "Space exploration isn't just about distant planets; it's about pushing boundaries, innovating, and inspiring a new generation right here.",
+              "duration_sec": 6,
+              "overlay_text": "Space: Innovate. Inspire. Our Future.",
+              "visual_script": {
+                "background_color": "#0A0E2B",
+                "layout_style": "fullscreen",
+                "typography_style": "box_highlight",
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "futuristic space station, intricate architecture, glowing neon elements, orbiting planets in background, deep space, highly detailed, neon futuristic, cyberpunk style",
+                    "depth": 0.7,
+                    "zIndex": 2,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 0.9
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?futuristic%2Cspace%2Cstation%2C%2Cintricate%2Carchitecture%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "glowing energy shield aura surrounding a futuristic structure, neon light particles, vibrant blue and purple energy effects, abstract, dynamic, neon futuristic",
+                    "depth": 0.9,
+                    "zIndex": 3,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?glowing%2Cenergy%2Cshield%2Caura%2Csurrounding"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "deep space background, twinkling stars, subtle distant nebula, cosmic dust, dark blue and purple tones, neon futuristic",
+                    "depth": 0.5,
+                    "zIndex": 1,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.02
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?deep%2Cspace%2Cbackground%2C%2Ctwinkling%2Cstars%2C"
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "snap_zoom",
+                "transition_style": "glitch",
+                "sfx_triggers": []
+              },
+              "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            },
+            {
+              "scene_id": 4,
+              "arc_phase": "outro",
+              "concept_description": "Polaroid scatter of diverse people looking at a starry sky, then a stylized spaceship flying towards a new planet. 'Sparks' particles.",
+              "key_takeaway": "The universe awaits! Let's continue to explore, discover, and build a brighter future among the stars.",
+              "duration_sec": 6,
+              "overlay_text": "EXPLORE. DISCOVER. BUILD AMONG STARS.",
+              "visual_script": {
+                "background_color": "#0A001A",
+                "layout_style": "polaroid_scatter",
+                "typography_style": null,
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "diverse people, futuristic clothing, looking up at a vibrant neon starry sky, celestial inspiration, digital art, high detail, 4k",
+                    "depth": 0.6,
+                    "zIndex": 1,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.2,
+                        "y": 0.3,
+                        "scale": 0.8
+                      },
+                      "end_pos": {
+                        "x": 0.25,
+                        "y": 0.35,
+                        "scale": 0.85
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?diverse%2Cpeople%2C%2Cfuturistic%2Cclothing%2C%2Clooking"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "close-up of a person's face, awe, reflecting a stunning neon starry sky in their eyes, futuristic glow, intricate details, digital art, 4k",
+                    "depth": 0.7,
+                    "zIndex": 2,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.6,
+                        "scale": 0.9
+                      },
+                      "end_pos": {
+                        "x": 0.45,
+                        "y": 0.55,
+                        "scale": 0.95
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?close-up%2Cof%2Ca%2Cperson's%2Cface%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "vast neon futuristic starry sky, glowing constellations, distant vibrant nebulae, sense of wonder, digital painting, 4k",
+                    "depth": 0.5,
+                    "zIndex": 0,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.8,
+                        "y": 0.2,
+                        "scale": 0.7
+                      },
+                      "end_pos": {
+                        "x": 0.75,
+                        "y": 0.25,
+                        "scale": 0.75
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?vast%2Cneon%2Cfuturistic%2Cstarry%2Csky%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly stylized neon futuristic spaceship, sleek design, glowing engine trails, flying dynamically through deep space, digital art, 4k",
+                    "depth": 1,
+                    "zIndex": 5,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": -0.1,
+                        "y": 0.8,
+                        "scale": 0.7
+                      },
+                      "end_pos": {
+                        "x": 1.1,
+                        "y": 0.2,
+                        "scale": 1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?highly%2Cstylized%2Cneon%2Cfuturistic%2Cspaceship%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "vibrant neon futuristic alien planet, glowing rings, ethereal atmosphere, distant and majestic, digital concept art, high detail, 4k",
+                    "depth": 0.8,
+                    "zIndex": 4,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.7,
+                        "y": -0.1,
+                        "scale": 0.6
+                      },
+                      "end_pos": {
+                        "x": 0.8,
+                        "y": 0.15,
+                        "scale": 0.9
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?vibrant%2Cneon%2Cfuturistic%2Calien%2Cplanet%2C"
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "zoom_in",
+                "transition_style": "none",
+                "sfx_triggers": []
+              },
+              "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            }
+          ]
+        }
+      },
+      "timestamp": "2026-02-08T16:03:00.102Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "assembler-0",
+          "type": "assembler",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-08T16:03:00.102Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "assembler-0",
+          "type": "assembler",
+          "configuration": {}
+        },
+        "outputs": {
+          "video_structure": {
+            "video_title_internal": "CosmicVoyage",
+            "estimated_total_duration": 24,
+            "scenes": [
+              {
+                "scene_id": 1,
+                "arc_phase": "hook",
+                "concept_description": "Vast starfield with nebulae, slowly zooming out to reveal more galaxies. Text appears with 'snap_zoom' effect.",
+                "key_takeaway": "Did you know there are more stars in the universe than grains of sand on all Earth's beaches? An unfathomable frontier!",
+                "duration_sec": 6,
+                "overlay_text": "Universe: More Stars Than Sand!",
+                "visual_script": {
+                  "background_color": "#0A001A",
+                  "layout_style": "fullscreen",
+                  "typography_style": "word_pop",
+                  "energy_level": "high",
+                  "composition": [
+                    {
+                      "type": "image",
+                      "image_prompt": "Vast cosmic nebula with swirling neon gas and distant galaxies, ultra high definition, futuristic, deep space, vibrant purple and blue hues",
+                      "depth": 0.5,
+                      "zIndex": 10,
+                      "motion": {
+                        "type": "ease",
+                        "start_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1.4
+                        },
+                        "end_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?Vast%2Ccosmic%2Cnebula%2Cwith%2Cswirling"
+                    },
+                    {
+                      "type": "image",
+                      "image_prompt": "Futuristic glowing cosmic dust trails, neon particle stream, deep space environment, streaks of light, purple and cyan colors",
+                      "depth": 0.7,
+                      "zIndex": 20,
+                      "motion": {
+                        "type": "ease",
+                        "start_pos": {
+                          "x": 0.2,
+                          "y": 0.3,
+                          "scale": 0.8
+                        },
+                        "end_pos": {
+                          "x": 0.8,
+                          "y": 0.7,
+                          "scale": 1
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?Futuristic%2Cglowing%2Ccosmic%2Cdust%2Ctrails%2C"
+                    },
+                    {
+                      "type": "image",
+                      "image_prompt": "Close-up of a holographic celestial object, ethereal glow, neon outline, deep space, intricate geometric patterns, floating crystal",
+                      "depth": 0.9,
+                      "zIndex": 30,
+                      "motion": {
+                        "type": "linear",
+                        "start_pos": {
+                          "x": 0.7,
+                          "y": 0.1,
+                          "scale": 0.6
+                        },
+                        "end_pos": {
+                          "x": 0.3,
+                          "y": 0.9,
+                          "scale": 0.7
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?Close-up%2Cof%2Ca%2Cholographic%2Ccelestial"
+                    }
+                  ],
+                  "particles": "sparks",
+                  "camera_motion": "none",
+                  "transition_style": "glitch",
+                  "sfx_triggers": [
+                    {
+                      "frame": 15,
+                      "url": "https://example.com/snap_zoom_text_sfx.mp3"
+                    }
+                  ]
+                },
+                "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+              },
+              {
+                "scene_id": 2,
+                "arc_phase": "journey",
+                "concept_description": "Montage grid showing historical space images: a rocket launch, an astronaut on the moon, a Mars rover. Smooth camera pan_left.",
+                "key_takeaway": "From the first rockets to setting foot on the Moon, humanity has always gazed upwards, driven by curiosity and courage.",
+                "duration_sec": 6,
+                "overlay_text": "Curiosity & Courage: Humanity's Cosmic Journey.",
+                "visual_script": {
+                  "background_color": "#0a001a",
+                  "layout_style": "montage_grid",
+                  "typography_style": "cinematic_fade",
+                  "energy_level": "high",
+                  "composition": [
+                    {
+                      "type": "image",
+                      "image_prompt": "abstract neon futuristic glowing lines and shapes, subtle, high resolution, dark background, space theme, volumetric lighting, gentle movement",
+                      "depth": 0.5,
+                      "zIndex": 0,
+                      "motion": {
+                        "type": "ease",
+                        "start_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1
+                        },
+                        "end_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1.1
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?abstract%2Cneon%2Cfuturistic%2Cglowing%2Clines"
+                    },
+                    {
+                      "type": "image",
+                      "image_prompt": "highly detailed neon futuristic rocket launch, dramatic, glowing engines, space, stars, cinematic, vapor trail, vibrant colors, ascending",
+                      "depth": 0.7,
+                      "zIndex": 1,
+                      "motion": {
+                        "type": "ease",
+                        "start_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1
+                        },
+                        "end_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1.05
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2Crocket"
+                    },
+                    {
+                      "type": "image",
+                      "image_prompt": "highly detailed neon futuristic astronaut on moon, glowing visor, distant Earth, alien landscape, cinematic lighting, dramatic pose, exploring",
+                      "depth": 0.7,
+                      "zIndex": 2,
+                      "motion": {
+                        "type": "ease",
+                        "start_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1
+                        },
+                        "end_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1.05
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2Castronaut"
+                    },
+                    {
+                      "type": "image",
+                      "image_prompt": "highly detailed neon futuristic Mars rover exploring alien landscape, glowing sensors, red dust, sci-fi, cinematic, advanced technology, traversing",
+                      "depth": 0.7,
+                      "zIndex": 3,
+                      "motion": {
+                        "type": "ease",
+                        "start_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1
+                        },
+                        "end_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1.05
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2CMars"
+                    }
+                  ],
+                  "particles": "sparks",
+                  "camera_motion": "pan_left",
+                  "transition_style": "none",
+                  "sfx_triggers": []
+                },
+                "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+              },
+              {
+                "scene_id": 3,
+                "arc_phase": "climax",
+                "concept_description": "Stylized animation of Earth with a protective shield/aurora, then transitioning to a futuristic space habitat. Text in 'box_highlight' style.",
+                "key_takeaway": "Space exploration isn't just about distant planets; it's about pushing boundaries, innovating, and inspiring a new generation right here.",
+                "duration_sec": 6,
+                "overlay_text": "Space: Innovate. Inspire. Our Future.",
+                "visual_script": {
+                  "background_color": "#0A0E2B",
+                  "layout_style": "fullscreen",
+                  "typography_style": "box_highlight",
+                  "energy_level": "high",
+                  "composition": [
+                    {
+                      "type": "image",
+                      "image_prompt": "futuristic space station, intricate architecture, glowing neon elements, orbiting planets in background, deep space, highly detailed, neon futuristic, cyberpunk style",
+                      "depth": 0.7,
+                      "zIndex": 2,
+                      "motion": {
+                        "type": "ease",
+                        "start_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 0.9
+                        },
+                        "end_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1.05
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?futuristic%2Cspace%2Cstation%2C%2Cintricate%2Carchitecture%2C"
+                    },
+                    {
+                      "type": "image",
+                      "image_prompt": "glowing energy shield aura surrounding a futuristic structure, neon light particles, vibrant blue and purple energy effects, abstract, dynamic, neon futuristic",
+                      "depth": 0.9,
+                      "zIndex": 3,
+                      "motion": {
+                        "type": "linear",
+                        "start_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1
+                        },
+                        "end_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1.1
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?glowing%2Cenergy%2Cshield%2Caura%2Csurrounding"
+                    },
+                    {
+                      "type": "image",
+                      "image_prompt": "deep space background, twinkling stars, subtle distant nebula, cosmic dust, dark blue and purple tones, neon futuristic",
+                      "depth": 0.5,
+                      "zIndex": 1,
+                      "motion": {
+                        "type": "linear",
+                        "start_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1
+                        },
+                        "end_pos": {
+                          "x": 0.5,
+                          "y": 0.5,
+                          "scale": 1.02
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?deep%2Cspace%2Cbackground%2C%2Ctwinkling%2Cstars%2C"
+                    }
+                  ],
+                  "particles": "sparks",
+                  "camera_motion": "snap_zoom",
+                  "transition_style": "glitch",
+                  "sfx_triggers": []
+                },
+                "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+              },
+              {
+                "scene_id": 4,
+                "arc_phase": "outro",
+                "concept_description": "Polaroid scatter of diverse people looking at a starry sky, then a stylized spaceship flying towards a new planet. 'Sparks' particles.",
+                "key_takeaway": "The universe awaits! Let's continue to explore, discover, and build a brighter future among the stars.",
+                "duration_sec": 6,
+                "overlay_text": "EXPLORE. DISCOVER. BUILD AMONG STARS.",
+                "visual_script": {
+                  "background_color": "#0A001A",
+                  "layout_style": "polaroid_scatter",
+                  "typography_style": null,
+                  "energy_level": "high",
+                  "composition": [
+                    {
+                      "type": "image",
+                      "image_prompt": "diverse people, futuristic clothing, looking up at a vibrant neon starry sky, celestial inspiration, digital art, high detail, 4k",
+                      "depth": 0.6,
+                      "zIndex": 1,
+                      "motion": {
+                        "type": "linear",
+                        "start_pos": {
+                          "x": 0.2,
+                          "y": 0.3,
+                          "scale": 0.8
+                        },
+                        "end_pos": {
+                          "x": 0.25,
+                          "y": 0.35,
+                          "scale": 0.85
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?diverse%2Cpeople%2C%2Cfuturistic%2Cclothing%2C%2Clooking"
+                    },
+                    {
+                      "type": "image",
+                      "image_prompt": "close-up of a person's face, awe, reflecting a stunning neon starry sky in their eyes, futuristic glow, intricate details, digital art, 4k",
+                      "depth": 0.7,
+                      "zIndex": 2,
+                      "motion": {
+                        "type": "linear",
+                        "start_pos": {
+                          "x": 0.5,
+                          "y": 0.6,
+                          "scale": 0.9
+                        },
+                        "end_pos": {
+                          "x": 0.45,
+                          "y": 0.55,
+                          "scale": 0.95
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?close-up%2Cof%2Ca%2Cperson's%2Cface%2C"
+                    },
+                    {
+                      "type": "image",
+                      "image_prompt": "vast neon futuristic starry sky, glowing constellations, distant vibrant nebulae, sense of wonder, digital painting, 4k",
+                      "depth": 0.5,
+                      "zIndex": 0,
+                      "motion": {
+                        "type": "linear",
+                        "start_pos": {
+                          "x": 0.8,
+                          "y": 0.2,
+                          "scale": 0.7
+                        },
+                        "end_pos": {
+                          "x": 0.75,
+                          "y": 0.25,
+                          "scale": 0.75
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?vast%2Cneon%2Cfuturistic%2Cstarry%2Csky%2C"
+                    },
+                    {
+                      "type": "image",
+                      "image_prompt": "highly stylized neon futuristic spaceship, sleek design, glowing engine trails, flying dynamically through deep space, digital art, 4k",
+                      "depth": 1,
+                      "zIndex": 5,
+                      "motion": {
+                        "type": "ease",
+                        "start_pos": {
+                          "x": -0.1,
+                          "y": 0.8,
+                          "scale": 0.7
+                        },
+                        "end_pos": {
+                          "x": 1.1,
+                          "y": 0.2,
+                          "scale": 1
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?highly%2Cstylized%2Cneon%2Cfuturistic%2Cspaceship%2C"
+                    },
+                    {
+                      "type": "image",
+                      "image_prompt": "vibrant neon futuristic alien planet, glowing rings, ethereal atmosphere, distant and majestic, digital concept art, high detail, 4k",
+                      "depth": 0.8,
+                      "zIndex": 4,
+                      "motion": {
+                        "type": "ease",
+                        "start_pos": {
+                          "x": 0.7,
+                          "y": -0.1,
+                          "scale": 0.6
+                        },
+                        "end_pos": {
+                          "x": 0.8,
+                          "y": 0.15,
+                          "scale": 0.9
+                        }
+                      },
+                      "url": "https://source.unsplash.com/featured/?vibrant%2Cneon%2Cfuturistic%2Calien%2Cplanet%2C"
+                    }
+                  ],
+                  "particles": "sparks",
+                  "camera_motion": "zoom_in",
+                  "transition_style": "none",
+                  "sfx_triggers": []
+                },
+                "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+              }
+            ]
+          }
+        }
+      },
+      "timestamp": "2026-02-08T16:03:00.102Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "renderer-0",
+          "type": "renderer",
+          "configuration": {}
+        }
+      },
+      "timestamp": "2026-02-08T16:03:00.104Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "renderer-0",
+          "type": "renderer",
+          "configuration": {}
+        },
+        "outputs": {
+          "video_url": "/videos/video-1770566580111.mp4"
+        }
+      },
+      "timestamp": "2026-02-08T16:03:00.131Z"
+    },
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "output-0",
+          "type": "output",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "video_structure": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false
+                },
+                "video_url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "video_structure",
+                "video_url"
+              ]
+            }
+          }
+        }
+      },
+      "timestamp": "2026-02-08T16:03:00.132Z"
+    },
+    {
+      "type": "output",
+      "data": {
+        "video_structure": {
+          "video_title_internal": "CosmicVoyage",
+          "estimated_total_duration": 24,
+          "scenes": [
+            {
+              "scene_id": 1,
+              "arc_phase": "hook",
+              "concept_description": "Vast starfield with nebulae, slowly zooming out to reveal more galaxies. Text appears with 'snap_zoom' effect.",
+              "key_takeaway": "Did you know there are more stars in the universe than grains of sand on all Earth's beaches? An unfathomable frontier!",
+              "duration_sec": 6,
+              "overlay_text": "Universe: More Stars Than Sand!",
+              "visual_script": {
+                "background_color": "#0A001A",
+                "layout_style": "fullscreen",
+                "typography_style": "word_pop",
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "Vast cosmic nebula with swirling neon gas and distant galaxies, ultra high definition, futuristic, deep space, vibrant purple and blue hues",
+                    "depth": 0.5,
+                    "zIndex": 10,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.4
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?Vast%2Ccosmic%2Cnebula%2Cwith%2Cswirling"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "Futuristic glowing cosmic dust trails, neon particle stream, deep space environment, streaks of light, purple and cyan colors",
+                    "depth": 0.7,
+                    "zIndex": 20,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.2,
+                        "y": 0.3,
+                        "scale": 0.8
+                      },
+                      "end_pos": {
+                        "x": 0.8,
+                        "y": 0.7,
+                        "scale": 1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?Futuristic%2Cglowing%2Ccosmic%2Cdust%2Ctrails%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "Close-up of a holographic celestial object, ethereal glow, neon outline, deep space, intricate geometric patterns, floating crystal",
+                    "depth": 0.9,
+                    "zIndex": 30,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.7,
+                        "y": 0.1,
+                        "scale": 0.6
+                      },
+                      "end_pos": {
+                        "x": 0.3,
+                        "y": 0.9,
+                        "scale": 0.7
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?Close-up%2Cof%2Ca%2Cholographic%2Ccelestial"
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "none",
+                "transition_style": "glitch",
+                "sfx_triggers": [
+                  {
+                    "frame": 15,
+                    "url": "https://example.com/snap_zoom_text_sfx.mp3"
+                  }
+                ]
+              },
+              "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            },
+            {
+              "scene_id": 2,
+              "arc_phase": "journey",
+              "concept_description": "Montage grid showing historical space images: a rocket launch, an astronaut on the moon, a Mars rover. Smooth camera pan_left.",
+              "key_takeaway": "From the first rockets to setting foot on the Moon, humanity has always gazed upwards, driven by curiosity and courage.",
+              "duration_sec": 6,
+              "overlay_text": "Curiosity & Courage: Humanity's Cosmic Journey.",
+              "visual_script": {
+                "background_color": "#0a001a",
+                "layout_style": "montage_grid",
+                "typography_style": "cinematic_fade",
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "abstract neon futuristic glowing lines and shapes, subtle, high resolution, dark background, space theme, volumetric lighting, gentle movement",
+                    "depth": 0.5,
+                    "zIndex": 0,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?abstract%2Cneon%2Cfuturistic%2Cglowing%2Clines"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly detailed neon futuristic rocket launch, dramatic, glowing engines, space, stars, cinematic, vapor trail, vibrant colors, ascending",
+                    "depth": 0.7,
+                    "zIndex": 1,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2Crocket"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly detailed neon futuristic astronaut on moon, glowing visor, distant Earth, alien landscape, cinematic lighting, dramatic pose, exploring",
+                    "depth": 0.7,
+                    "zIndex": 2,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2Castronaut"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly detailed neon futuristic Mars rover exploring alien landscape, glowing sensors, red dust, sci-fi, cinematic, advanced technology, traversing",
+                    "depth": 0.7,
+                    "zIndex": 3,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2CMars"
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "pan_left",
+                "transition_style": "none",
+                "sfx_triggers": []
+              },
+              "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            },
+            {
+              "scene_id": 3,
+              "arc_phase": "climax",
+              "concept_description": "Stylized animation of Earth with a protective shield/aurora, then transitioning to a futuristic space habitat. Text in 'box_highlight' style.",
+              "key_takeaway": "Space exploration isn't just about distant planets; it's about pushing boundaries, innovating, and inspiring a new generation right here.",
+              "duration_sec": 6,
+              "overlay_text": "Space: Innovate. Inspire. Our Future.",
+              "visual_script": {
+                "background_color": "#0A0E2B",
+                "layout_style": "fullscreen",
+                "typography_style": "box_highlight",
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "futuristic space station, intricate architecture, glowing neon elements, orbiting planets in background, deep space, highly detailed, neon futuristic, cyberpunk style",
+                    "depth": 0.7,
+                    "zIndex": 2,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 0.9
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.05
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?futuristic%2Cspace%2Cstation%2C%2Cintricate%2Carchitecture%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "glowing energy shield aura surrounding a futuristic structure, neon light particles, vibrant blue and purple energy effects, abstract, dynamic, neon futuristic",
+                    "depth": 0.9,
+                    "zIndex": 3,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?glowing%2Cenergy%2Cshield%2Caura%2Csurrounding"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "deep space background, twinkling stars, subtle distant nebula, cosmic dust, dark blue and purple tones, neon futuristic",
+                    "depth": 0.5,
+                    "zIndex": 1,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1
+                      },
+                      "end_pos": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "scale": 1.02
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?deep%2Cspace%2Cbackground%2C%2Ctwinkling%2Cstars%2C"
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "snap_zoom",
+                "transition_style": "glitch",
+                "sfx_triggers": []
+              },
+              "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            },
+            {
+              "scene_id": 4,
+              "arc_phase": "outro",
+              "concept_description": "Polaroid scatter of diverse people looking at a starry sky, then a stylized spaceship flying towards a new planet. 'Sparks' particles.",
+              "key_takeaway": "The universe awaits! Let's continue to explore, discover, and build a brighter future among the stars.",
+              "duration_sec": 6,
+              "overlay_text": "EXPLORE. DISCOVER. BUILD AMONG STARS.",
+              "visual_script": {
+                "background_color": "#0A001A",
+                "layout_style": "polaroid_scatter",
+                "typography_style": null,
+                "energy_level": "high",
+                "composition": [
+                  {
+                    "type": "image",
+                    "image_prompt": "diverse people, futuristic clothing, looking up at a vibrant neon starry sky, celestial inspiration, digital art, high detail, 4k",
+                    "depth": 0.6,
+                    "zIndex": 1,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.2,
+                        "y": 0.3,
+                        "scale": 0.8
+                      },
+                      "end_pos": {
+                        "x": 0.25,
+                        "y": 0.35,
+                        "scale": 0.85
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?diverse%2Cpeople%2C%2Cfuturistic%2Cclothing%2C%2Clooking"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "close-up of a person's face, awe, reflecting a stunning neon starry sky in their eyes, futuristic glow, intricate details, digital art, 4k",
+                    "depth": 0.7,
+                    "zIndex": 2,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.5,
+                        "y": 0.6,
+                        "scale": 0.9
+                      },
+                      "end_pos": {
+                        "x": 0.45,
+                        "y": 0.55,
+                        "scale": 0.95
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?close-up%2Cof%2Ca%2Cperson's%2Cface%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "vast neon futuristic starry sky, glowing constellations, distant vibrant nebulae, sense of wonder, digital painting, 4k",
+                    "depth": 0.5,
+                    "zIndex": 0,
+                    "motion": {
+                      "type": "linear",
+                      "start_pos": {
+                        "x": 0.8,
+                        "y": 0.2,
+                        "scale": 0.7
+                      },
+                      "end_pos": {
+                        "x": 0.75,
+                        "y": 0.25,
+                        "scale": 0.75
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?vast%2Cneon%2Cfuturistic%2Cstarry%2Csky%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "highly stylized neon futuristic spaceship, sleek design, glowing engine trails, flying dynamically through deep space, digital art, 4k",
+                    "depth": 1,
+                    "zIndex": 5,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": -0.1,
+                        "y": 0.8,
+                        "scale": 0.7
+                      },
+                      "end_pos": {
+                        "x": 1.1,
+                        "y": 0.2,
+                        "scale": 1
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?highly%2Cstylized%2Cneon%2Cfuturistic%2Cspaceship%2C"
+                  },
+                  {
+                    "type": "image",
+                    "image_prompt": "vibrant neon futuristic alien planet, glowing rings, ethereal atmosphere, distant and majestic, digital concept art, high detail, 4k",
+                    "depth": 0.8,
+                    "zIndex": 4,
+                    "motion": {
+                      "type": "ease",
+                      "start_pos": {
+                        "x": 0.7,
+                        "y": -0.1,
+                        "scale": 0.6
+                      },
+                      "end_pos": {
+                        "x": 0.8,
+                        "y": 0.15,
+                        "scale": 0.9
+                      }
+                    },
+                    "url": "https://source.unsplash.com/featured/?vibrant%2Cneon%2Cfuturistic%2Calien%2Cplanet%2C"
+                  }
+                ],
+                "particles": "sparks",
+                "camera_motion": "zoom_in",
+                "transition_style": "none",
+                "sfx_triggers": []
+              },
+              "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            }
+          ]
+        },
+        "video_url": "/videos/video-1770566580111.mp4"
+      },
+      "timestamp": "2026-02-08T16:03:00.132Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "output-0",
+          "type": "output",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "video_structure": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false
+                },
+                "video_url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "video_structure",
+                "video_url"
+              ]
+            }
+          }
+        },
+        "outputs": {}
+      },
+      "timestamp": "2026-02-08T16:03:00.132Z"
+    }
+  ]
+}

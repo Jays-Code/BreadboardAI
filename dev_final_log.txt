@@ -1,0 +1,11 @@
+
+> breadboardai@1.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+
+  VITE v7.3.1  ready in 10877 ms
+
+  ➜  Local:   http://localhost:5174/
+  ➜  Network: http://172.17.0.2:5174/
+  ➜  press h + enter to show help

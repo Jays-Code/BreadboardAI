@@ -7,7 +7,7 @@
 PORT=5173 # Default
 
 if [ -f "vite.config.ts" ] || [ -f "vite.config.js" ]; then
-  DETECTED_PORT=$(grep -oP 'port:\s*\K\d+' vite.config.* | head -n 1)
+  DETECTED_PORT=$(grep -ohP 'port:\s*\K\d+' vite.config.* | head -n 1)
   [ -n "$DETECTED_PORT" ] && PORT=$DETECTED_PORT
 elif [ -f "package.json" ]; then
   # Fallback: check for next.js or other common defaults

@@ -41,6 +41,20 @@ sleep 5
 # 5. Final verification
 if lsof -i :$PORT > /dev/null; then
   echo "✅ Success: Server restarted and listening on port $PORT."
+  
+  # Check if listening on IPv4 (0.0.0.0) vs IPv6 (::)
+  if netstat -tulnp | grep -q "0.0.0.0:$PORT"; then
+    echo "💡 Verified: Server is using IPv4 (0.0.0.0), which is ideal for IDE proxying."
+  else
+    echo "⚠️ Warning: Server is listening on IPv6 or localhost only. If unreachable, try forcing '0.0.0.0' in your config."
+  fi
+
+  # Configuration Check (Modern Best Practices)
+  if [ -f "vite.config.ts" ]; then
+    if ! grep -q "strictPort: true" vite.config.ts; then
+      echo "📝 Tip: Add 'strictPort: true' to your vite.config.ts to prevent random port mapping."
+    fi
+  fi
 else
   echo "❌ Error: Server failed to restart. Check dev_output.txt for details."
   exit 1

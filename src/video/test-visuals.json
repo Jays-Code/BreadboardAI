@@ -1,0 +1,87 @@
+[
+    {
+        "scene_id": 1,
+        "concept_description": "High energy intro",
+        "key_takeaway": "WAKE UP!",
+        "duration_sec": 3,
+        "overlay_text": "WAKE UP!",
+        "visual_script": {
+            "ambient_mood": "energetic",
+            "background_color": "#FF4500",
+            "layout_style": "fullscreen",
+            "typography_style": "word_pop",
+            "energy_level": "high",
+            "camera_motion": "snap_zoom",
+            "particles": "sparks",
+            "composition": [
+                {
+                    "type": "image",
+                    "url": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=1080",
+                    "depth": 1,
+                    "zIndex": 10
+                }
+            ]
+        }
+    },
+    {
+        "scene_id": 2,
+        "concept_description": "Split screen comparison",
+        "key_takeaway": "OLD vs NEW",
+        "duration_sec": 4,
+        "overlay_text": "OLD vs NEW",
+        "visual_script": {
+            "ambient_mood": "tech",
+            "background_color": "#000000",
+            "layout_style": "split_vertical",
+            "typography_style": "box_highlight",
+            "energy_level": "chill",
+            "particles": "dust",
+            "composition": [
+                {
+                    "type": "image",
+                    "url": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=600",
+                    "depth": 1,
+                    "zIndex": 10
+                },
+                {
+                    "type": "image",
+                    "url": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600",
+                    "depth": 1,
+                    "zIndex": 10
+                }
+            ]
+        }
+    },
+    {
+        "scene_id": 3,
+        "concept_description": "Montage",
+        "key_takeaway": "Fast Paced Action",
+        "duration_sec": 3,
+        "overlay_text": "ACTION",
+        "visual_script": {
+            "ambient_mood": "cool",
+            "background_color": "#2c3e50",
+            "layout_style": "montage_grid",
+            "typography_style": "karaoke",
+            "energy_level": "high",
+            "particles": "none",
+            "composition": [
+                {
+                    "type": "image",
+                    "url": "https://images.unsplash.com/photo-1518770660439-4636190af475",
+                    "zIndex": 1
+                },
+                {
+                    "type": "image",
+                    "url": "https://images.unsplash.com/photo-1511512578047-923ee9626308",
+                    "zIndex": 2
+                },
+                {
+                    "type": "image",
+                    "url": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30",
+                    "zIndex": 3
+                }
+            ]
+        }
+    }
+]

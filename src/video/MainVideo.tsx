@@ -21,73 +21,42 @@ export interface VideoConfig {
 const SceneItem: React.FC<{ scene: Scene }> = ({ scene }) => {
     const frame = useCurrentFrame();
     const { fps } = useVideoConfig();
+    const script = scene.visual_script;
 
-    const opacity = spring({
-        frame,
-        fps,
-        config: {
-            damping: 200,
-        },
-    });
+    // Transition Logic
+    const transitionStyle = script?.transition_style || 'none';
+    let opacity = 1;
+    let transform = 'translateY(0)';
 
-    const scale = interpolate(frame, [0, 20], [0.8, 1], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-    });
+    if (transitionStyle === 'fade') {
+        opacity = interpolate(frame, [0, 15], [0, 1], { extrapolateRight: 'clamp' });
+    } else if (transitionStyle === 'slide_up') {
+        transform = `translateY(${interpolate(frame, [0, 15], [100, 0], { extrapolateRight: 'clamp' })}px)`;
+        opacity = interpolate(frame, [0, 15], [0, 1], { extrapolateRight: 'clamp' });
+    } else if (transitionStyle === 'glitch') {
+        opacity = frame % 2 === 0 ? 0.8 : 1;
+    }
 
     return (
-        <AbsoluteFill>
-            {/* Dynamic Background Animation */}
+        <AbsoluteFill style={{ opacity, transform }}>
+            {/* Main Animation Engine */}
             <AnimationEngine
                 script={scene.visual_script}
                 description={scene.concept_description}
+                text={scene.overlay_text || scene.key_takeaway}
             />
 
-            {/* Audio Layer */}
+            {/* Main Scene Audio (Voiceover) */}
             {scene.audio_url && (
                 <Audio src={scene.audio_url} />
             )}
 
-            {/* Cinematic Captions Layer */}
-            <AbsoluteFill style={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                flexDirection: 'column',
-                padding: '60px',
-                color: 'white',
-                fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-                pointerEvents: 'none'
-            }}>
-                <div style={{
-                    opacity,
-                    transform: `translateY(${interpolate(frame, [0, 20], [20, 0])}px)`,
-                    textAlign: 'center',
-                    width: '100%',
-                    paddingBottom: '40px'
-                }}>
-                    <div style={{
-                        display: 'inline-block',
-                        background: 'rgba(0,0,0,0.85)',
-                        padding: '16px 32px',
-                        borderRadius: '16px',
-                        boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
-                        border: '1px solid rgba(255,255,255,0.1)'
-                    }}>
-                        <p style={{
-                            fontSize: '44px',
-                            fontWeight: 900,
-                            margin: 0,
-                            lineHeight: 1.1,
-                            letterSpacing: '-0.03em',
-                            color: '#fff',
-                            textTransform: 'uppercase'
-                        }}>
-                            {scene.overlay_text || scene.key_takeaway}
-                        </p>
-                    </div>
-                </div>
-            </AbsoluteFill>
+            {/* SFX Triggers */}
+            {script?.sfx_triggers?.map((sfx, i) => (
+                <Sequence key={i} from={sfx.frame}>
+                    <Audio src={sfx.url} volume={0.5} />
+                </Sequence>
+            ))}
         </AbsoluteFill>
     );
 };
@@ -113,24 +82,6 @@ export const MainVideo: React.FC<VideoConfig> = ({ scenes, title }) => {
                     </Sequence>
                 );
             })}
-
-            {/* Title Overlay (Simple) */}
-            <AbsoluteFill style={{ pointerEvents: 'none' }}>
-                <div style={{
-                    position: 'absolute',
-                    top: 50,
-                    left: 0,
-                    right: 0,
-                    textAlign: 'center',
-                    fontSize: '24px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '2px',
-                    opacity: 0.3,
-                    color: 'white'
-                }}>
-                    {title}
-                </div>
-            </AbsoluteFill>
         </AbsoluteFill>
     );
 };

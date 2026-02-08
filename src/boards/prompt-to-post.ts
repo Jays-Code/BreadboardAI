@@ -21,8 +21,7 @@ const tone = input({
 const visual_critique = input({
     title: "Visual Critique",
     description: "Feedback from the Visual QA Critic to improve the visuals in a second pass",
-    default: "",
-    optional: true
+    default: ""
 });
 
 // --- 2. Director Stage ---
@@ -84,7 +83,9 @@ export const directorFlowDef = defineNodeType({
             scenes: data.scenes || [],
             total_duration: data.estimated_total_duration || 0,
             title: data.video_title_internal || "Untitled",
-            ambient_mood: data.ambient_mood || "neutral"
+            ambient_mood: data.ambient_mood || "neutral",
+            topic: topic,
+            tone: tone
         };
     }
 });
@@ -107,8 +108,9 @@ export const copywriterFlowDef = defineNodeType({
     outputs: {
         scenesWithText: { type: array(object({})) }
     },
-    invoke: async ({ scenes }) => {
-        console.log("[Copywriter] Condensing overlay text...");
+    invoke: async ({ scenes, tone }) => {
+        console.log(`[Copywriter] Condensing overlay text for ${Array.isArray(scenes) ? scenes.length : 0} scenes...`);
+        console.log(`   Tone: ${tone}`);
         const scenesArray = scenes as any[];
         const results = await Promise.all(scenesArray.map(async (scene) => {
             const response = await fetch("http://127.0.0.1:3000/generate", {
@@ -145,13 +147,14 @@ export const visualArchitectFlowDef = defineNodeType({
         scenes: { type: array(object({})) },
         tone: { type: "string" },
         ambient_mood: { type: "string" },
-        critique: { type: "string", optional: true }
+        critique: { type: "string" }
     },
     outputs: {
         scenesWithVisuals: { type: array(object({})) }
     },
     invoke: async ({ scenes, tone, ambient_mood, critique }) => {
-        console.log("[VisualArchitect] Directing kinetic motion...");
+        console.log(`[VisualArchitect] Directing kinetic motion for ${Array.isArray(scenes) ? scenes.length : 0} scenes...`);
+        console.log(`   Ambient Mood: ${ambient_mood}, Tone: ${tone}`);
         const scenesArray = scenes as any[];
         const results = [];
         for (const scene of scenesArray) {
@@ -177,6 +180,9 @@ export const visualArchitectFlowDef = defineNodeType({
                     Output strict JSON with this exact structure:
                     {
                       "background_color": "hex string",
+                      "layout_style": "fullscreen | split_vertical | montage_grid | polaroid_scatter",
+                      "typography_style": "word_pop | karaoke | cinematic_fade | box_highlight",
+                      "energy_level": "high | chill",
                       "composition": [
                         {
                           "type": "image",
@@ -191,9 +197,17 @@ export const visualArchitectFlowDef = defineNodeType({
                         }
                       ],
                       "particles": "none | dust | sparks | bubbles",
-                      "camera_motion": "none | zoom_in | pan_left"
+                      "camera_motion": "none | zoom_in | pan_left | snap_zoom | handheld",
+                      "transition_style": "fade | glitch | slide_up | none",
+                      "sfx_triggers": []
                     }
-                    Ensure the compositions are DYNAMIC. No static scenes.`,
+                    Detailed Implementation Instructions:
+                    - Use 'snap_zoom' for high-energy hooks.
+                    - Set 'transition_style' to 'glitch' for tech/energetic tones.
+                    - Mix multiple sprites in 'composition' to create depth and action.
+                    - Ensure the compositions are DYNAMIC. No static scenes.
+                    - DO NOT include 'sfx_triggers' unless you have a specifically provided valid URL. Do not use placeholder URLs.
+                    For 'montage_grid', provide exactly 3 images. For 'split_vertical', provide 2.`,
                     persona: "Motion Director",
                     model: "antigravity-bridge"
                 })
@@ -201,7 +215,11 @@ export const visualArchitectFlowDef = defineNodeType({
             const result = await response.json();
             results.push({ ...scene, visual_script: result.response });
         }
-        return { scenesWithVisuals: results };
+        return {
+            scenesWithVisuals: results,
+            topic: scenesArray[0]?.topic || "", // Pass through context if available
+            tone: scenesArray[0]?.tone || ""
+        };
     }
 });
 const visualArchitectFlow = visualArchitectFlowDef({
@@ -228,7 +246,7 @@ export const assetSourcingFlowDef = defineNodeType({
         scenesWithAssets: { type: array(object({})) }
     },
     invoke: async ({ scenes }) => {
-        console.log("[AssetSourcing] Sourcing production layers...");
+        console.log(`[AssetSourcing] Sourcing production layers for ${Array.isArray(scenes) ? scenes.length : 0} scenes...`);
         const scenesArray = scenes as any[];
         const results = [];
 

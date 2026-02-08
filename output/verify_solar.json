@@ -1,0 +1,343 @@
+{
+  "video_structure": {
+    "video_title_internal": "Solarpunk: Our Green Future",
+    "estimated_total_duration": 24,
+    "scenes": [
+      {
+        "scene_id": 1,
+        "arc_phase": "hook",
+        "concept_description": "Start with a stark, grey, industrial city decaying. Quickly transition to a vibrant, almost fantastical green cityscape with glowing solar panels and lush vertical gardens.",
+        "key_takeaway": "Are you tired of grim futures? The planet deserves better than endless dystopia.",
+        "duration_sec": 6,
+        "overlay_text": "Tired of Dystopia? Planet Deserves Better.",
+        "visual_script": {
+          "background_color": "#c0f0e0",
+          "layout_style": "fullscreen",
+          "typography_style": "cinematic_fade",
+          "energy_level": "high",
+          "composition": [
+            {
+              "type": "image",
+              "image_prompt": "Wide shot of a vibrant utopian green cityscape, futuristic architecture with glowing solar panels, lush vertical gardens, clean energy, sun-drenched, clear blue sky, highly detailed, photorealistic, inspiring.",
+              "depth": 0.5,
+              "zIndex": 1,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1.1
+                },
+                "end_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1
+                }
+              },
+              "url": "https://source.unsplash.com/featured/?Wide%2Cshot%2Cof%2Ca%2Cvibrant"
+            },
+            {
+              "type": "image",
+              "image_prompt": "Detailed view of lush vertical gardens integrated into futuristic buildings, glowing solar panels, vibrant green foliage, utopian architecture, high resolution.",
+              "depth": 0.8,
+              "zIndex": 2,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.5,
+                  "y": 0.6,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 0.5,
+                  "y": 0.4,
+                  "scale": 1.1
+                }
+              },
+              "url": "https://source.unsplash.com/featured/?Detailed%2Cview%2Cof%2Clush%2Cvertical"
+            },
+            {
+              "type": "image",
+              "image_prompt": "Futuristic sleek drone flying gracefully above a vibrant green cityscape, utopian design, sun reflections, highly detailed.",
+              "depth": 1,
+              "zIndex": 3,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.2,
+                  "y": 0.3,
+                  "scale": 0.8
+                },
+                "end_pos": {
+                  "x": 0.8,
+                  "y": 0.4,
+                  "scale": 0.7
+                }
+              },
+              "url": "https://source.unsplash.com/featured/?Futuristic%2Csleek%2Cdrone%2Cflying%2Cgracefully"
+            }
+          ],
+          "particles": "sparks",
+          "camera_motion": "zoom_in",
+          "transition_style": "glitch",
+          "sfx_triggers": [
+            {
+              "frame": 0,
+              "url": "https://remotion.dev/sfx/whoosh.mp3"
+            }
+          ]
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      },
+      {
+        "scene_id": 2,
+        "arc_phase": "journey",
+        "concept_description": "Show various Solarpunk elements: people tending rooftop gardens, bio-luminescent plants, sleek public transport powered by renewables, a community sharing resources.",
+        "key_takeaway": "Imagine a world where technology and nature thrive together, powered by clean energy and community spirit!",
+        "duration_sec": 6,
+        "overlay_text": "Tech + Nature. Clean Energy. United Future.",
+        "visual_script": {
+          "background_color": "#C0FFB0",
+          "layout_style": "fullscreen",
+          "typography_style": "word_pop",
+          "energy_level": "high",
+          "composition": [
+            {
+              "type": "image",
+              "image_prompt": "highly detailed image of diverse people with futuristic attire tending vibrant rooftop gardens filled with exotic bio-luminescent plants, golden hour sun-drenched, utopian green city in background, cinematic, photorealistic",
+              "depth": 0.7,
+              "zIndex": 2,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.1,
+                  "y": 0.3,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 0.5,
+                  "y": 0.4,
+                  "scale": 1.1
+                }
+              },
+              "url": "https://source.unsplash.com/featured/?highly%2Cdetailed%2Cimage%2Cof%2Cdiverse"
+            },
+            {
+              "type": "image",
+              "image_prompt": "futuristic sleek public transport capsule powered by renewables gliding smoothly through a vibrant utopian green cityscape, sun-drenched, highly detailed, cinematic, long shot",
+              "depth": 0.6,
+              "zIndex": 1,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.9,
+                  "y": 0.6,
+                  "scale": 0.9
+                },
+                "end_pos": {
+                  "x": 0.1,
+                  "y": 0.5,
+                  "scale": 0.8
+                }
+              },
+              "url": "https://source.unsplash.com/featured/?futuristic%2Csleek%2Cpublic%2Ctransport%2Ccapsule"
+            },
+            {
+              "type": "image",
+              "image_prompt": "exotic bio-luminescent plants glowing softly in a vibrant solarpunk rooftop garden, ultra-close up, highly detailed leaves and glowing tendrils, utopian green hues, sun-drenched highlights",
+              "depth": 0.9,
+              "zIndex": 3,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.7,
+                  "y": 0.1,
+                  "scale": 0.7
+                },
+                "end_pos": {
+                  "x": 0.8,
+                  "y": 0.2,
+                  "scale": 0.8
+                }
+              },
+              "url": "https://source.unsplash.com/featured/?exotic%2Cbio-luminescent%2Cplants%2Cglowing%2Csoftly"
+            },
+            {
+              "type": "image",
+              "image_prompt": "diverse community members interacting and sharing resources in a communal, open-air solarpunk marketplace, surrounded by bio-luminescent flora, warm sun-drenched lighting, utopian green architecture, highly detailed",
+              "depth": 0.5,
+              "zIndex": 0,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.5,
+                  "y": 0.7,
+                  "scale": 1.2
+                },
+                "end_pos": {
+                  "x": 0.45,
+                  "y": 0.65,
+                  "scale": 1.1
+                }
+              },
+              "url": "https://source.unsplash.com/featured/?diverse%2Ccommunity%2Cmembers%2Cinteracting%2Cand"
+            }
+          ],
+          "particles": "sparks",
+          "camera_motion": "snap_zoom",
+          "transition_style": "glitch",
+          "sfx_triggers": []
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      },
+      {
+        "scene_id": 3,
+        "arc_phase": "climax",
+        "concept_description": "Dynamic montage of breathtaking Solarpunk architecture: buildings integrated with waterfalls, wind turbines disguised as art, bustling green markets under a warm sun. Focus on innovation and harmony.",
+        "key_takeaway": "This is Solarpunk: a vibrant future where sustainability isn't just a dream, it's our beautiful, everyday reality!",
+        "duration_sec": 6,
+        "overlay_text": "Solarpunk: Sustainable future, beautiful reality!",
+        "visual_script": {
+          "background_color": "#D0FFD0",
+          "layout_style": "montage_grid",
+          "typography_style": "word_pop",
+          "energy_level": "high",
+          "composition": [
+            {
+              "type": "image",
+              "image_prompt": "breathtaking Solarpunk skyscraper, integrated with flowing waterfalls, lush vertical gardens, clean lines, utopian green, futuristic, sun-drenched, high detail",
+              "depth": 0.8,
+              "zIndex": 1,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1.1
+                }
+              },
+              "url": "https://source.unsplash.com/featured/?breathtaking%2CSolarpunk%2Cskyscraper%2C%2Cintegrated%2Cwith"
+            },
+            {
+              "type": "image",
+              "image_prompt": "futuristic wind turbines disguised as elegant sculptures, artistic design, clean energy, vibrant utopian green city skyline, sun-drenched, high detail",
+              "depth": 0.7,
+              "zIndex": 2,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1.05
+                },
+                "end_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1.15
+                }
+              },
+              "url": "https://source.unsplash.com/featured/?futuristic%2Cwind%2Cturbines%2Cdisguised%2Cas"
+            },
+            {
+              "type": "image",
+              "image_prompt": "bustling Solarpunk green market, fresh produce, vibrant community, lush plants, futuristic canopy, utopian green city, sun-drenched, high detail",
+              "depth": 0.9,
+              "zIndex": 3,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1.1
+                }
+              },
+              "url": "https://source.unsplash.com/featured/?bustling%2CSolarpunk%2Cgreen%2Cmarket%2C%2Cfresh"
+            }
+          ],
+          "particles": "sparks",
+          "camera_motion": "snap_zoom",
+          "transition_style": "glitch",
+          "sfx_triggers": []
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      },
+      {
+        "scene_id": 4,
+        "arc_phase": "outro",
+        "concept_description": "Inspiring shot of diverse people smiling in a utopian Solarpunk city, looking towards a bright horizon. Text overlay with a call to action or a hopeful message.",
+        "key_takeaway": "Join the movement envisioning green cities, renewable energy, and thriving communities. The future is bright, green, and beautiful!",
+        "duration_sec": 6,
+        "overlay_text": "Future: Bright, Green, Beautiful. Join!",
+        "visual_script": {
+          "background_color": "#A8E6CF",
+          "layout_style": "fullscreen",
+          "typography_style": "word_pop",
+          "energy_level": "high",
+          "composition": [
+            {
+              "type": "image",
+              "image_prompt": "vibrant utopian solarpunk city skyline, sun-drenched, lush green vertical gardens, clean energy infrastructure, futuristic architecture, bright sky, subtle lens flare",
+              "depth": 0.5,
+              "zIndex": 1,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1.1
+                }
+              },
+              "url": "https://source.unsplash.com/featured/?vibrant%2Cutopian%2Csolarpunk%2Ccity%2Cskyline%2C"
+            },
+            {
+              "type": "image",
+              "image_prompt": "diverse smiling people in foreground, looking towards a bright horizon, hopeful expressions, soft futuristic glow, in a solarpunk city setting, vibrant and clean colors",
+              "depth": 1,
+              "zIndex": 2,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.5,
+                  "y": 0.6,
+                  "scale": 0.9
+                },
+                "end_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1
+                }
+              },
+              "url": "https://source.unsplash.com/featured/?diverse%2Csmiling%2Cpeople%2Cin%2Cforeground%2C"
+            }
+          ],
+          "particles": "sparks",
+          "camera_motion": "snap_zoom",
+          "transition_style": "glitch",
+          "sfx_triggers": [
+            {
+              "frame": 0,
+              "url": "https://remotion.dev/static/sfx/glitch_whoosh.mp3"
+            }
+          ]
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      }
+    ]
+  },
+  "video_url": "/videos/video-1770528150009.mp4"
+}

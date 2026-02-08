@@ -1,0 +1,2 @@
+[dotenv@17.2.4] injecting env (1) from .env -- tip: 📡 add observability to secrets: https://dotenvx.com/ops
+Antigravity Mind Link active on port 3000

@@ -15,7 +15,7 @@ import {
     voiceoverFlowDef,
     assemblerDef,
     rendererDef
-} from "../boards/prompt-to-post.ts";
+} from "../boards/prompt-to-post";
 import { kit } from "@breadboard-ai/build";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GoogleAIFileManager } from "@google/generative-ai/server";
@@ -129,7 +129,8 @@ app.get('/api/run-stream', async (req, res) => {
                 if (type === 'nodestart') {
                     const node = data.node;
                     if (node) {
-                        sendEvent('node-start', { id: node.id, type: node.type });
+                        const title = node.configuration?.title || "";
+                        sendEvent('node-start', { id: node.id, type: node.type, title });
                         trace.push({ type: 'beforehandler', data: { node }, timestamp: new Date().toISOString() });
                     }
                 } else if (type === 'nodeend') {
@@ -236,12 +237,19 @@ app.post('/api/render', async (req, res) => {
         console.log(`[Renderer] Starting render for ${outputFilename}...`);
 
         const { spawn } = await import('child_process');
-        const child = spawn('npx', [
-            'remotion', 'render',
+        const remotionCli = path.resolve(process.cwd(), 'node_modules/@remotion/cli/remotion-cli.js');
+        const child = spawn('node', [
+            remotionCli, 'render',
             'src/video/index.tsx', 'Main',
             outputPath,
-            `--props=${propsFile}`
-        ]);
+            `--props=${propsFile}`,
+            '--chromium-flags="--no-sandbox --disable-setuid-sandbox"'
+        ], {
+            env: {
+                ...process.env,
+                PATH: '/usr/local/bin:/usr/bin:/bin'
+            }
+        });
 
         child.stdout.on('data', (data) => {
             const output = data.toString();
@@ -430,12 +438,15 @@ app.post('/generate-image', async (req, res) => {
         }
     }
 
-    // 2. High-Quality Unsplash Sourcing (Improved)
-    // We transform the high-fidelity prompt into a set of Unsplash keywords
-    const keywords = prompt.split(' ').slice(0, 5).join(',');
-    const imageUrl = `https://source.unsplash.com/featured/?${encodeURIComponent(keywords)}`;
+    // 2. Pollinations.AI Fallback (High Quality, Free, Unlimited)
+    // This allows real AI image generation without an API key, perfect for the "Space Exploration" use case.
+    const encodedPrompt = encodeURIComponent(prompt);
+    // Add seed to ensure consistency if needed, but random is fine for now.
+    // We add 'cinematic' and 'highly detailed' to ensure quality.
+    const enhancedPrompt = encodeURIComponent(`${prompt}, cinematic, 8k, highly detailed`);
+    const imageUrl = `https://image.pollinations.ai/prompt/${enhancedPrompt}?width=1080&height=1920&nologo=true`;
 
-    // Simulate generation latency for realism
+    // Simulate generation latency for realism (Pollinations is fast, but we want to mimic async feeling)
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     res.json({ url: imageUrl });
@@ -463,6 +474,17 @@ app.post('/generate-audio', async (req, res) => {
     res.json({ url: audioUrl, duration: 5 }); // Mock duration 5s
 });
 
+// --- Helper to get System Instructions ---
+function getSystemInstructions() {
+    let systemInstruction = "You are a helpful AI assistant.";
+    const guidelinesPath = path.resolve(process.cwd(), 'content_guidelines.md');
+    if (fs.existsSync(guidelinesPath)) {
+        const guidelines = fs.readFileSync(guidelinesPath, 'utf-8');
+        systemInstruction = `Use the following CONTENT GUIDELINES for all your responses:\n${guidelines}`;
+    }
+    return systemInstruction;
+}
+
 // --- Visual QA Endpoint (Story Quality Assurance) ---
 app.post('/api/visual-qa', async (req, res) => {
     const { video_structure, runId } = req.body;
@@ -488,7 +510,13 @@ app.post('/api/visual-qa', async (req, res) => {
             console.log(`[Visual QA] Capturing still at ${percent}% (frame ${frame})...`);
 
             try {
-                execSync(`npx remotion still src/video/index.tsx Main "${outputPath}" --frame=${frame} --props="${propsFile}" --image-format=png --overwrite`);
+                const remotionCli = path.resolve(process.cwd(), 'node_modules/@remotion/cli/remotion-cli.js');
+                execSync(`node "${remotionCli}" still src/video/index.tsx Main "${outputPath}" --frame=${frame} --props="${propsFile}" --image-format=png --overwrite --chromium-flags="--no-sandbox --disable-setuid-sandbox"`, {
+                    env: {
+                        ...process.env,
+                        PATH: '/usr/local/bin:/usr/bin:/bin'
+                    }
+                });
                 framePaths.push(outputPath);
             } catch (err: any) {
                 console.error(`[Visual QA] Frame ${percent} failed:`, err.message);
@@ -504,7 +532,11 @@ app.post('/api/visual-qa', async (req, res) => {
         // 2. Multi-modal Analysis with Gemini
         const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
         const genAI = new GoogleGenerativeAI(apiKey!);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+        const model = genAI.getGenerativeModel({
+            model: "gemini-2.5-flash",
+            systemInstruction: getSystemInstructions()
+        });
 
         const imageParts = framePaths.map(p => ({
             inlineData: {
@@ -513,17 +545,24 @@ app.post('/api/visual-qa', async (req, res) => {
             }
         }));
 
-        const prompt = `Act as a Visual Critic for cinematic video production. Analyze these 3 frames from a video about: "${video_structure.video_title_internal}".
+        const prompt = `Act as a Visual Critic for cinematic video production. Analyze these 3 frames from a video.
                 
+                CONTEXT:
+                - Title: "${video_structure.video_title_internal}"
+                - Topic/Objective: "${video_structure.topic || 'Auto-generated content'}"
+                - Tone: "${video_structure.tone || 'Dynamic'}"
+                - Scenes: ${JSON.stringify(video_structure.scenes?.map((s: any) => ({ id: s.scene_id, concept: s.concept_description })))}
+
                 CRITERIA:
-                1. KINETIC ENGAGEMENT: Do elements look like they are MOTING or staged for action?
-                2. COMPOSITION DEPTH: Are there clear multi-layer compositions (Sprites, Parallax)?
-                3. NARRATIVE: Do visuals match the story arc?
-                4. FIDELITY: Are assets high-quality?
+                1. ALIGNMENT: Do these frames actually achieve the objective and tone described?
+                2. NARRATIVE ACCURACY: Does the visual content in these frames match the concept descriptions for their respective timestamps?
+                3. KINETIC ENGAGEMENT: Do elements look like they are MOVING or staged for action?
+                4. COMPOSITION DEPTH: Are there clear multi-layer compositions?
+                5. FIDELITY: Are assets high-quality?
 
                 Output strict JSON:
                 {
-                  "score": number, 
+                  "score": number (0-100), 
                   "passed": boolean, 
                   "critique": "string", 
                   "improvement_suggestions": ["string"]
@@ -547,20 +586,21 @@ app.post('/api/visual-qa', async (req, res) => {
 
 // --- Deep Video Analysis Endpoint (Native Gemini 2.5 Video Support) ---
 app.post('/api/analyze-video', async (req, res) => {
-    const { runId } = req.body;
+    const { runId, video_structure } = req.body;
     if (!runId) return res.status(400).json({ error: "Missing runId" });
 
     console.log(`[Deep Analysis] Starting full video assessment for ${runId}...`);
 
     try {
         const videoPath = path.join(VIDEO_OUT_DIR, `${runId}.mp4`);
+        let finalVideoPath;
         if (!fs.existsSync(videoPath)) {
             // Try to find it by looking for the file in the directory if runId is a slug
             const files = fs.readdirSync(VIDEO_OUT_DIR).filter(f => f.includes(runId) && f.endsWith('.mp4'));
             if (files.length === 0) return res.status(404).json({ error: "Video file not found for this run" });
-            var finalVideoPath = path.join(VIDEO_OUT_DIR, files[0]);
+            finalVideoPath = path.join(VIDEO_OUT_DIR, files[0]);
         } else {
-            var finalVideoPath = videoPath;
+            finalVideoPath = videoPath;
         }
 
         const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
@@ -589,15 +629,28 @@ app.post('/api/analyze-video', async (req, res) => {
         console.log(`[Deep Analysis] Video active, generating critique...`);
 
         // 3. Generate Content with Video context
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        const model = genAI.getGenerativeModel({
+            model: "gemini-2.5-flash",
+            systemInstruction: getSystemInstructions()
+        });
+
+        const contextInfo = video_structure ? `
+                CONTEXT:
+                - Title: "${video_structure.video_title_internal}"
+                - Topic/Objective: "${video_structure.topic}"
+                - Tone: "${video_structure.tone}"
+                - Full Script: ${JSON.stringify(video_structure.scenes)}
+        ` : "";
+
         const prompt = `Act as a Senior Creative Director and Motion Graphics Critic. Analyze this video in its entirety.
+                ${contextInfo}
                 
                 CRITERIA:
-                1. MOTION QUALITY: Is the motion smooth, purposeful, and engaging?
-                2. PACING & RHYTHM: Does the timing match the narrative arc? 
-                3. AUDIO-VISUAL SYNC: How well do the animations align with the audio/voiceover?
-                4. CONSISTENCY: Is the visual style (colors, assets) consistent throughout?
-                5. OVERALL IMPACT: Does this video effectively communicate its topic?
+                1. MISSION ALIGNMENT: Does the video successfully communicate the intended topic and tone?
+                2. MOTION QUALITY: Is the motion smooth, purposeful, and engaging? Does it follow our guidelines?
+                3. PACING & RHYTHM: Does the timing match the narrative arc (Hook -> Journey -> Climax -> Outro)? 
+                4. AUDIO-VISUAL SYNC: How well do the animations align with the audio/voiceover?
+                5. CONSISTENCY: Is the visual style (colors, assets) consistent throughout?
 
                 Output strict JSON:
                 {
@@ -634,6 +687,6 @@ app.post('/api/analyze-video', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Antigravity Mind Link active on port ${PORT}`);
 });

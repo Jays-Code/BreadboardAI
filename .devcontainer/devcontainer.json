@@ -16,13 +16,19 @@
     ],
     "forwardPorts": [
         5173,
+        5174,
         3000,
         6333,
         6334
     ],
     "portsAttributes": {
         "5173": {
-            "label": "Vite Dev Server",
+            "label": "Vite Dev Server (App)",
+            "onAutoForward": "notify",
+            "elevateIfNeeded": true
+        },
+        "5174": {
+            "label": "Breadboard Visual Editor",
             "onAutoForward": "notify",
             "elevateIfNeeded": true
         },

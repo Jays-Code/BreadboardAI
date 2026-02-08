@@ -1,0 +1,42 @@
+nohup: ignoring input
+[dotenv@17.2.4] injecting env (1) from .env -- tip: ✅ audit secrets and track compliance: https://dotenvx.com/ops
+Antigravity Mind Link active on port 3000
+[Renderer] Starting render for space-exploration-ba0263c6.mp4...
+[Renderer Log] (node:18271) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[Renderer] Render complete: space-exploration-ba0263c6.mp4
+[Visual QA] Starting quality assessment for space-exploration-ba0263c6...
+[Visual QA] Capturing still at 10% (frame 72)...
+[Visual QA] Capturing still at 50% (frame 360)...
+RangeError: Cannot use frame 360: Duration of composition is 300, therefore the highest frame that can be rendered is 299
+    at Object.validateFrame (/workspaces/BreadboardAI/node_modules/remotion/dist/cjs/validate-frame.js:21:15)
+    at innerRenderStill (/workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/render-still.js:80:33)
+    at /workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/render-still.js:272:20
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[Visual QA] Frame 50 failed: Command failed: node "/workspaces/BreadboardAI/node_modules/@remotion/cli/remotion-cli.js" still src/video/index.tsx Main "/workspaces/BreadboardAI/public/qa/space-exploration-ba0263c6/frame-50.png" --frame=360 --props="/tmp/props-qa-space-exploration-ba0263c6-50.json" --image-format=png --overwrite --chromium-flags="--no-sandbox --disable-setuid-sandbox"
+RangeError: Cannot use frame 360: Duration of composition is 300, therefore the highest frame that can be rendered is 299
+    at Object.validateFrame (/workspaces/BreadboardAI/node_modules/remotion/dist/cjs/validate-frame.js:21:15)
+    at innerRenderStill (/workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/render-still.js:80:33)
+    at /workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/render-still.js:272:20
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+[Visual QA] Capturing still at 90% (frame 648)...
+RangeError: Cannot use frame 648: Duration of composition is 300, therefore the highest frame that can be rendered is 299
+    at Object.validateFrame (/workspaces/BreadboardAI/node_modules/remotion/dist/cjs/validate-frame.js:21:15)
+    at innerRenderStill (/workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/render-still.js:80:33)
+    at /workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/render-still.js:272:20
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[Visual QA] Frame 90 failed: Command failed: node "/workspaces/BreadboardAI/node_modules/@remotion/cli/remotion-cli.js" still src/video/index.tsx Main "/workspaces/BreadboardAI/public/qa/space-exploration-ba0263c6/frame-90.png" --frame=648 --props="/tmp/props-qa-space-exploration-ba0263c6-90.json" --image-format=png --overwrite --chromium-flags="--no-sandbox --disable-setuid-sandbox"
+RangeError: Cannot use frame 648: Duration of composition is 300, therefore the highest frame that can be rendered is 299
+    at Object.validateFrame (/workspaces/BreadboardAI/node_modules/remotion/dist/cjs/validate-frame.js:21:15)
+    at innerRenderStill (/workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/render-still.js:80:33)
+    at /workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/render-still.js:272:20
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+(node:17918) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[Visual QA] Starting quality assessment for space-exploration-ba0263c6...
+[Visual QA] Capturing still at 10% (frame 30)...
+[Visual QA] Capturing still at 50% (frame 150)...
+[Visual QA] Capturing still at 90% (frame 270)...
