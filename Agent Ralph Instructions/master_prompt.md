@@ -4,7 +4,18 @@
 - If found, copy them to `.agent/` using `cp -r`. This "activates" your special tools (Ralph, Visual Verification) and workflows.
 
 # 🏃 EXECUTION PHASE
-- Read `task_list.json`. Find the first 'pending' task. Implement it. Run tests. If successful, update 'status' to 'complete'. If all tasks are complete, output <promise>COMPLETE</promise>.
+- Read `task_list.json`. Find the first 'pending' task. Implement it. Run tests.
+
+# 3. VERIFICATION & ITERATION PHASE (Self-Correction)
+- **CRITICAL:** After implementation, run the Visual QA script: `node trigger_qa.cjs`.
+- **Read `qa_report.json`**.
+- **Check Score:** If `score < 70` (or `passed` is false), you are **NOT DONE**.
+    - Read the `critique` and `improvement_suggestions` from the JSON.
+    - **Iterate:** Update the code/assets based on this feedback.
+    - **Retry:** Run `node trigger_qa.cjs` again.
+- Only update 'status' to 'complete' in `task_list.json` when the QA passes or you have made 3 attempts.
+
+If all tasks are complete, output <promise>COMPLETE</promise>.
 
 The Core Concept: "Disk is State"
 

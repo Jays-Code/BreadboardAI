@@ -40,3 +40,205 @@ RangeError: Cannot use frame 648: Duration of composition is 300, therefore the 
 [Visual QA] Capturing still at 10% (frame 30)...
 [Visual QA] Capturing still at 50% (frame 150)...
 [Visual QA] Capturing still at 90% (frame 270)...
+[Visual QA] Starting quality assessment for space-exploration-ba0263c6...
+[Visual QA] Capturing still at 10% (frame 30)...
+[Visual QA] Capturing still at 50% (frame 150)...
+[Visual QA] Capturing still at 90% (frame 270)...
+[Visual QA] Failed: Error: ENOENT: no such file or directory, open '/workspaces/BreadboardAI/public/qa/space-exploration-ba0263c6/frame-10.png'
+    at Object.openSync (node:fs:573:18)
+    at Object.readFileSync (node:fs:452:35)
+    at /workspaces/BreadboardAI/src/bridge/server.cjs:819:33
+    at Array.map (<anonymous>)
+    at /workspaces/BreadboardAI/src/bridge/server.cjs:817:35
+    at Layer.handleRequest (/workspaces/BreadboardAI/node_modules/router/lib/layer.js:152:17)
+    at next (/workspaces/BreadboardAI/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/workspaces/BreadboardAI/node_modules/router/lib/route.js:117:3)
+    at handle (/workspaces/BreadboardAI/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/workspaces/BreadboardAI/node_modules/router/lib/layer.js:152:17) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/workspaces/BreadboardAI/public/qa/space-exploration-ba0263c6/frame-10.png'
+}
+[Visual QA] Starting quality assessment for space-exploration-ba0263c6...
+[Visual QA] Capturing still at 10% (frame 30)...
+[Visual QA] Capturing still at 50% (frame 150)...
+[Visual QA] Capturing still at 90% (frame 270)...
+[Visual QA] Starting quality assessment for space-exploration-ba0263c6...
+[Visual QA] Capturing still at 10% (frame 30)...
+[Visual QA] Capturing still at 50% (frame 150)...
+[Visual QA] Capturing still at 90% (frame 270)...
+[Visual QA] Starting quality assessment for space-exploration-ba0263c6...
+[Visual QA] Capturing still at 10% (frame 30)...
+[Visual QA] Capturing still at 50% (frame 150)...
+[Visual QA] Capturing still at 90% (frame 270)...
+[Visual QA] Starting quality assessment for space-exploration-ba0263c6...
+[Visual QA] Capturing still at 10% (frame 30)...
+Browser failed to load https://source.unsplash.com/featured/?Vast%2Ccosmic%2Cnebula%2Cwith%2Cswirling (Image): net::ERR_BLOCKED_BY_ORB
+HTTP status code: 503, headers:
+{
+  "cache-control": "no-cache, no-store",
+  "content-length": "567",
+  "content-type": "text/html; charset=utf-8",
+  "date": "Sun, 08 Feb 2026 19:48:32 GMT",
+  "nel": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}",
+  "report-to": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=LO4l3XNfIC%2BpKvOCHTo131CRwV64kxmhnOfg0mSOHCw%3D\\u0026sid=af571f24-03ee-46d1-9f90-ab9030c2c74c\\u0026ts=1770580112\"}],\"max_age\":3600}",
+  "reporting-endpoints": "heroku-nel=\"https://nel.heroku.com/reports?s=LO4l3XNfIC%2BpKvOCHTo131CRwV64kxmhnOfg0mSOHCw%3D&sid=af571f24-03ee-46d1-9f90-ab9030c2c74c&ts=1770580112\"",
+  "server": "Heroku",
+  "via": "2.0 heroku-router"
+}
+[Visual QA] Capturing still at 50% (frame 150)...
+Browser failed to load https://source.unsplash.com/featured/?Vast%2Ccosmic%2Cnebula%2Cwith%2Cswirling (Image): net::ERR_BLOCKED_BY_ORB
+HTTP status code: 503, headers:
+{
+  "cache-control": "no-cache, no-store",
+  "content-length": "567",
+  "content-type": "text/html; charset=utf-8",
+  "date": "Sun, 08 Feb 2026 19:49:25 GMT",
+  "nel": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}",
+  "report-to": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=8a8gPuRuAjmCY6sro8EkmfYltfOcoDwvRU2lk9C0V5o%3D\\u0026sid=af571f24-03ee-46d1-9f90-ab9030c2c74c\\u0026ts=1770580165\"}],\"max_age\":3600}",
+  "reporting-endpoints": "heroku-nel=\"https://nel.heroku.com/reports?s=8a8gPuRuAjmCY6sro8EkmfYltfOcoDwvRU2lk9C0V5o%3D&sid=af571f24-03ee-46d1-9f90-ab9030c2c74c&ts=1770580165\"",
+  "server": "Heroku",
+  "via": "2.0 heroku-router"
+}
+[Visual QA] Capturing still at 90% (frame 270)...
+Browser failed to load https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2Castronaut (Image): net::ERR_BLOCKED_BY_ORB
+HTTP status code: 503, headers:
+{
+  "cache-control": "no-cache, no-store",
+  "content-length": "567",
+  "content-type": "text/html; charset=utf-8",
+  "date": "Sun, 08 Feb 2026 19:50:08 GMT",
+  "nel": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}",
+  "report-to": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=TA%2BDzmG1q1wT0mPZVTfs4GoVBAMXN5nwE1IHgLxzWsY%3D\\u0026sid=af571f24-03ee-46d1-9f90-ab9030c2c74c\\u0026ts=1770580208\"}],\"max_age\":3600}",
+  "reporting-endpoints": "heroku-nel=\"https://nel.heroku.com/reports?s=TA%2BDzmG1q1wT0mPZVTfs4GoVBAMXN5nwE1IHgLxzWsY%3D&sid=af571f24-03ee-46d1-9f90-ab9030c2c74c&ts=1770580208\"",
+  "server": "Heroku",
+  "via": "2.0 heroku-router"
+}
+Browser failed to load https://source.unsplash.com/featured/?abstract%2Cneon%2Cfuturistic%2Cglowing%2Clines (Image): net::ERR_BLOCKED_BY_ORB
+HTTP status code: 503, headers:
+{
+  "cache-control": "no-cache, no-store",
+  "content-length": "567",
+  "content-type": "text/html; charset=utf-8",
+  "date": "Sun, 08 Feb 2026 19:50:08 GMT",
+  "nel": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}",
+  "report-to": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=TA%2BDzmG1q1wT0mPZVTfs4GoVBAMXN5nwE1IHgLxzWsY%3D\\u0026sid=af571f24-03ee-46d1-9f90-ab9030c2c74c\\u0026ts=1770580208\"}],\"max_age\":3600}",
+  "reporting-endpoints": "heroku-nel=\"https://nel.heroku.com/reports?s=TA%2BDzmG1q1wT0mPZVTfs4GoVBAMXN5nwE1IHgLxzWsY%3D&sid=af571f24-03ee-46d1-9f90-ab9030c2c74c&ts=1770580208\"",
+  "server": "Heroku",
+  "via": "2.0 heroku-router"
+}
+Browser failed to load https://source.unsplash.com/featured/?highly%2Cdetailed%2Cneon%2Cfuturistic%2Crocket (Image): net::ERR_BLOCKED_BY_ORB
+HTTP status code: 503, headers:
+{
+  "cache-control": "no-cache, no-store",
+  "content-length": "567",
+  "content-type": "text/html; charset=utf-8",
+  "date": "Sun, 08 Feb 2026 19:50:08 GMT",
+  "nel": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}",
+  "report-to": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=TA%2BDzmG1q1wT0mPZVTfs4GoVBAMXN5nwE1IHgLxzWsY%3D\\u0026sid=af571f24-03ee-46d1-9f90-ab9030c2c74c\\u0026ts=1770580208\"}],\"max_age\":3600}",
+  "reporting-endpoints": "heroku-nel=\"https://nel.heroku.com/reports?s=TA%2BDzmG1q1wT0mPZVTfs4GoVBAMXN5nwE1IHgLxzWsY%3D&sid=af571f24-03ee-46d1-9f90-ab9030c2c74c&ts=1770580208\"",
+  "server": "Heroku",
+  "via": "2.0 heroku-router"
+}
+[Visual QA] Starting quality assessment for space-exploration-ba0263c6...
+[Visual QA] Capturing still at 10% (frame 30)...
+Browser failed to load https://images.pexels.com/photos/87009/pexels-photo-87009.jpeg?auto=compress&cs=tinysrgb&w=1080&h=1920 (Image): net::ERR_NAME_NOT_RESOLVED
+[https://images.pexels.com/photos/87009/pexels-photo-87009.jpeg?auto=compress&cs=tinysrgb&w=1080&h=1920] Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+[Visual QA] Capturing still at 50% (frame 150)...
+Browser failed to load https://images.pexels.com/photos/87009/pexels-photo-87009.jpeg?auto=compress&cs=tinysrgb&w=1080&h=1920 (Image): net::ERR_BLOCKED_BY_ORB
+HTTP status code: 404, headers:
+{
+  "access-control-allow-origin": "*",
+  "alt-svc": "h3=\":443\"; ma=86400",
+  "cache-control": "public, max-age=3600",
+  "cf-cache-status": "MISS",
+  "cf-ray": "9cadba8a9b88e8e8-MIA",
+  "content-length": "29",
+  "content-type": "text/html,text/html",
+  "cross-origin-resource-policy": "cross-origin",
+  "date": "Sun, 08 Feb 2026 20:03:09 GMT",
+  "expires": "Sun, 08 Feb 2026 21:03:09 GMT",
+  "server": "cloudflare",
+  "set-cookie": "__cf_bm=tooIEFOEyxB7v09rGPS5nwRMNzpTGilTExdKzPqitd8-1770580989-1.0.1.1-wpLvoHlA7fh8BHqcQcHga.BmY_JpXNElBuOERPxVpCFEsO6h63EqUO8Yn9HGt_zU8Xl41vSheSCkCyUJwX2DZbT6lOuITm4xvYO2c7sFLbA; path=/; expires=Sun, 08-Feb-26 20:33:09 GMT; domain=.pexels.com; HttpOnly; Secure; SameSite=None\n_cfuvid=s.st3VwI9n3yl6lBXaysHOmKmQpDGLAULf4U1vZ0gfU-1770580989017-0.0.1.1-604800000; path=/; domain=.pexels.com; HttpOnly; Secure; SameSite=None",
+  "timing-allow-origin": "*",
+  "vary": "Accept-Encoding",
+  "x-cache": "MISS, MISS",
+  "x-content-type-options": "nosniff",
+  "x-imgix-id": "32ade253bcb36c77e8778bdfbaf70ee80ebbde02",
+  "x-served-by": "cache-chi-klot8100072-CHI, cache-lga21982-LGA"
+}
+[Visual QA] Capturing still at 90% (frame 270)...
+Browser failed to load https://images.pexels.com/photos/2162/pexels-photo-2162.jpeg?auto=compress&cs=tinysrgb&w=1080&h=1920 (Image): net::ERR_BLOCKED_BY_ORB
+HTTP status code: 404, headers:
+{
+  "access-control-allow-origin": "*",
+  "alt-svc": "h3=\":443\"; ma=86400",
+  "cache-control": "public, max-age=3600",
+  "cf-cache-status": "MISS",
+  "cf-ray": "9cadbbb2f890ed21-MIA",
+  "content-length": "29",
+  "content-type": "text/html,text/html",
+  "cross-origin-resource-policy": "cross-origin",
+  "date": "Sun, 08 Feb 2026 20:03:56 GMT",
+  "expires": "Sun, 08 Feb 2026 21:03:56 GMT",
+  "server": "cloudflare",
+  "set-cookie": "__cf_bm=PqV8.Em71N4YZHBezksAPyjbAZlaFM3zL4fi4gXmAJM-1770581036-1.0.1.1-C.GUDzgK0Trg8qVa1GMDR1X1RKNsU9w6GIQ.eAsC8nVji5buWdV4ct60FeEu6C0iOJKAfIUvGQOyHME7embezebpT8w.nVHKkci9K_fm5dc; path=/; expires=Sun, 08-Feb-26 20:33:56 GMT; domain=.pexels.com; HttpOnly; Secure; SameSite=None\n_cfuvid=Q6fkxF_4TNWp8P52idFJsrIFYVcd287TNX5_MkUcBd0-1770581036411-0.0.1.1-604800000; path=/; domain=.pexels.com; HttpOnly; Secure; SameSite=None",
+  "timing-allow-origin": "*",
+  "vary": "Accept-Encoding",
+  "x-cache": "MISS, MISS",
+  "x-content-type-options": "nosniff",
+  "x-imgix-id": "1b10ace90126a91e0bd9e1318e81562f8a954a54",
+  "x-served-by": "cache-chi-klot8100064-CHI, cache-iad-kiad7000056-IAD"
+}
+Browser failed to load https://images.pexels.com/photos/2156/pexels-photo-2156.jpeg?auto=compress&cs=tinysrgb&w=1080&h=1920 (Image): net::ERR_BLOCKED_BY_ORB
+HTTP status code: 404, headers:
+{
+  "access-control-allow-origin": "*",
+  "alt-svc": "h3=\":443\"; ma=86400",
+  "cache-control": "public, max-age=3600",
+  "cf-cache-status": "MISS",
+  "cf-ray": "9cadbbb2f891ed21-MIA",
+  "content-length": "29",
+  "content-type": "text/html,text/html",
+  "cross-origin-resource-policy": "cross-origin",
+  "date": "Sun, 08 Feb 2026 20:03:56 GMT",
+  "expires": "Sun, 08 Feb 2026 21:03:56 GMT",
+  "server": "cloudflare",
+  "set-cookie": "__cf_bm=y7TE7DOA09rAoblshLSnFbRvnTu3DpFdJluaCBzanVw-1770581036-1.0.1.1-dsV3banPBW0sVqpXHjLuZAU8_GTS66He2PSJhTi0L5GrZLSAhozwJXV9p4nOgc6Qv7MbWah60Vx8rs7TIAFnBcrj.jGLFF9n2SU28wVTmWI; path=/; expires=Sun, 08-Feb-26 20:33:56 GMT; domain=.pexels.com; HttpOnly; Secure; SameSite=None\n_cfuvid=8fhguGrHUARksG1SRu5XzM5kbDoC0CPxYHkmdPemvh8-1770581036464-0.0.1.1-604800000; path=/; domain=.pexels.com; HttpOnly; Secure; SameSite=None",
+  "timing-allow-origin": "*",
+  "vary": "Accept-Encoding",
+  "x-cache": "MISS, MISS",
+  "x-content-type-options": "nosniff",
+  "x-imgix-id": "578ce05d9fd76af897ee99019c18e8b90c712d50",
+  "x-served-by": "cache-chi-klot8100144-CHI, cache-lga21938-LGA"
+}
+[Visual QA] Starting quality assessment for space-exploration-ba0263c6...
+[Visual QA] Capturing still at 10% (frame 30)...
+[http://localhost:3001/assets/space/galaxy.png] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Visual QA] Capturing still at 50% (frame 150)...
+/workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:272
+            reject(new Errors_1.TimeoutError(`Timed out after ${timeout} ms while trying to connect to the browser! Chrome logged the following: ${stdioString}`));
+                   ^
+
+TimeoutError: Timed out after 25000 ms while trying to connect to the browser! Chrome logged the following: 
+    at Timeout.onTimeout (/workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:272:20)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+
+Node.js v20.20.0
+[Visual QA] Frame 50 failed: Command failed: node "/workspaces/BreadboardAI/node_modules/@remotion/cli/remotion-cli.js" still src/video/index.tsx Main "/workspaces/BreadboardAI/public/qa/space-exploration-ba0263c6/frame-50.png" --frame=150 --props="/tmp/props-qa-space-exploration-ba0263c6-50.json" --image-format=png --overwrite --chromium-flags="--no-sandbox --disable-setuid-sandbox"
+/workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:272
+            reject(new Errors_1.TimeoutError(`Timed out after ${timeout} ms while trying to connect to the browser! Chrome logged the following: ${stdioString}`));
+                   ^
+
+TimeoutError: Timed out after 25000 ms while trying to connect to the browser! Chrome logged the following: 
+    at Timeout.onTimeout (/workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:272:20)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+
+Node.js v20.20.0
+
+[Visual QA] Capturing still at 90% (frame 270)...
+[http://localhost:3001/assets/space/starfield.png] Failed to load resource: the server responded with a status of 404 (Not Found)
+[http://localhost:3001/assets/space/nebula.png] Failed to load resource: the server responded with a status of 404 (Not Found)

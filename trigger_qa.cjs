@@ -20,10 +20,16 @@ async function triggerQA() {
         if (typeof obj === 'object') {
             for (const key in obj) {
                 if (typeof obj[key] === 'string') {
+                    // Use local space images - zero external dependencies!
                     if (obj[key].includes('source.unsplash.com')) {
-                        const keywords = obj[key].split('?')[1] || 'space';
-                        const enhancedPrompt = encodeURIComponent(`${keywords.replace(/%2C/g, ',')}, cinematic, 8k, highly detailed`);
-                        obj[key] = `https://image.pollinations.ai/prompt/${enhancedPrompt}?width=1080&height=1920&nologo=true`;
+                        const spaceImages = [
+                            '/assets/space/nebula.png',
+                            '/assets/space/starfield.png',
+                            '/assets/space/galaxy.png',
+                        ];
+                        const randomImage = spaceImages[Math.floor(Math.random() * spaceImages.length)];
+                        obj[key] = randomImage;
+                        console.log(`Patched Image (Local): ${obj[key]}`);
                     }
                 } else if (typeof obj[key] === 'object') {
                     patch(obj[key]);

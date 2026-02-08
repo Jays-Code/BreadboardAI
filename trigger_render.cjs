@@ -33,14 +33,16 @@ async function triggerRender() {
         if (typeof obj === 'object') {
             for (const key in obj) {
                 if (typeof obj[key] === 'string') {
-                    // Patch Unsplash
+                    // Use local space images - zero external dependencies!
                     if (obj[key].includes('source.unsplash.com')) {
-                        // Extract keywords/prompt equivalent
-                        const keywords = obj[key].split('?')[1] || 'space';
-                        // Use Pollinations.ai for high fidelity replacement
-                        const enhancedPrompt = encodeURIComponent(`${keywords.replace(/%2C/g, ',')}, cinematic, 8k, highly detailed`);
-                        obj[key] = `https://image.pollinations.ai/prompt/${enhancedPrompt}?width=1080&height=1920&nologo=true`;
-                        console.log(`Patched Image (Pollinations): ${obj[key]}`);
+                        const spaceImages = [
+                            '/assets/space/nebula.png',
+                            '/assets/space/starfield.png',
+                            '/assets/space/galaxy.png',
+                        ];
+                        const randomImage = spaceImages[Math.floor(Math.random() * spaceImages.length)];
+                        obj[key] = randomImage;
+                        console.log(`Patched Image (Local): ${obj[key]}`);
                     }
                     // Patch Example.com SFX
                     if (obj[key].includes('example.com')) {
