@@ -1,6 +1,4 @@
-
-> breadboardai@1.0.0 bridge
-> tsx src/bridge/server.ts
-
-[dotenv@17.2.3] injecting env (1) from .env -- tip: 👥 sync secrets across teammates & machines: https://dotenvx.com/ops
-Antigravity Mind Link active on port 3000
+/bin/bash: warning: shell level (1000) too high, resetting to 1
+/bin/bash: warning: shell level (1000) too high, resetting to 1
+/bin/bash: warning: shell level (1000) too high, resetting to 1
+/bin/bash: warning: shell level (1000) too high, resetting to 1

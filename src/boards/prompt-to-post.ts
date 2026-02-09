@@ -171,11 +171,11 @@ export const visualArchitectFlowDef = defineNodeType({
                     ${critique ? `IMPORTANT CRITIQUE TO FIX: "${critique}"` : ""}
 
                     Design the scene as a MULTI-ASSET STAGE:
-                    1. Background: The environmental vibe (color/mood).
+                    1. Background: The environmental vibe (color/mood or video).
                     2. Composition: An array of elements (sprites) that move.
+                       - Each sprite needs a 'type' ('image' or 'video').
                        - Each sprite needs a 'depth' (0.5 for mid, 1.0 for fore).
                        - Each sprite needs a 'motion' object with start_pos and end_pos (x/y as percentages of stage, scale 0.5 to 1.5).
-                       - Multiple sprites create action (e.g., Background stadium + Foreground Gladiator).
 
                     Output strict JSON with this exact structure:
                     {
@@ -185,8 +185,8 @@ export const visualArchitectFlowDef = defineNodeType({
                       "energy_level": "high | chill",
                       "composition": [
                         {
-                          "type": "image",
-                          "image_prompt": "highly detailed subject specific prompt. Must match ${ambient_mood}.",
+                          "type": "image | video",
+                          "image_prompt": "highly detailed subject specific prompt. For video, describe the motion/scene clearly.",
                           "depth": number (0.5 to 1.0),
                           "zIndex": number,
                           "motion": {
@@ -202,12 +202,13 @@ export const visualArchitectFlowDef = defineNodeType({
                       "sfx_triggers": []
                     }
                     Detailed Implementation Instructions:
+                    - Use 'type: video' for background plates if the scene would benefit from cinematic motion (e.g., drone shots, space nebula, flowing water).
                     - Use 'snap_zoom' for high-energy hooks.
                     - Set 'transition_style' to 'glitch' for tech/energetic tones.
                     - Mix multiple sprites in 'composition' to create depth and action.
                     - Ensure the compositions are DYNAMIC. No static scenes.
                     - DO NOT include 'sfx_triggers' unless you have a specifically provided valid URL. Do not use placeholder URLs.
-                    For 'montage_grid', provide exactly 3 images. For 'split_vertical', provide 2.`,
+                    For 'montage_grid', provide exactly 3 images/videos. For 'split_vertical', provide 2.`,
                     persona: "Motion Director",
                     model: "antigravity-bridge"
                 })
@@ -256,6 +257,17 @@ export const assetSourcingFlowDef = defineNodeType({
                 console.log(`   📷 Sourcing assets for Scene ${scene.scene_id}...`);
                 // Source EACH image in the composition (Parallel for sprites within a scene is fine)
                 const updatedComposition = await Promise.all(script.composition.map(async (element: any) => {
+                    if (element.type === 'video' && element.image_prompt) {
+                        const response = await fetch("http://127.0.0.1:3000/api/source-video", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                prompt: element.image_prompt
+                            })
+                        });
+                        const result = await response.json();
+                        return { ...element, url: result.url };
+                    }
                     if (element.type === 'image' && element.image_prompt) {
                         const response = await fetch("http://127.0.0.1:3000/generate-image", {
                             method: "POST",

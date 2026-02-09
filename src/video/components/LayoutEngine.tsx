@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, Img, useCurrentFrame, interpolate } from 'remotion';
+import { AbsoluteFill, Img, Video, useCurrentFrame, interpolate, staticFile } from 'remotion';
 import { SceneElement } from '../AnimationEngine.js';
 
 interface LayoutEngineProps {
@@ -9,34 +9,41 @@ interface LayoutEngineProps {
 
 // --- Visual Asset Component ---
 const Asset: React.FC<{ element: SceneElement; style?: React.CSSProperties }> = ({ element, style }) => {
+    // Check if the URL is a video file
+    const isVideo = element.url?.match(/\.(mp4|webm|mov)$/i);
+    const assetUrl = element.url?.startsWith('http') ? element.url : staticFile(element.url);
+
     return (
         <div style={{
             ...style,
             overflow: 'hidden',
             position: 'absolute',
         }}>
-            {element.type === 'image' && (
+            {/* Handle Images */}
+            {(!isVideo) && (
                 <Img
-                    src={element.url}
+                    src={assetUrl}
                     onError={(e) => {
-                        console.warn(`Failed to load image: ${element.url}`);
-                        // Remotion might crash on error, so we can't easily swap src here without state.
-                        // But we can try to use a fallback if this relies on standard HTML error handling.
-                        // Actually, Remotion's <Img> throws. We should use standard <img> with error handling or just let it fail gracefully?
-                        // Better: Use a reliable source. But adding error handling here is good practice.
-                        // For now, let's keep it simple but maybe wrap in a try/catch block in the parent if possible?
-                        // Actually, standard HTML img tag is safer for error handling than Remotion Img if we want to avoid crash.
-                        // Let's swap to standard <img> for safety if we are unsure of source. 
-                        // But Remotion <Img> is needed for precise frame sync.
-                        // Let's stick to the reliable source fix in server.ts as the primary fix.
-                        // But let's add a `continueRenderOnError={true}` prop if available? No.
-                        // We will allow the server fix to be the primary solution.
+                        console.warn(`Failed to load image: ${assetUrl}`);
                     }}
                     style={{
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover'
                     }}
+                />
+            )}
+            {/* Handle Videos */}
+            {isVideo && (
+                <Video
+                    src={assetUrl}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                    }}
+                    muted
+                    loop
                 />
             )}
         </div>

@@ -32,9 +32,9 @@ function createProxy(localPort, remotePort, name) {
 }
 
 const bridges = [
-    { name: 'Ollama', local: 11434, target: 11434 },
-    { name: 'Qdrant REST', local: 6333, target: 7333 },
-    { name: 'Qdrant gRPC', local: 6334, target: 7334 }
+    // { name: 'Ollama', local: 11434, target: 11434 },
+    // { name: 'Qdrant REST', local: 6333, target: 7333 },
+    // { name: 'Qdrant gRPC', local: 6334, target: 7334 }
 ];
 
 bridges.forEach(bridge => {

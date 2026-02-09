@@ -242,3 +242,33 @@ Node.js v20.20.0
 [Visual QA] Capturing still at 90% (frame 270)...
 [http://localhost:3001/assets/space/starfield.png] Failed to load resource: the server responded with a status of 404 (Not Found)
 [http://localhost:3001/assets/space/nebula.png] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Visual QA] Starting quality assessment for space-exploration-ba0263c6...
+[Visual QA] Capturing still at 10% (frame 30)...
+[http://localhost:3001/assets/space/starfield.png] Failed to load resource: the server responded with a status of 404 (Not Found)
+[http://localhost:3001/assets/space/starfield.png] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Visual QA] Capturing still at 50% (frame 150)...
+[http://localhost:3001/assets/space/starfield.png] Failed to load resource: the server responded with a status of 404 (Not Found)
+[http://localhost:3001/assets/space/starfield.png] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Visual QA] Capturing still at 90% (frame 270)...
+/workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:272
+            reject(new Errors_1.TimeoutError(`Timed out after ${timeout} ms while trying to connect to the browser! Chrome logged the following: ${stdioString}`));
+                   ^
+
+TimeoutError: Timed out after 25000 ms while trying to connect to the browser! Chrome logged the following: 
+    at Timeout.onTimeout (/workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:272:20)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+
+Node.js v20.20.0
+[Visual QA] Frame 90 failed: Command failed: node "/workspaces/BreadboardAI/node_modules/@remotion/cli/remotion-cli.js" still src/video/index.tsx Main "/workspaces/BreadboardAI/public/qa/space-exploration-ba0263c6/frame-90.png" --frame=270 --props="/tmp/props-qa-space-exploration-ba0263c6-90.json" --image-format=png --overwrite --chromium-flags="--no-sandbox --disable-setuid-sandbox"
+/workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:272
+            reject(new Errors_1.TimeoutError(`Timed out after ${timeout} ms while trying to connect to the browser! Chrome logged the following: ${stdioString}`));
+                   ^
+
+TimeoutError: Timed out after 25000 ms while trying to connect to the browser! Chrome logged the following: 
+    at Timeout.onTimeout (/workspaces/BreadboardAI/node_modules/@remotion/renderer/dist/browser/BrowserRunner.js:272:20)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+
+Node.js v20.20.0
+

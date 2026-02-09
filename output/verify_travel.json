@@ -1,0 +1,393 @@
+{
+  "video_structure": {
+    "video_title_internal": "EvolutionOfTravelMethods",
+    "estimated_total_duration": 20,
+    "scenes": [
+      {
+        "scene_id": 1,
+        "arc_phase": "hook",
+        "concept_description": "Fast-paced montage_grid showing ancient travel methods (walking, horseback, primitive boats) with dynamic pan_left and snap_zoom camera_motion. High contrast, earthy tones. Glitch transition to next scene. Typography: word_pop for headline, bold Neo-Grotesque font.",
+        "key_takeaway": "Just a few centuries ago, a trip across the globe was a lifetime's endeavor, a perilous dream!",
+        "duration_sec": 5,
+        "overlay_text": "Centuries ago: Global travel, a perilous lifetime.",
+        "visual_script": {
+          "background_color": "#4A3C2B",
+          "layout_style": "montage_grid",
+          "typography_style": "word_pop",
+          "energy_level": "high",
+          "composition": [
+            {
+              "type": "image",
+              "image_prompt": "Highly detailed, high contrast close-up of an ancient traveler walking through a dust-filled desert at golden hour, strong directional light, earthy tones, 4k, cinematic, sharp focus, vibrant.",
+              "depth": 0.8,
+              "zIndex": 1,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.3,
+                  "y": 0.4,
+                  "scale": 1.1
+                },
+                "end_pos": {
+                  "x": 0.2,
+                  "y": 0.5,
+                  "scale": 1.3
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/Highly%20detailed%2C%20high%20contrast%20close-up%20of%20an%20ancient%20traveler%20walking%20through%20a%20dust-filled%20desert%20at%20golden%20hour%2C%20strong%20directional%20light%2C%20earthy%20tones%2C%204k%2C%20cinematic%2C%20sharp%20focus%2C%20vibrant.%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            },
+            {
+              "type": "image",
+              "image_prompt": "Highly detailed, high contrast shot of an ancient horseback rider galloping through a rugged, dusty plain, dramatic sky, dynamic action, earthy tones, 4k, cinematic, sharp focus, vibrant.",
+              "depth": 0.7,
+              "zIndex": 0,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.7,
+                  "y": 0.6,
+                  "scale": 1.2
+                },
+                "end_pos": {
+                  "x": 0.8,
+                  "y": 0.5,
+                  "scale": 1
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/Highly%20detailed%2C%20high%20contrast%20shot%20of%20an%20ancient%20horseback%20rider%20galloping%20through%20a%20rugged%2C%20dusty%20plain%2C%20dramatic%20sky%2C%20dynamic%20action%2C%20earthy%20tones%2C%204k%2C%20cinematic%2C%20sharp%20focus%2C%20vibrant.%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            },
+            {
+              "type": "image",
+              "image_prompt": "Highly detailed, high contrast scene of ancient people in a primitive wooden boat rowing on a vast, calm river, atmospheric mist, scenic backdrop of ancient mountains, earthy tones, 4k, cinematic, sharp focus, vibrant.",
+              "depth": 0.9,
+              "zIndex": 2,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.5,
+                  "y": 0.8,
+                  "scale": 0.9
+                },
+                "end_pos": {
+                  "x": 0.4,
+                  "y": 0.7,
+                  "scale": 1.1
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/Highly%20detailed%2C%20high%20contrast%20scene%20of%20ancient%20people%20in%20a%20primitive%20wooden%20boat%20rowing%20on%20a%20vast%2C%20calm%20river%2C%20atmospheric%20mist%2C%20scenic%20backdrop%20of%20ancient%20mountains%2C%20earthy%20tones%2C%204k%2C%20cinematic%2C%20sharp%20focus%2C%20vibrant.%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            }
+          ],
+          "particles": "dust",
+          "camera_motion": "snap_zoom",
+          "transition_style": "glitch",
+          "sfx_triggers": []
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      },
+      {
+        "scene_id": 2,
+        "arc_phase": "journey",
+        "concept_description": "Split_vertical layout with early steam trains/ships on one side and early automobiles/biplanes on the other, both continuously moving with zoom_in and pan_right camera_motion. Vibrant colors, medium energy_level. Whip transition to next scene. Typography: karaoke style for captions, Impact font.",
+        "key_takeaway": "From the first hesitant steps to steam-powered marvels, humanity has relentlessly pushed the boundaries of exploration.",
+        "duration_sec": 5,
+        "overlay_text": "Humanity Explores: From Steps to Steam.",
+        "visual_script": {
+          "background_color": "#003333",
+          "layout_style": "split_vertical",
+          "typography_style": "karaoke",
+          "energy_level": "medium",
+          "composition": [
+            {
+              "type": "image",
+              "image_prompt": "Highly detailed, vibrant historical photograph featuring an early 19th-century steam train and a paddle steamer ship, dynamically composed to suggest continuous movement rightwards across a scenic historical landscape, cinematic, dramatic lighting, high contrast, rich colors. This image is specifically designed to occupy the left side of a split frame.",
+              "depth": 0.8,
+              "zIndex": 1,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.2,
+                  "y": 0.5,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 0.4,
+                  "y": 0.5,
+                  "scale": 1.2
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/Highly%20detailed%2C%20vibrant%20historical%20photograph%20featuring%20an%20early%2019th-century%20steam%20train%20and%20a%20paddle%20steamer%20ship%2C%20dynamically%20composed%20to%20suggest%20continuous%20movement%20rightwards%20across%20a%20scenic%20historical%20landscape%2C%20cinematic%2C%20dramatic%20lighting%2C%20high%20contrast%2C%20rich%20colors.%20This%20image%20is%20specifically%20designed%20to%20occupy%20the%20left%20side%20of%20a%20split%20frame.%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            },
+            {
+              "type": "image",
+              "image_prompt": "Highly detailed, vibrant historical photograph featuring an early 20th-century biplane flying above a classic vintage automobile on a dusty road, both dynamically composed to suggest continuous movement rightwards across a scenic historical landscape, cinematic, dramatic lighting, high contrast, rich colors. This image is specifically designed to occupy the right side of a split frame.",
+              "depth": 0.8,
+              "zIndex": 2,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.6,
+                  "y": 0.5,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 0.8,
+                  "y": 0.5,
+                  "scale": 1.2
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/Highly%20detailed%2C%20vibrant%20historical%20photograph%20featuring%20an%20early%2020th-century%20biplane%20flying%20above%20a%20classic%20vintage%20automobile%20on%20a%20dusty%20road%2C%20both%20dynamically%20composed%20to%20suggest%20continuous%20movement%20rightwards%20across%20a%20scenic%20historical%20landscape%2C%20cinematic%2C%20dramatic%20lighting%2C%20high%20contrast%2C%20rich%20colors.%20This%20image%20is%20specifically%20designed%20to%20occupy%20the%20right%20side%20of%20a%20split%20frame.%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            }
+          ],
+          "particles": "none",
+          "camera_motion": "none",
+          "transition_style": "slide_up",
+          "sfx_triggers": []
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      },
+      {
+        "scene_id": 3,
+        "arc_phase": "climax",
+        "concept_description": "Fullscreen shot of a modern supersonic jet taking off, then quickly transitioning to a montage of futuristic travel concepts (maglev trains, sleek rockets, space stations) with snap_zoom and handheld camera_motion. Neon futuristic aesthetic, high energy_level with sparks particles. Flash transition to next scene. Typography: box_highlight for climax text, thick sans-serif font.",
+        "key_takeaway": "Today, we soar through skies, traverse continents in hours, and even dream of interstellar journeys!",
+        "duration_sec": 5,
+        "overlay_text": "Soar Skies. Cross Continents. Dream Stars!",
+        "visual_script": {
+          "background_color": "#0a0a1a",
+          "layout_style": "fullscreen",
+          "typography_style": "box_highlight",
+          "energy_level": "high",
+          "composition": [
+            {
+              "type": "video",
+              "image_prompt": "Neon futuristic city with flying vehicles at night, rain reflecting neon lights, high detail, cyberpunk aesthetic, moving traffic, 4k, dark tones, vibrant neons.",
+              "depth": 0.5,
+              "zIndex": 0,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1.1
+                }
+              },
+              "url": "/assets/videos/neon-futuristic-city-with-flyi-c7e0.mp4"
+            },
+            {
+              "type": "video",
+              "image_prompt": "Modern supersonic stealth jet taking off vertically with afterburners on, extreme speed, intense exhaust flames, vapor trails, ultra-realistic, cinematic, high contrast, 4k.",
+              "depth": 1,
+              "zIndex": 4,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.5,
+                  "y": 0.8,
+                  "scale": 0.5
+                },
+                "end_pos": {
+                  "x": 0.5,
+                  "y": 0.2,
+                  "scale": 1
+                }
+              },
+              "url": "/assets/videos/modern-supersonic-stealth-jet--f181.mp4"
+            },
+            {
+              "type": "image",
+              "image_prompt": "Sleek futuristic maglev train speeding through a neon light tunnel, vibrant light trails, high speed blur, ultra-detailed, 4k.",
+              "depth": 0.7,
+              "zIndex": 2,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 1.1,
+                  "y": 0.7,
+                  "scale": 0.8
+                },
+                "end_pos": {
+                  "x": -0.1,
+                  "y": 0.7,
+                  "scale": 0.8
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/Sleek%20futuristic%20maglev%20train%20speeding%20through%20a%20neon%20light%20tunnel%2C%20vibrant%20light%20trails%2C%20high%20speed%20blur%2C%20ultra-detailed%2C%204k.%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            },
+            {
+              "type": "image",
+              "image_prompt": "Futuristic space rocket launching into a starry nebula, neon propulsion glow, sleek chrome design, high altitude, dynamic lighting, ultra-detailed, 4k.",
+              "depth": 0.8,
+              "zIndex": 3,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.2,
+                  "y": 1.1,
+                  "scale": 0.6
+                },
+                "end_pos": {
+                  "x": 0.4,
+                  "y": -0.1,
+                  "scale": 1.1
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/Futuristic%20space%20rocket%20launching%20into%20a%20starry%20nebula%2C%20neon%20propulsion%20glow%2C%20sleek%20chrome%20design%2C%20high%20altitude%2C%20dynamic%20lighting%2C%20ultra-detailed%2C%204k.%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            },
+            {
+              "type": "image",
+              "image_prompt": "Advanced orbital space station in low earth orbit, highly detailed, glowing windows, epic view of earth and stars, cinematic wide shot, 4k.",
+              "depth": 0.6,
+              "zIndex": 1,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 0.8,
+                  "y": 0.2,
+                  "scale": 0.7
+                },
+                "end_pos": {
+                  "x": 0.7,
+                  "y": 0.3,
+                  "scale": 0.8
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/Advanced%20orbital%20space%20station%20in%20low%20earth%20orbit%2C%20highly%20detailed%2C%20glowing%20windows%2C%20epic%20view%20of%20earth%20and%20stars%2C%20cinematic%20wide%20shot%2C%204k.%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            }
+          ],
+          "particles": "sparks",
+          "camera_motion": "handheld",
+          "transition_style": "glitch",
+          "sfx_triggers": []
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      },
+      {
+        "scene_id": 4,
+        "arc_phase": "outro",
+        "concept_description": "Polaroid_scatter layout displaying diverse modern travel methods (electric cars, cruise ships, high-speed rail, perhaps a conceptual drone taxi) with subtle zoom_in camera_motion and bubbles particles. Bright, optimistic color palette, chill energy_level. Typography: word_pop for closing statement, clean bold font.",
+        "key_takeaway": "The journey continues! What incredible innovations await us as we reach for new horizons?",
+        "duration_sec": 5,
+        "overlay_text": "JOURNEY CONTINUES! INNOVATIONS AWAIT.",
+        "visual_script": {
+          "background_color": "#8DEDF2",
+          "layout_style": "polaroid_scatter",
+          "typography_style": "word_pop",
+          "energy_level": "chill",
+          "composition": [
+            {
+              "type": "image",
+              "image_prompt": "futuristic sleek electric car driving on a glowing highway, night city lights, vibrant, high-resolution",
+              "depth": 0.7,
+              "zIndex": 3,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.2,
+                  "y": 0.3,
+                  "scale": 0.9
+                },
+                "end_pos": {
+                  "x": 0.25,
+                  "y": 0.35,
+                  "scale": 1
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/futuristic%20sleek%20electric%20car%20driving%20on%20a%20glowing%20highway%2C%20night%20city%20lights%2C%20vibrant%2C%20high-resolution%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            },
+            {
+              "type": "image",
+              "image_prompt": "ultra-modern high-speed magnetic levitation train, blurred futuristic landscape, vibrant colors, cinematic",
+              "depth": 0.8,
+              "zIndex": 4,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.7,
+                  "y": 0.2,
+                  "scale": 0.8
+                },
+                "end_pos": {
+                  "x": 0.65,
+                  "y": 0.25,
+                  "scale": 0.9
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/ultra-modern%20high-speed%20magnetic%20levitation%20train%2C%20blurred%20futuristic%20landscape%2C%20vibrant%20colors%2C%20cinematic%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            },
+            {
+              "type": "image",
+              "image_prompt": "luxurious cruise ship with futuristic design sailing on calm, clear blue water, golden hour lighting",
+              "depth": 0.6,
+              "zIndex": 2,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.1,
+                  "y": 0.6,
+                  "scale": 0.7
+                },
+                "end_pos": {
+                  "x": 0.15,
+                  "y": 0.55,
+                  "scale": 0.8
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/luxurious%20cruise%20ship%20with%20futuristic%20design%20sailing%20on%20calm%2C%20clear%20blue%20water%2C%20golden%20hour%20lighting%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            },
+            {
+              "type": "image",
+              "image_prompt": "conceptual autonomous drone taxi lifting off from a rooftop helipad, futuristic city skyline at sunset, cyberpunk aesthetic",
+              "depth": 0.9,
+              "zIndex": 5,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.5,
+                  "y": 0.7,
+                  "scale": 0.95
+                },
+                "end_pos": {
+                  "x": 0.45,
+                  "y": 0.65,
+                  "scale": 1.05
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/conceptual%20autonomous%20drone%20taxi%20lifting%20off%20from%20a%20rooftop%20helipad%2C%20futuristic%20city%20skyline%20at%20sunset%2C%20cyberpunk%20aesthetic%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            },
+            {
+              "type": "image",
+              "image_prompt": "sleek hyperloop capsule interior, passenger looking out at blurred futuristic tunnel passing by, soft lighting, comfortable",
+              "depth": 0.5,
+              "zIndex": 1,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.8,
+                  "y": 0.5,
+                  "scale": 0.6
+                },
+                "end_pos": {
+                  "x": 0.75,
+                  "y": 0.45,
+                  "scale": 0.7
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/sleek%20hyperloop%20capsule%20interior%2C%20passenger%20looking%20out%20at%20blurred%20futuristic%20tunnel%20passing%20by%2C%20soft%20lighting%2C%20comfortable%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            }
+          ],
+          "particles": "bubbles",
+          "camera_motion": "zoom_in",
+          "transition_style": "glitch",
+          "sfx_triggers": []
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      }
+    ]
+  },
+  "video_url": "/videos/video-1770616168986.mp4"
+}

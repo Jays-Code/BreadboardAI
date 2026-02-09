@@ -20,16 +20,17 @@ async function triggerQA() {
         if (typeof obj === 'object') {
             for (const key in obj) {
                 if (typeof obj[key] === 'string') {
-                    // Use local space images - zero external dependencies!
+                    // Use local space assets (images + videos) - zero external dependencies!
                     if (obj[key].includes('source.unsplash.com')) {
-                        const spaceImages = [
+                        const spaceAssets = [
                             '/assets/space/nebula.png',
                             '/assets/space/starfield.png',
                             '/assets/space/galaxy.png',
+                            '/assets/videos/nebula.mp4',
                         ];
-                        const randomImage = spaceImages[Math.floor(Math.random() * spaceImages.length)];
-                        obj[key] = randomImage;
-                        console.log(`Patched Image (Local): ${obj[key]}`);
+                        const randomAsset = spaceAssets[Math.floor(Math.random() * spaceAssets.length)];
+                        obj[key] = randomAsset;
+                        console.log(`Patched Asset (Local): ${obj[key]}`);
                     }
                 } else if (typeof obj[key] === 'object') {
                     patch(obj[key]);

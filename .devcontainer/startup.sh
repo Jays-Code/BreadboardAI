@@ -6,11 +6,11 @@ cd /workspaces/BreadboardAI
 echo "[Startup] Starting services sequentially to prevent resource spikes..."
 
 # 1. Start the Ghost Bridge (Ollama & Qdrant)
-if ! lsof -i :11434 > /dev/null 2>&1; then
-    echo "[Startup] Starting Ghost Bridge proxy..."
-    nohup /usr/local/bin/node /workspaces/BreadboardAI/ollama-proxy.cjs > /workspaces/BreadboardAI/proxy.log 2>&1 &
-    sleep 2
-fi
+# if ! lsof -i :11434 > /dev/null 2>&1; then
+#     echo "[Startup] Starting Ghost Bridge proxy..."
+#     nohup /usr/local/bin/node /workspaces/BreadboardAI/ollama-proxy.cjs > /workspaces/BreadboardAI/proxy.log 2>&1 &
+#     sleep 2
+# fi
 
 # 2. Start the Frontend (Vite)
 if ! lsof -i :5173 > /dev/null 2>&1; then

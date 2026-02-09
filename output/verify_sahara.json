@@ -1,0 +1,312 @@
+{
+  "video_structure": {
+    "video_title_internal": "SaharaJourneyCinematic",
+    "estimated_total_duration": 24,
+    "scenes": [
+      {
+        "scene_id": 1,
+        "arc_phase": "hook",
+        "concept_description": "Extreme close-up, high-speed drone shot sweeping across vast, perfectly sculpted sand dunes under a vibrant sunrise. Grains of sand are visible, glinting.",
+        "key_takeaway": "Beyond its golden dunes, the Sahara Desert hides secrets older than time itself.",
+        "duration_sec": 6,
+        "overlay_text": "Sahara's Golden Dunes: Secrets Older Than Time.",
+        "visual_script": {
+          "background_color": "#E6954B",
+          "layout_style": "fullscreen",
+          "typography_style": "word_pop",
+          "energy_level": "high",
+          "composition": [
+            {
+              "type": "video",
+              "image_prompt": "high-speed drone sweeping over vast, perfectly sculpted sand dunes at sunrise, golden hour light, ancient earthy tones, cinematic, vibrant resilience, no people",
+              "depth": 0.7,
+              "zIndex": 10,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.6,
+                  "y": 0.5,
+                  "scale": 1.3
+                },
+                "end_pos": {
+                  "x": 0.4,
+                  "y": 0.5,
+                  "scale": 1.2
+                }
+              },
+              "url": "/assets/videos/nebula.mp4"
+            },
+            {
+              "type": "image",
+              "image_prompt": "extreme close-up of individual sand grains glinting brightly under direct sunrise light, macro perspective, textured, golden sparks",
+              "depth": 1,
+              "zIndex": 15,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.7,
+                  "y": 0.6,
+                  "scale": 1.8
+                },
+                "end_pos": {
+                  "x": 0.3,
+                  "y": 0.4,
+                  "scale": 1.5
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/extreme%20close-up%20of%20individual%20sand%20grains%20glinting%20brightly%20under%20direct%20sunrise%20light%2C%20macro%20perspective%2C%20textured%2C%20golden%20sparks%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            }
+          ],
+          "particles": "dust",
+          "camera_motion": "snap_zoom",
+          "transition_style": "glitch",
+          "sfx_triggers": []
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      },
+      {
+        "scene_id": 2,
+        "arc_phase": "journey",
+        "concept_description": "Montage of diverse Sahara scenes: a lone camel caravan traversing the horizon, ancient rock carvings, a vibrant oasis shimmering in the heat, all with dynamic camera pans and zooms.",
+        "key_takeaway": "For millennia, this colossal landscape has shaped civilizations and cradled untold stories of survival and wonder.",
+        "duration_sec": 6,
+        "overlay_text": "Ancient Land. Epic History. Untold Stories.",
+        "visual_script": {
+          "background_color": "#E8AF64",
+          "layout_style": "montage_grid",
+          "typography_style": "word_pop",
+          "energy_level": "high",
+          "composition": [
+            {
+              "type": "image",
+              "image_prompt": "A lone camel caravan silhouetted against a golden hour desert horizon, vast sand dunes, epic scale, cinematic, vibrant colors, high contrast.",
+              "depth": 0.7,
+              "zIndex": 10,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.4,
+                  "y": 0.5,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 0.6,
+                  "y": 0.5,
+                  "scale": 1.1
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/A%20lone%20camel%20caravan%20silhouetted%20against%20a%20golden%20hour%20desert%20horizon%2C%20vast%20sand%20dunes%2C%20epic%20scale%2C%20cinematic%2C%20vibrant%20colors%2C%20high%20contrast.%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            },
+            {
+              "type": "image",
+              "image_prompt": "Ancient intricate rock carvings depicting desert animals and human figures on a sandstone cliff face, earthy tones, close-up texture, strong shadows, vibrant resilience.",
+              "depth": 0.8,
+              "zIndex": 11,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 1.15
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/Ancient%20intricate%20rock%20carvings%20depicting%20desert%20animals%20and%20human%20figures%20on%20a%20sandstone%20cliff%20face%2C%20earthy%20tones%2C%20close-up%20texture%2C%20strong%20shadows%2C%20vibrant%20resilience.%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            },
+            {
+              "type": "image",
+              "image_prompt": "A vibrant, lush oasis shimmering in the heat in the middle of a hot desert, abundant palm trees, clear shimmering blue water, contrasting green and orange hues, intense sunlight, inviting atmosphere.",
+              "depth": 0.9,
+              "zIndex": 12,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 0.6,
+                  "y": 0.5,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 0.4,
+                  "y": 0.5,
+                  "scale": 1.1
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/A%20vibrant%2C%20lush%20oasis%20shimmering%20in%20the%20heat%20in%20the%20middle%20of%20a%20hot%20desert%2C%20abundant%20palm%20trees%2C%20clear%20shimmering%20blue%20water%2C%20contrasting%20green%20and%20orange%20hues%2C%20intense%20sunlight%2C%20inviting%20atmosphere.%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            }
+          ],
+          "particles": "dust",
+          "camera_motion": "pan_left",
+          "transition_style": "glitch",
+          "sfx_triggers": []
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      },
+      {
+        "scene_id": 3,
+        "arc_phase": "climax",
+        "concept_description": "Powerful wide shot of a meteor shower or a star-filled milky way arching over an iconic desert rock formation. Emphasize the vastness and mystery.",
+        "key_takeaway": "But beneath the fiery sun, the Sahara reveals an extraordinary resilience, a vibrant tapestry of life against all odds.",
+        "duration_sec": 6,
+        "overlay_text": "Sahara: Vibrant Life, Against All Odds.",
+        "visual_script": {
+          "background_color": "#B87333",
+          "layout_style": "fullscreen",
+          "typography_style": "word_pop",
+          "energy_level": "high",
+          "composition": [
+            {
+              "type": "video",
+              "image_prompt": "Dynamic meteor shower streaking across a vibrant, star-filled Milky Way arching over a dark horizon. Slow, subtle upward pan to emphasize vastness and depth. Ultra wide angle, nebulae visible, high contrast, cinematic.",
+              "depth": 0.5,
+              "zIndex": 1,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 50,
+                  "y": 50,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 50,
+                  "y": 48,
+                  "scale": 1.05
+                }
+              },
+              "url": "/assets/videos/nebula.mp4"
+            },
+            {
+              "type": "image",
+              "image_prompt": "Majestic iconic desert rock formation, like Monument Valley, silhouetted against a fading golden hour glow. Ancient earthy tones, sharp details on rock textures, wide angle, cinematic lighting from below.",
+              "depth": 1,
+              "zIndex": 2,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 50,
+                  "y": 85,
+                  "scale": 1.1
+                },
+                "end_pos": {
+                  "x": 48,
+                  "y": 85,
+                  "scale": 1.1
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/Majestic%20iconic%20desert%20rock%20formation%2C%20like%20Monument%20Valley%2C%20silhouetted%20against%20a%20fading%20golden%20hour%20glow.%20Ancient%20earthy%20tones%2C%20sharp%20details%20on%20rock%20textures%2C%20wide%20angle%2C%20cinematic%20lighting%20from%20below.%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            },
+            {
+              "type": "video",
+              "image_prompt": "Subtle, ethereal golden dust motes and tiny sparkling particles drifting slowly across a desert landscape in the foreground, catching ambient light. Transparent background, high definition, very slow motion.",
+              "depth": 1,
+              "zIndex": 3,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 50,
+                  "y": 50,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 52,
+                  "y": 50,
+                  "scale": 1
+                }
+              },
+              "url": "/assets/videos/nebula.mp4"
+            }
+          ],
+          "particles": "sparks",
+          "camera_motion": "zoom_in",
+          "transition_style": "none"
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      },
+      {
+        "scene_id": 4,
+        "arc_phase": "outro",
+        "concept_description": "Slow, cinematic drone shot ascending from a bustling desert market or a serene dune peak, revealing the expansive, breathtaking beauty of the Sahara at sunset.",
+        "key_takeaway": "The Sahara: an eternal testament to power, beauty, and the endless wonder of our planet.",
+        "duration_sec": 6,
+        "overlay_text": "Sahara: Eternal Power, Beauty, Wonder.",
+        "visual_script": {
+          "background_color": "#E2A74E",
+          "layout_style": "fullscreen",
+          "typography_style": "null",
+          "energy_level": "high",
+          "composition": [
+            {
+              "type": "video",
+              "image_prompt": "Cinematic slow drone shot ascending over vast golden Sahara desert dunes at sunset, revealing expansive, breathtaking beauty, deep shadows, warm earthy tones, vibrant sky, high resolution, 4K, 30fps",
+              "depth": 0.5,
+              "zIndex": 0,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 50,
+                  "y": 70,
+                  "scale": 1
+                },
+                "end_pos": {
+                  "x": 50,
+                  "y": 30,
+                  "scale": 1.1
+                }
+              },
+              "url": "/assets/videos/nebula.mp4"
+            },
+            {
+              "type": "image",
+              "image_prompt": "Sharp crest of a desert dune, detailed sand texture, golden hour light hitting the ridge, cinematic, in the foreground, highly detailed",
+              "depth": 1,
+              "zIndex": 2,
+              "motion": {
+                "type": "ease",
+                "start_pos": {
+                  "x": 50,
+                  "y": 100,
+                  "scale": 1.2
+                },
+                "end_pos": {
+                  "x": 50,
+                  "y": 70,
+                  "scale": 1
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/Sharp%20crest%20of%20a%20desert%20dune%2C%20detailed%20sand%20texture%2C%20golden%20hour%20light%20hitting%20the%20ridge%2C%20cinematic%2C%20in%20the%20foreground%2C%20highly%20detailed%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            },
+            {
+              "type": "image",
+              "image_prompt": "Distant silhouette of a camel caravan slowly moving across a vast desert dune, atmospheric haze, golden hour sunset, Sahara, cinematic, vibrant resilience",
+              "depth": 0.7,
+              "zIndex": 1,
+              "motion": {
+                "type": "linear",
+                "start_pos": {
+                  "x": 10,
+                  "y": 60,
+                  "scale": 0.8
+                },
+                "end_pos": {
+                  "x": 80,
+                  "y": 55,
+                  "scale": 0.9
+                }
+              },
+              "url": "https://image.pollinations.ai/prompt/Distant%20silhouette%20of%20a%20camel%20caravan%20slowly%20moving%20across%20a%20vast%20desert%20dune%2C%20atmospheric%20haze%2C%20golden%20hour%20sunset%2C%20Sahara%2C%20cinematic%2C%20vibrant%20resilience%2C%20cinematic%2C%208k%2C%20highly%20detailed?width=1080&height=1920&nologo=true"
+            }
+          ],
+          "particles": "dust",
+          "camera_motion": "zoom_in",
+          "transition_style": "fade",
+          "sfx_triggers": []
+        },
+        "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      }
+    ]
+  },
+  "video_url": "/videos/video-1770615251147.mp4"
+}

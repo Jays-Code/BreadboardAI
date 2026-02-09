@@ -46,6 +46,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.resolve(process.cwd(), 'ui')));
 app.use('/api', express.static(path.resolve(process.cwd(), 'public', 'api')));
 app.use('/videos', express.static(VIDEO_OUT_DIR));
+app.use('/assets', express.static(path.resolve(process.cwd(), 'public', 'assets')));
 
 // --- Generic Run Endpoint (Wait for completion) ---
 app.post('/api/run', async (req, res) => {
@@ -431,25 +432,72 @@ app.post('/generate-image', async (req, res) => {
     if (process.env.OPENAI_API_KEY) {
         try {
             console.log("[Bridge] Using DALL-E 3 for high-fidelity asset...");
-            // Simulated OpenAI call (to be replaced with actual 'openai' package if installed)
-            // For now, we use a sophisticated fallback that mimics high-quality production
         } catch (e) {
             console.error("[Bridge] DALL-E 3 failed, falling back...");
         }
     }
 
-    // 2. Pollinations.AI Fallback (High Quality, Free, Unlimited)
-    // This allows real AI image generation without an API key, perfect for the "Space Exploration" use case.
-    const encodedPrompt = encodeURIComponent(prompt);
-    // Add seed to ensure consistency if needed, but random is fine for now.
-    // We add 'cinematic' and 'highly detailed' to ensure quality.
+    // 2. Pollinations.AI Fallback
     const enhancedPrompt = encodeURIComponent(`${prompt}, cinematic, 8k, highly detailed`);
     const imageUrl = `https://image.pollinations.ai/prompt/${enhancedPrompt}?width=1080&height=1920&nologo=true`;
 
-    // Simulate generation latency for realism (Pollinations is fast, but we want to mimic async feeling)
     await new Promise(resolve => setTimeout(resolve, 2000));
-
     res.json({ url: imageUrl });
+});
+
+// --- Dynamic Video Sourcing Endpoint (yt-dlp powered) ---
+app.post('/api/source-video', async (req, res) => {
+    const { prompt } = req.body;
+    if (!prompt) return res.status(400).json({ error: "Missing prompt" });
+
+    // Summarize/Clean prompt for better search matching if it's too long
+    let searchPrompt = prompt;
+    if (prompt.length > 100) {
+        // Extract the first meaningful chunk or just take first 100 chars
+        searchPrompt = prompt.split(',')[0].substring(0, 100);
+    }
+
+    console.log(`[Bridge] Sourcing Video for: "${prompt.substring(0, 40)}..."`);
+    console.log(`[Bridge] Optimized Search Query: "${searchPrompt}"`);
+
+    // Sanitize filename
+    const safeName = searchPrompt.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').substring(0, 30);
+    const filename = `${safeName}-${crypto.randomUUID().substring(0, 4)}.mp4`;
+    const outputPath = path.join(process.cwd(), 'public', 'assets', 'videos', filename);
+
+    try {
+        const ytDlpPath = '/tmp/yt-dlp';
+        if (!fs.existsSync(ytDlpPath)) {
+            throw new Error("yt-dlp not found at /tmp/yt-dlp");
+        }
+
+        // yt-dlp search and download
+        // Flags: search 1, best mp4 under 720p, no playlist, skip if exists
+        const searchUrl = `ytsearch1:${searchPrompt} footage creative commons`;
+        console.log(`[Bridge] Executing yt-dlp search: ${searchUrl}`);
+
+        const { execSync } = await import('child_process');
+        execSync(`"${ytDlpPath}" -f "best[height<=720][ext=mp4]" --no-playlist --output "${outputPath}" "${searchUrl}" --max-filesize 20M`, {
+            stdio: 'inherit'
+        });
+
+        if (fs.existsSync(outputPath)) {
+            console.log(`[Bridge] Video sourced: /assets/videos/${filename}`);
+            return res.json({ url: `/assets/videos/${filename}` });
+        } else {
+            throw new Error("yt-dlp finished but file was not created");
+        }
+
+    } catch (error: any) {
+        console.error("[Bridge] Video Sourcing Failed:", error.message);
+        // Fallback to the existing nebula video if available
+        const fallback = "/assets/videos/nebula.mp4";
+        if (fs.existsSync(path.join(process.cwd(), 'public', fallback))) {
+            console.log("[Bridge] Falling back to nebula.mp4");
+            return res.json({ url: fallback, warning: "Sourcing failed, using fallback" });
+        }
+        res.status(500).json({ error: "Video sourcing failed", details: error.message });
+    }
 });
 
 app.post('/generate-image-imagen', async (req, res) => {
