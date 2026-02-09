@@ -1,5 +1,0 @@
-
-  VITE v7.3.1  ready in 3701 ms
-
-  ➜  Local:   http://localhost:5174/
-  ➜  Network: http://172.17.0.3:5174/

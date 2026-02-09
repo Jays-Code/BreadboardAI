@@ -1,6 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, Img, Video, useCurrentFrame, interpolate, staticFile } from 'remotion';
-import { SceneElement } from '../AnimationEngine.js';
+import { SceneElement } from '../AnimationEngine';
 
 interface LayoutEngineProps {
     layout: string; // 'fullscreen' | 'split_vertical' | 'montage_grid' | 'polaroid_scatter'

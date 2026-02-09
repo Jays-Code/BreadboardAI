@@ -1,6 +1,6 @@
 import { AbsoluteFill, Sequence, spring, useCurrentFrame, useVideoConfig, interpolate, Audio, staticFile } from 'remotion';
 import React from 'react';
-import { AnimationEngine, VisualScript } from './AnimationEngine.js';
+import { AnimationEngine, VisualScript } from './AnimationEngine';
 
 export interface Scene {
     scene_id: number;

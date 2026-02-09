@@ -12,6 +12,7 @@ import {
     copywriterFlowDef,
     visualArchitectFlowDef,
     assetSourcingFlowDef,
+    musicSourcingFlowDef,
     voiceoverFlowDef,
     assemblerDef,
     rendererDef
@@ -68,6 +69,7 @@ app.post('/api/run', async (req, res) => {
                 copywriterFlow: copywriterFlowDef,
                 visualArchitectFlow: visualArchitectFlowDef,
                 assetSourcingFlow: assetSourcingFlowDef,
+                musicSourcingFlow: musicSourcingFlowDef,
                 voiceoverFlow: voiceoverFlowDef,
                 assembler: assemblerDef,
                 renderer: rendererDef
@@ -123,14 +125,17 @@ app.get('/api/run-stream', async (req, res) => {
                 copywriterFlow: copywriterFlowDef,
                 visualArchitectFlow: visualArchitectFlowDef,
                 assetSourcingFlow: assetSourcingFlowDef,
+                musicSourcingFlow: musicSourcingFlowDef,
                 voiceoverFlow: voiceoverFlowDef,
                 assembler: assemblerDef,
                 renderer: rendererDef
             }
         });
 
+        console.log(`[Bridge] Running ${slug} with inputs:`, JSON.stringify(inputs));
+
         const topicSlug = inputs.topic ? String(inputs.topic).toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').substring(0, 30) : 'run';
-        const runId = `${topicSlug}-${crypto.randomUUID().substring(0, 8)}`;
+        const runId = inputs.runId || `${topicSlug}-${crypto.randomUUID().substring(0, 8)}`;
         const trace: any[] = [];
         const startTime = new Date().toISOString();
         const loader = createLoader();
@@ -219,37 +224,36 @@ app.post('/api/render', async (req, res) => {
     const { video_structure, runId } = req.body;
     if (!video_structure) return res.status(400).json({ error: "No video structure provided" });
 
-    const id = runId || `video-${Date.now()}`;
-    const propsFile = path.join(os.tmpdir(), `props-${id}.json`);
-    const outputFilename = `${id}.mp4`;
-    const outputPath = path.join(VIDEO_OUT_DIR, outputFilename);
+    let id = runId;
+    if (!id || id === "") {
+        if (video_structure.topic) {
+            const topicSlug = video_structure.topic.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').substring(0, 40);
+            id = `${topicSlug}-${crypto.randomUUID().substring(0, 5)}`;
+            console.log(`[Renderer] Smart ID generated from topic: ${id}`);
+        } else {
+            id = `video-${Date.now()}`;
+            console.log(`[Renderer] No topic found, using timestamp ID: ${id}`);
+        }
+    }
 
-    // Check if already finished
+    let outputPath = path.join(VIDEO_OUT_DIR, `${id}.mp4`);
+
+    // Collision Detection: If the file exists, we need a NEW ID to avoid overwriting or lazy-load bugs.
     if (fs.existsSync(outputPath)) {
-        renderProgress[id] = 100;
-        return res.json({
-            success: true,
-            runId: id,
-            video_url: `/videos/${outputFilename}`,
-            status: "complete"
-        });
+        const suffix = crypto.randomUUID().substring(0, 5);
+        const oldId = id;
+        id = `${id}-${suffix}`;
+        console.log(`[Renderer] Collision detected for ID ${oldId}. New unique ID: ${id}`);
+        outputPath = path.join(VIDEO_OUT_DIR, `${id}.mp4`);
     }
 
-    // Check if already in progress
-    if (renderProgress[id] !== undefined && renderProgress[id] >= 0 && renderProgress[id] < 100) {
-        return res.json({
-            success: true,
-            runId: id,
-            video_url: `/videos/${outputFilename}`,
-            status: "rendering"
-        });
-    }
+    const propsFile = path.join(os.tmpdir(), `props-${id}.json`);
 
     try {
         fs.writeFileSync(propsFile, JSON.stringify(video_structure));
         renderProgress[id] = 0;
 
-        console.log(`[Renderer] Starting render for ${outputFilename}...`);
+        console.log(`[Renderer] Starting render for ${id}.mp4...`);
 
         const { spawn } = await import('child_process');
         const remotionCli = path.resolve(process.cwd(), 'node_modules/@remotion/cli/remotion-cli.js');
@@ -263,8 +267,17 @@ app.post('/api/render', async (req, res) => {
             env: {
                 ...process.env,
                 PATH: '/usr/local/bin:/usr/bin:/bin'
-            }
+            },
+            timeout: 300000 // 5 minute timeout
         });
+
+        const logMemory = () => {
+            const mem = process.memoryUsage();
+            console.log(`[Renderer:${id}] Memory: RSS=${Math.round(mem.rss / 1024 / 1024)}MB, Heap=${Math.round(mem.heapUsed / 1024 / 1024)}MB`);
+        };
+
+        logMemory();
+        const memInterval = setInterval(logMemory, 10000);
 
         child.stdout.on('data', (data) => {
             const output = data.toString();
@@ -284,19 +297,20 @@ app.post('/api/render', async (req, res) => {
 
         child.on('close', (code) => {
             if (code === 0) {
-                console.log(`[Renderer] Render complete: ${outputFilename}`);
+                console.log(`[Renderer] Render complete: ${id}.mp4`);
                 renderProgress[id] = 100;
             } else {
                 console.error(`[Renderer] Process exited with code ${code}`);
                 renderProgress[id] = -1; // Error state
             }
             if (fs.existsSync(propsFile)) fs.unlinkSync(propsFile);
+            clearInterval(memInterval);
         });
 
         res.json({
             success: true,
             runId: id,
-            video_url: `/videos/${outputFilename}`,
+            video_url: `/videos/${id}.mp4`,
             status: "started"
         });
 
@@ -558,14 +572,14 @@ app.post('/generate-audio', async (req, res) => {
 
         // --- Heuristic Timestamp Generation ---
         // Since we don't have real alignment, we estimate based on character length
-        const words = cleanText.split(/\s+/).filter(w => w.length > 0);
+        const words = cleanText.split(/\s+/).filter((w: string) => w.length > 0);
         // Estimate duration: ~150 words per minute = 2.5 words per second
         // Or roughly 0.4s per word. Let's use 0.4s as a base, but weight by length.
         const totalChars = cleanText.length;
         const totalDurationEstimate = Math.max(2, words.length * 0.4); // Min 2s
 
         let currentOffset = 0;
-        const timestamps = words.map(word => {
+        const timestamps = words.map((word: string) => {
             const wordWeight = word.length / totalChars;
             const wordDuration = wordWeight * totalDurationEstimate;
             const ts = {

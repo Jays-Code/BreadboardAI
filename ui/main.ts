@@ -740,6 +740,7 @@ function getInputsForm(inputs: any[]) {
         }
 
         return propertyEntries.map(([key, prop]: [string, any]) => {
+            if (key === 'runId') return ''; // Skip internal Run ID field
             const friendlyLabel = prop.title || formatNodeLabel(key);
             const isMainPrompt = key.toLowerCase().includes('topic') || key.toLowerCase().includes('prompt');
             const placeholder = isMainPrompt ? "What should the AI write about?" : `Enter ${friendlyLabel.toLowerCase()}...`;

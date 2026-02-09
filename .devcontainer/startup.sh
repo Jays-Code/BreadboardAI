@@ -1,49 +1,74 @@
 #!/bin/bash
 
 # Ensure we are in the project root
-cd /workspaces/BreadboardAI
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR/.." || exit 1
 
-echo "[Startup] Starting services sequentially to prevent resource spikes..."
+# 0. Safety Guards
+# Explicit recursion check
+if [ "$SHLVL" -gt 4 ]; then
+    echo "[Startup] CRITICAL: Shell level too high ($SHLVL). Aborting to prevent infinite recursion."
+    exit 1
+fi
 
-# 1. Start the Ghost Bridge (Ollama & Qdrant)
-# if ! lsof -i :11434 > /dev/null 2>&1; then
-#     echo "[Startup] Starting Ghost Bridge proxy..."
-#     nohup /usr/local/bin/node /workspaces/BreadboardAI/ollama-proxy.cjs > /workspaces/BreadboardAI/proxy.log 2>&1 &
-#     sleep 2
-# fi
+# Atomic lockfile creation using mkdir (idempotent and race-condition safe)
+LOCKDIR="/tmp/startup_v2.lock"
+if ! mkdir "$LOCKDIR" 2>/dev/null; then
+    # Check if the locking process actually exists
+    if [ -f "$LOCKDIR/pid" ]; then
+        OLD_PID=$(cat "$LOCKDIR/pid")
+        if ps -p "$OLD_PID" > /dev/null 2>&1; then
+            echo "[Startup] Another instance is already running (PID: $OLD_PID). skipping."
+            exit 0
+        fi
+    fi
+    # Stale lock or partial creation, cleanup and retry once
+    rm -rf "$LOCKDIR"
+    mkdir "$LOCKDIR" || exit 1
+fi
+echo $$ > "$LOCKDIR/pid"
+trap 'rm -rf "$LOCKDIR"' EXIT
+
+# Cooldown to prevent rapid re-attach loops
+LAST_RUN_FILE="/tmp/startup.last_run"
+NOW=$(date +%s)
+if [ -f "$LAST_RUN_FILE" ]; then
+    LAST_RUN=$(cat "$LAST_RUN_FILE")
+    DIFF=$((NOW - LAST_RUN))
+    if [ "$DIFF" -lt 15 ]; then
+        echo "[Startup] Cooldown active ($DIFF seconds). Skipping."
+        exit 0
+    fi
+fi
+echo "$NOW" > "$LAST_RUN_FILE"
+
+# Start Memory Guard if not running
+if ! pgrep -f "memory_guard.sh" > /dev/null; then
+    bash /workspaces/BreadboardAI/.devcontainer/memory_guard.sh > /tmp/memory_guard.log 2>&1 &
+fi
+
+echo "[Startup] Initializing services (Logs -> /tmp/)..."
 
 # 2. Start the Frontend (Vite)
-if ! lsof -i :5173 > /dev/null 2>&1; then
+# Precision pgrep to avoid matching other node processes
+if ! pgrep -f "vite.*vite.config.ts$" > /dev/null; then
     echo "[Startup] Starting Vite dev server..."
-    nohup /workspaces/BreadboardAI/tools/editor/node_modules/.bin/vite --config /workspaces/BreadboardAI/vite.config.ts > /workspaces/BreadboardAI/vite.log 2>&1 &
-    sleep 5
+    nohup /usr/local/bin/node /workspaces/BreadboardAI/node_modules/.bin/vite --config /workspaces/BreadboardAI/vite.config.ts > /tmp/vite.log 2>&1 &
+    sleep 1
 fi
 
 # 3. Start the Bridge Server
-if ! lsof -i :3000 > /dev/null 2>&1; then
-    echo "[Startup] Fixing Breadboard build resolution..."
-    # Ensure Build Kit can find Breadboard
-    mkdir -p /workspaces/BreadboardAI/node_modules/@breadboard-ai/build/node_modules/@google-labs
-    ln -snf /workspaces/BreadboardAI/node_modules/@google-labs/breadboard /workspaces/BreadboardAI/node_modules/@breadboard-ai/build/node_modules/@google-labs/breadboard || true
-    # Fix entry point for packages that ignore exports
-    ln -snf /workspaces/BreadboardAI/node_modules/@google-labs/breadboard/dist/src/index.js /workspaces/BreadboardAI/node_modules/@google-labs/breadboard/index.js || true
-    # Fix missing mermaid.js
-    mkdir -p /workspaces/BreadboardAI/node_modules/@google-labs/breadboard/dist/src
-    cp /workspaces/BreadboardAI/node_modules/mermaid/dist/mermaid.js /workspaces/BreadboardAI/node_modules/@google-labs/breadboard/dist/src/mermaid.js 2>/dev/null || true
-    
+if ! pgrep -f "src/bridge/server.ts" > /dev/null; then
     echo "[Startup] Starting Bridge Server (Port 3000)..."
-    nohup /usr/local/bin/node --import /workspaces/BreadboardAI/node_modules/tsx/dist/loader.mjs /workspaces/BreadboardAI/src/bridge/server.ts > /workspaces/BreadboardAI/bridge.log 2>&1 &
-    sleep 5
+    nohup bash /workspaces/BreadboardAI/fix_bridge.sh > /tmp/bridge_fix.log 2>&1 &
+    sleep 1
 fi
-
-
-
 
 # 4. Start the Editor UI
-if ! lsof -i :5174 > /dev/null 2>&1; then
+if ! pgrep -f "tools/editor/vite.config.ts$" > /dev/null; then
     echo "[Startup] Starting Editor UI (Port 5174)..."
-    nohup /workspaces/BreadboardAI/tools/editor/node_modules/.bin/vite --config /workspaces/BreadboardAI/tools/editor/vite.config.ts > /workspaces/BreadboardAI/editor.log 2>&1 &
+    nohup /usr/local/bin/node /workspaces/BreadboardAI/node_modules/.bin/vite --config /workspaces/BreadboardAI/tools/editor/vite.config.ts > /tmp/editor.log 2>&1 &
 fi
 
-echo "[Startup] All background services initialized."
+echo "[Startup] Services checked. Logs in /tmp/"
 exit 0

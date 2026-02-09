@@ -1,9 +1,9 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, interpolate, useVideoConfig, Audio } from 'remotion';
-import { CameraRig } from './components/CameraRig.js';
-import { LayoutEngine } from './components/LayoutEngine.js';
-import { KineticText } from './components/KineticText.js';
-import { Vignette, FilmGrain, GlitchOverlay } from './components/PolishPass.js';
+import { CameraRig } from './components/CameraRig';
+import { LayoutEngine } from './components/LayoutEngine';
+import { KineticText } from './components/KineticText';
+import { Vignette, FilmGrain, GlitchOverlay } from './components/PolishPass';
 
 // --- Primitives ---
 

@@ -31,8 +31,8 @@ const style_profile = input({
 });
 
 const runId = input({
-    title: "Run ID",
-    description: "Unique identifier for this run (used for correlation)",
+    title: "Correlation ID (Internal)",
+    description: "System-managed identifier. Leave blank for automatic naming based on topic.",
     default: ""
 });
 
@@ -452,17 +452,23 @@ export const assemblerDef = defineNodeType({
         title: { type: "string" },
         duration: { type: "number" },
         scenes: { type: array(object({})) },
-        background_music: { type: "string" }
+        background_music: { type: "string" },
+        topic: { type: "string" },
+        tone: { type: "string" },
+        style_profile: { type: "string" }
     },
     outputs: {
         video_structure: { type: object({}) }
     },
-    invoke: ({ title, duration, scenes, background_music }) => ({
+    invoke: ({ title, duration, scenes, background_music, topic, tone, style_profile }) => ({
         video_structure: {
             video_title_internal: title,
             estimated_total_duration: duration,
             background_music: background_music,
-            scenes: scenes
+            scenes: scenes,
+            topic,
+            tone,
+            style_profile
         }
     })
 });
@@ -470,7 +476,10 @@ const assembler = assemblerDef({
     title: directorFlow.outputs.title,
     duration: directorFlow.outputs.total_duration,
     scenes: voiceoverFlow.outputs.scenesWithAudio,
-    background_music: musicSourcingFlow.outputs.music_url
+    background_music: musicSourcingFlow.outputs.music_url,
+    topic: directorFlow.outputs.topic,
+    tone: directorFlow.outputs.tone,
+    style_profile: directorFlow.outputs.style_profile
 });
 
 // --- 8. Video Renderer ---

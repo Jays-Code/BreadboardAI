@@ -1,0 +1,120 @@
+{
+  "id": "another-test-709f8834",
+  "slug": "prompt-to-post",
+  "startTime": "2026-02-09T22:32:21.239Z",
+  "endTime": "2026-02-09T22:32:21.241Z",
+  "inputs": {
+    "topic": "Another Test",
+    "runId": "custom-test-id-123"
+  },
+  "trace": [
+    {
+      "type": "beforehandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "runId": {
+                  "type": "string",
+                  "title": "Correlation ID (Internal)",
+                  "description": "System-managed identifier. Leave blank for automatic naming based on topic.",
+                  "default": ""
+                },
+                "style_profile": {
+                  "type": "string",
+                  "title": "Style Profile",
+                  "description": "The visual identity and aesthetic style for the video",
+                  "default": "Vibrant Fusion"
+                },
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                },
+                "visual_critique": {
+                  "type": "string",
+                  "title": "Visual Critique",
+                  "description": "Feedback from the Visual QA Critic to improve the visuals in a second pass",
+                  "default": ""
+                }
+              },
+              "required": []
+            }
+          }
+        }
+      },
+      "timestamp": "2026-02-09T22:32:21.240Z"
+    },
+    {
+      "type": "input",
+      "data": {
+        "topic": "Another Test",
+        "runId": "custom-test-id-123"
+      },
+      "timestamp": "2026-02-09T22:32:21.240Z"
+    },
+    {
+      "type": "afterhandler",
+      "data": {
+        "node": {
+          "id": "input-0",
+          "type": "input",
+          "configuration": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "runId": {
+                  "type": "string",
+                  "title": "Correlation ID (Internal)",
+                  "description": "System-managed identifier. Leave blank for automatic naming based on topic.",
+                  "default": ""
+                },
+                "style_profile": {
+                  "type": "string",
+                  "title": "Style Profile",
+                  "description": "The visual identity and aesthetic style for the video",
+                  "default": "Vibrant Fusion"
+                },
+                "tone": {
+                  "type": "string",
+                  "title": "Tone",
+                  "description": "The desired tone for the content",
+                  "default": "Educational and upbeat"
+                },
+                "topic": {
+                  "type": "string",
+                  "title": "Topic",
+                  "description": "The main topic for the content generation",
+                  "default": "The History of House Music"
+                },
+                "visual_critique": {
+                  "type": "string",
+                  "title": "Visual Critique",
+                  "description": "Feedback from the Visual QA Critic to improve the visuals in a second pass",
+                  "default": ""
+                }
+              },
+              "required": []
+            }
+          }
+        },
+        "outputs": {
+          "topic": "Another Test",
+          "runId": "custom-test-id-123"
+        }
+      },
+      "timestamp": "2026-02-09T22:32:21.240Z"
+    }
+  ]
+}

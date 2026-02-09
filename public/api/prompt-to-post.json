@@ -29,8 +29,26 @@
     {
       "from": "directorFlow-0",
       "to": "assembler-0",
+      "out": "style_profile",
+      "in": "style_profile"
+    },
+    {
+      "from": "directorFlow-0",
+      "to": "assembler-0",
       "out": "title",
       "in": "title"
+    },
+    {
+      "from": "directorFlow-0",
+      "to": "assembler-0",
+      "out": "tone",
+      "in": "tone"
+    },
+    {
+      "from": "directorFlow-0",
+      "to": "assembler-0",
+      "out": "topic",
+      "in": "topic"
     },
     {
       "from": "directorFlow-0",
@@ -43,6 +61,18 @@
       "to": "copywriterFlow-0",
       "out": "scenes",
       "in": "scenes"
+    },
+    {
+      "from": "directorFlow-0",
+      "to": "musicSourcingFlow-0",
+      "out": "ambient_mood",
+      "in": "mood"
+    },
+    {
+      "from": "directorFlow-0",
+      "to": "musicSourcingFlow-0",
+      "out": "topic",
+      "in": "topic"
     },
     {
       "from": "directorFlow-0",
@@ -99,6 +129,12 @@
       "in": "critique"
     },
     {
+      "from": "musicSourcingFlow-0",
+      "to": "assembler-0",
+      "out": "music_url",
+      "in": "background_music"
+    },
+    {
       "from": "renderer-0",
       "to": "output-0",
       "out": "video_url",
@@ -127,8 +163,8 @@
           "properties": {
             "runId": {
               "type": "string",
-              "title": "Run ID",
-              "description": "Unique identifier for this run (used for correlation)",
+              "title": "Correlation ID (Internal)",
+              "description": "System-managed identifier. Leave blank for automatic naming based on topic.",
               "default": ""
             },
             "style_profile": {
@@ -202,6 +238,11 @@
     {
       "id": "directorFlow-0",
       "type": "directorFlow",
+      "configuration": {}
+    },
+    {
+      "id": "musicSourcingFlow-0",
+      "type": "musicSourcingFlow",
       "configuration": {}
     },
     {
