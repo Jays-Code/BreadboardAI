@@ -1,6 +1,6 @@
-import { AbsoluteFill, Sequence, spring, useCurrentFrame, useVideoConfig, interpolate, Audio } from 'remotion';
+import { AbsoluteFill, Sequence, spring, useCurrentFrame, useVideoConfig, interpolate, Audio, staticFile } from 'remotion';
 import React from 'react';
-import { AnimationEngine, VisualScript } from './AnimationEngine';
+import { AnimationEngine, VisualScript } from './AnimationEngine.js';
 
 export interface Scene {
     scene_id: number;
@@ -10,12 +10,14 @@ export interface Scene {
     overlay_text?: string;
     visual_script?: VisualScript;
     audio_url?: string;
+    audio_timestamps?: { word: string; startOffsetMs: number; durationMs: number }[];
 }
 
 export interface VideoConfig {
     scenes: Scene[];
     total_duration: number;
     title: string;
+    background_music?: string;
 }
 
 const SceneItem: React.FC<{ scene: Scene }> = ({ scene }) => {
@@ -44,29 +46,42 @@ const SceneItem: React.FC<{ scene: Scene }> = ({ scene }) => {
                 script={scene.visual_script}
                 description={scene.concept_description}
                 text={scene.overlay_text || scene.key_takeaway}
+                timestamps={scene.audio_timestamps}
             />
 
             {/* Main Scene Audio (Voiceover) */}
             {scene.audio_url && (
-                <Audio src={scene.audio_url} />
+                <Audio
+                    src={scene.audio_url.startsWith('http') ? scene.audio_url : staticFile(scene.audio_url)}
+                    volume={1.0}
+                />
             )}
 
             {/* SFX Triggers */}
-            {script?.sfx_triggers?.map((sfx, i) => (
+            {script?.sfx_triggers?.map((sfx: { frame: number; url: string }, i: number) => (
                 <Sequence key={i} from={sfx.frame}>
-                    <Audio src={sfx.url} volume={0.5} />
+                    <Audio src={sfx.url.startsWith('http') ? sfx.url : staticFile(sfx.url)} volume={0.5} />
                 </Sequence>
             ))}
         </AbsoluteFill>
     );
 };
 
-export const MainVideo: React.FC<VideoConfig> = ({ scenes, title }) => {
+export const MainVideo: React.FC<VideoConfig> = ({ scenes, title, background_music }) => {
     const { fps } = useVideoConfig();
     let currentFrame = 0;
 
     return (
         <AbsoluteFill style={{ backgroundColor: 'black' }}>
+            {/* Global Background Music */}
+            {background_music && (
+                <Audio
+                    src={background_music.startsWith('http') ? background_music : staticFile(background_music)}
+                    volume={0.2} // Constant background volume
+                    loop
+                />
+            )}
+
             {scenes.map((scene, index) => {
                 const startFrame = currentFrame;
                 const durationFrames = Math.round(scene.duration_sec * fps);

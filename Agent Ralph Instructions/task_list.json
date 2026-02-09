@@ -98,7 +98,7 @@
         {
             "id": 20,
             "description": "Expose Historical Run API in Bridge Server",
-            "status": "pending"
+            "status": "complete"
         },
         {
             "id": 21,
@@ -149,6 +149,21 @@
             "id": 30,
             "description": "Implement Automated Video Feedback Loop (Self-Correct & Rerender)",
             "status": "complete"
+        },
+        {
+            "id": 31,
+            "description": "Implement Audio Curator Node & Beat Sync",
+            "status": "complete"
+        },
+        {
+            "id": 32,
+            "description": "Implement Autonomous Director's Cut Loop (Self-Correction Logic)",
+            "status": "complete"
+        },
+        {
+            "id": 33,
+            "description": "Implement Vertical Thumbnail Generation Node",
+            "status": "pending"
         }
     ]
 }

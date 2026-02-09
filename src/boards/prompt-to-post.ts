@@ -24,6 +24,18 @@ const visual_critique = input({
     default: ""
 });
 
+const style_profile = input({
+    title: "Style Profile",
+    description: "The visual identity and aesthetic style for the video",
+    default: "Vibrant Fusion"
+});
+
+const runId = input({
+    title: "Run ID",
+    description: "Unique identifier for this run (used for correlation)",
+    default: ""
+});
+
 // --- 2. Director Stage ---
 /**
  * Communicates with the Antigravity Bridge to generate a video outline.
@@ -36,26 +48,34 @@ export const directorFlowDef = defineNodeType({
     },
     inputs: {
         topic: { type: "string" },
-        tone: { type: "string" }
+        tone: { type: "string" },
+        style_profile: { type: "string" }
     },
     outputs: {
         scenes: { type: array(object({})) },
         total_duration: { type: "number" },
         title: { type: "string" },
-        ambient_mood: { type: "string" }
+        ambient_mood: { type: "string" },
+        style_profile: { type: "string" },
+        topic: { type: "string" },
+        tone: { type: "string" }
     },
-    invoke: async ({ topic, tone }) => {
-        console.log(`[Director] Generating arc for topic: ${topic}`);
+    invoke: async ({ topic, tone, style_profile }) => {
+        console.log(`[Director] Generating arc for topic: ${topic}, Style: ${style_profile}`);
         const response = await fetch("http://127.0.0.1:3000/generate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 task: `Create a video script for the topic: ${topic} with tone: ${tone}.
-                Follow a NARRATIVE ARC structure across exactly 4 scenes:
-                1. THE HOOK: Grab attention with a striking fact or problem.
-                2. THE JOURNEY: Develop the story, provide evidence or history.
-                3. THE CLIMAX: The core insight, solution, or big reveal.
-                4. THE OUTRO: Summary and conclusion.
+                Style Profile: ${style_profile}
+                
+                Follow the RETENTION STORYTELLING principles in the guidelines:
+                1. THE HOOK: A provocative "Why" or emotional "Slap". Do not describe facts; describe a transformation or a high-stakes problem.
+                2. THE JOURNEY/CONFLICT: Build tension. Show the struggle, the before-state, or the mystery.
+                3. THE CLIMAX/INSIGHT: The value drop. The breakthrough or the "After" state that resolves the tension.
+                4. THE OUTRO: The internal "Aha!" moment or the takeaway that lingers.
+                
+                The script must read as a standalone speech that moves the viewer emotionally, even without visuals.
 
                 Output strict JSON with the following structure:
                 {
@@ -85,11 +105,12 @@ export const directorFlowDef = defineNodeType({
             title: data.video_title_internal || "Untitled",
             ambient_mood: data.ambient_mood || "neutral",
             topic: topic,
-            tone: tone
+            tone: tone,
+            style_profile: style_profile
         };
     }
 });
-const directorFlow = directorFlowDef({ topic, tone });
+const directorFlow = directorFlowDef({ topic, tone, style_profile });
 
 // --- 3. Scene Copywriter Stage ---
 /**
@@ -118,8 +139,12 @@ export const copywriterFlowDef = defineNodeType({
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     task: `Write the overlay text for a video scene based on this key point: "${scene.key_takeaway}". 
-                    Condense it into punchy, impactful on-screen text. Maximum 7 words. 
-                    Follow the Remotion Prompt Engineering Guidelines: use specified terminology if needed, and ensure text is suitable for a 30s high-energy edit.
+                    
+                    Follow RETENTION STORYTELLING principles:
+                    - Use high-vibration verbs (e.g. "Shattered", "Forged", "Unleashed").
+                    - Condense it into punchy, impactful on-screen text. Maximum 7 words. 
+                    - Ensure it feels like a standalone "Impact" statement.
+                    - Use metaphors if they add visceral depth.
                     Output only the text string.`,
                     persona: "Copywriter",
                     model: "antigravity-bridge"
@@ -147,14 +172,15 @@ export const visualArchitectFlowDef = defineNodeType({
         scenes: { type: array(object({})) },
         tone: { type: "string" },
         ambient_mood: { type: "string" },
+        style_profile: { type: "string" },
         critique: { type: "string" }
     },
     outputs: {
         scenesWithVisuals: { type: array(object({})) }
     },
-    invoke: async ({ scenes, tone, ambient_mood, critique }) => {
+    invoke: async ({ scenes, tone, ambient_mood, style_profile, critique }) => {
         console.log(`[VisualArchitect] Directing kinetic motion for ${Array.isArray(scenes) ? scenes.length : 0} scenes...`);
-        console.log(`   Ambient Mood: ${ambient_mood}, Tone: ${tone}`);
+        console.log(`   Style Profile: ${style_profile}, Ambient Mood: ${ambient_mood}, Tone: ${tone}`);
         const scenesArray = scenes as any[];
         const results = [];
         for (const scene of scenesArray) {
@@ -168,6 +194,9 @@ export const visualArchitectFlowDef = defineNodeType({
                     Description: "${scene.concept_description}"
                     Tone: "${tone}"
                     Ambient Mood: "${ambient_mood}"
+                    Style Profile: "${style_profile}"
+                    
+                    STRICT ADHERENCE REQUIRED: You MUST use the visual language (colors, motion, typography) defined for the "${style_profile}" profile in the Content Guidelines. Do not deviate.
                     ${critique ? `IMPORTANT CRITIQUE TO FIX: "${critique}"` : ""}
 
                     Design the scene as a MULTI-ASSET STAGE:
@@ -227,6 +256,7 @@ const visualArchitectFlow = visualArchitectFlowDef({
     scenes: copywriterFlow.outputs.scenesWithText,
     tone: tone,
     ambient_mood: directorFlow.outputs.ambient_mood,
+    style_profile: directorFlow.outputs.style_profile,
     critique: visual_critique
 });
 
@@ -298,6 +328,39 @@ export const assetSourcingFlowDef = defineNodeType({
 });
 const assetSourcingFlow = assetSourcingFlowDef({ scenes: visualArchitectFlow.outputs.scenesWithVisuals });
 
+// --- 5.5 Music Sourcing Stage ---
+/**
+ * Fetches background music based on the ambient mood and topic.
+ */
+export const musicSourcingFlowDef = defineNodeType({
+    name: "musicSourcingFlow",
+    metadata: {
+        title: "Music Sourcing Flow",
+        description: "Fetches a background music track that matches the video's mood."
+    },
+    inputs: {
+        mood: { type: "string" },
+        topic: { type: "string" }
+    },
+    outputs: {
+        music_url: { type: "string" }
+    },
+    invoke: async ({ mood, topic }) => {
+        console.log(`[MusicSourcing] Finding the perfect beat for: ${mood}...`);
+        const response = await fetch("http://127.0.0.1:3000/api/generate-music", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mood, topic })
+        });
+        const result = await response.json();
+        return { music_url: result.url };
+    }
+});
+const musicSourcingFlow = musicSourcingFlowDef({
+    mood: directorFlow.outputs.ambient_mood,
+    topic: directorFlow.outputs.topic
+});
+
 
 // --- 6. Social Captioner Stage ---
 /**
@@ -349,10 +412,9 @@ export const voiceoverFlowDef = defineNodeType({
         scenesWithAudio: { type: array(object({})) }
     },
     invoke: async ({ scenes }) => {
-        console.log("[Voiceover] Generating high-fidelity audio...");
+        console.log("[Voiceover] Generating high-fidelity audio with word-level sync...");
         const scenesArray = scenes as any[];
         const results = await Promise.all(scenesArray.map(async (scene) => {
-            // Use key_takeaway or overlay_text for the voiceover script
             const scriptText = scene.key_takeaway || scene.overlay_text || "";
             if (!scriptText) return scene;
 
@@ -361,11 +423,15 @@ export const voiceoverFlowDef = defineNodeType({
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     text: scriptText,
-                    voice: "alloy" // Default voice
+                    voice: "alloy"
                 })
             });
             const result = await response.json();
-            return { ...scene, audio_url: result.url };
+            return {
+                ...scene,
+                audio_url: result.url,
+                audio_timestamps: result.timestamps || []
+            };
         }));
         return { scenesWithAudio: results };
     }
@@ -385,15 +451,17 @@ export const assemblerDef = defineNodeType({
     inputs: {
         title: { type: "string" },
         duration: { type: "number" },
-        scenes: { type: array(object({})) }
+        scenes: { type: array(object({})) },
+        background_music: { type: "string" }
     },
     outputs: {
         video_structure: { type: object({}) }
     },
-    invoke: ({ title, duration, scenes }) => ({
+    invoke: ({ title, duration, scenes, background_music }) => ({
         video_structure: {
             video_title_internal: title,
             estimated_total_duration: duration,
+            background_music: background_music,
             scenes: scenes
         }
     })
@@ -401,7 +469,8 @@ export const assemblerDef = defineNodeType({
 const assembler = assemblerDef({
     title: directorFlow.outputs.title,
     duration: directorFlow.outputs.total_duration,
-    scenes: voiceoverFlow.outputs.scenesWithAudio
+    scenes: voiceoverFlow.outputs.scenesWithAudio,
+    background_music: musicSourcingFlow.outputs.music_url
 });
 
 // --- 8. Video Renderer ---
@@ -416,30 +485,35 @@ export const rendererDef = defineNodeType({
     },
     inputs: {
         video_structure: { type: object({}) },
+        runId: { type: "string" }
     },
     outputs: {
         video_url: { type: "string" }
     },
-    invoke: async ({ video_structure }) => {
+    invoke: async ({ video_structure, runId }) => {
         console.log("[Renderer] Triggering Remotion production...");
         const response = await fetch("http://127.0.0.1:3000/api/render", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                video_structure: video_structure
+                video_structure: video_structure,
+                runId: runId
             })
         });
         const result = await response.json();
         return { video_url: result.video_url };
     }
 });
-const renderer = rendererDef({ video_structure: assembler.outputs.video_structure });
+const renderer = rendererDef({
+    video_structure: assembler.outputs.video_structure,
+    runId: runId
+});
 
 // --- Graph Export ---
 export default board({
     title: "Prompt to Video Post",
     description: "Converts a topic into a Remotion-ready video structure and renders it.",
-    inputs: { topic, tone, visual_critique },
+    inputs: { topic, tone, style_profile, visual_critique, runId },
     outputs: {
         video_structure: assembler.outputs.video_structure,
         video_url: renderer.outputs.video_url

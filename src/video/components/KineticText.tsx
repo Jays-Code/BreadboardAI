@@ -5,6 +5,7 @@ interface KineticTextProps {
     text: string;
     style?: 'word_pop' | 'karaoke' | 'cinematic_fade' | 'box_highlight';
     alignment?: 'center' | 'bottom';
+    timestamps?: { word: string; startOffsetMs: number; durationMs: number }[];
 }
 
 const FONTS = {
@@ -12,7 +13,7 @@ const FONTS = {
     marker: 'Comic Sans MS, cursive' // Placeholder for handwriting
 };
 
-export const KineticText: React.FC<KineticTextProps> = ({ text, style = 'word_pop', alignment = 'center' }) => {
+export const KineticText: React.FC<KineticTextProps> = ({ text, style = 'word_pop', alignment = 'center', timestamps }) => {
     const frame = useCurrentFrame();
     const { fps } = useVideoConfig();
     const words = text.split(' ');
@@ -31,20 +32,21 @@ export const KineticText: React.FC<KineticTextProps> = ({ text, style = 'word_po
     };
 
     // --- Style: Word Pop ---
-    // Reads like "The... Quick... Brown... Fox" with massive scaling
     if (style === 'word_pop') {
         return (
             <AbsoluteFill style={containerStyle}>
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px' }}>
                     {words.map((word, i) => {
-                        const startFrame = i * 10; // Stagger by 10 frames
+                        // Use timestamps if available, otherwise fallback to index-based stagger
+                        const ts = timestamps?.[i];
+                        const startFrame = ts ? Math.floor((ts.startOffsetMs / 1000) * fps) : i * 10;
+
                         const progress = spring({
                             frame: frame - startFrame,
                             fps,
                             config: { damping: 15, stiffness: 120 }
                         });
 
-                        // Only show if started
                         if (frame < startFrame) return null;
 
                         return (
@@ -66,22 +68,21 @@ export const KineticText: React.FC<KineticTextProps> = ({ text, style = 'word_po
     }
 
     // --- Style: Karaoke ---
-    // All text visible, active word highlights
     if (style === 'karaoke') {
         return (
             <AbsoluteFill style={containerStyle}>
                 <div style={{ maxWidth: '90%' }}>
                     {words.map((word, i) => {
-                        // Highlight window
-                        // e.g. word 0 at 0-15f, word 1 at 15-30f
-                        const activeStart = i * 12;
-                        const activeEnd = activeStart + 12;
+                        const ts = timestamps?.[i];
+                        const activeStart = ts ? Math.floor((ts.startOffsetMs / 1000) * fps) : i * 12;
+                        const duration = ts ? Math.floor((ts.durationMs / 1000) * fps) : 12;
+                        const activeEnd = activeStart + duration;
 
                         const isActive = frame >= activeStart && frame < activeEnd;
                         const isPast = frame >= activeEnd;
 
-                        const scale = isActive ? 1.2 : 1.0;
-                        const color = isActive ? '#fbbf24' : (isPast ? 'white' : 'rgba(255,255,255,0.5)');
+                        const scale = isActive ? 1.3 : 1.0;
+                        const color = isActive ? '#fbbf24' : (isPast ? 'white' : 'rgba(255,255,255,0.4)');
 
                         return (
                             <span key={i} style={{
@@ -89,10 +90,10 @@ export const KineticText: React.FC<KineticTextProps> = ({ text, style = 'word_po
                                 fontWeight: 800,
                                 margin: '0 10px',
                                 color: color,
-                                textShadow: isActive ? '0 0 20px rgba(251, 191, 36, 0.5)' : '2px 2px 4px rgba(0,0,0,0.5)',
+                                textShadow: isActive ? '0 0 25px rgba(251, 191, 36, 0.6)' : '2px 2px 4px rgba(0,0,0,0.5)',
                                 display: 'inline-block',
                                 transform: `scale(${scale})`,
-                                transition: 'all 0.1s ease'
+                                transition: 'all 0.05s linear'
                             }}>
                                 {word}
                             </span>

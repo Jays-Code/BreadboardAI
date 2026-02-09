@@ -15,7 +15,7 @@ import {
     voiceoverFlowDef,
     assemblerDef,
     rendererDef
-} from "../boards/prompt-to-post";
+} from "../boards/prompt-to-post.js";
 import { kit } from "@breadboard-ai/build";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GoogleAIFileManager } from "@google/generative-ai/server";
@@ -57,13 +57,27 @@ app.post('/api/run', async (req, res) => {
         const graph = JSON.parse(fs.readFileSync(boardPath, 'utf-8'));
         const loader = createLoader();
 
-        // We probably need kits here too if using invokeGraph directly?
-        // But invokeGraph usually handles it if they are standard. 
-        // For custom kit, we might fail here too. Let's stick to fixing run-stream first.
+        // Create Custom Kit
+        const customKit = await kit({
+            title: "Custom Agent Kit",
+            description: "Kit for prompt-to-post board nodes",
+            version: "1.0.0",
+            url: "npm:custom-agent-kit",
+            components: {
+                directorFlow: directorFlowDef,
+                copywriterFlow: copywriterFlowDef,
+                visualArchitectFlow: visualArchitectFlowDef,
+                assetSourcingFlow: assetSourcingFlowDef,
+                voiceoverFlow: voiceoverFlowDef,
+                assembler: assemblerDef,
+                renderer: rendererDef
+            }
+        });
 
         const output = await invokeGraph({ graph }, inputs, {
             base: new URL(pathToFileURL(path.join(process.cwd(), 'public', 'api')).toString()),
-            loader
+            loader,
+            kits: [customKit as any]
         });
         res.json({ result: output });
     } catch (error) {
@@ -426,23 +440,33 @@ app.post('/generate', async (req, res) => {
 // --- Image Generation Endpoint (Production-Ready) ---
 app.post('/generate-image', async (req, res) => {
     const { prompt } = req.body;
-    console.log(`[Bridge] Generating Production Asset: "${prompt.substring(0, 40)}..."`);
+    console.log(`[Bridge] Enhancing production asset prompt: "${prompt.substring(0, 40)}..."`);
 
-    // 1. Check for OpenAI Key (DALL-E 3)
-    if (process.env.OPENAI_API_KEY) {
-        try {
-            console.log("[Bridge] Using DALL-E 3 for high-fidelity asset...");
-        } catch (e) {
-            console.error("[Bridge] DALL-E 3 failed, falling back...");
-        }
+    try {
+        const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+        const genAI = new GoogleGenerativeAI(apiKey!);
+        const model = genAI.getGenerativeModel({
+            model: "gemini-2.5-flash",
+            systemInstruction: "You are a Master Prompt Engineer for AI Image Generation. Your goal is to take a simple description and turn it into a high-fidelity, cinematic, and professional-grade descriptive prompt for DALL-E or Midjourney. Focus on lighting, texture, composition, and mood. Avoid generic terms; use specific artistic styles."
+        });
+
+        const enhancementResult = await model.generateContent(`Enhance this image prompt for a cinematic short-form video: "${prompt}". Output ONLY the enhanced prompt string.`);
+        const enhancedPromptText = enhancementResult.response.text().trim();
+
+        console.log(`[Bridge] Enhanced Prompt: "${enhancedPromptText.substring(0, 50)}..."`);
+
+        const POLLINATIONS_URL = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPromptText)}?width=1080&height=1920&nologo=true`;
+
+        // Wait a small bit to ensure generation
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        res.json({ url: POLLINATIONS_URL });
+
+    } catch (e: any) {
+        console.warn("[Bridge] Prompt enhancement failed, using fallback:", e.message);
+        const fallbackPrompt = encodeURIComponent(`${prompt}, cinematic, 8k, highly detailed`);
+        const imageUrl = `https://image.pollinations.ai/prompt/${fallbackPrompt}?width=1080&height=1920&nologo=true`;
+        res.json({ url: imageUrl });
     }
-
-    // 2. Pollinations.AI Fallback
-    const enhancedPrompt = encodeURIComponent(`${prompt}, cinematic, 8k, highly detailed`);
-    const imageUrl = `https://image.pollinations.ai/prompt/${enhancedPrompt}?width=1080&height=1920&nologo=true`;
-
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    res.json({ url: imageUrl });
 });
 
 // --- Dynamic Video Sourcing Endpoint (yt-dlp powered) ---
@@ -505,21 +529,90 @@ app.post('/generate-image-imagen', async (req, res) => {
     res.json({ error: "Imagen 2 integration pending API quota" });
 });
 
-// --- Audio Generation Endpoint (Stub/Mock for Ralph) ---
+// --- Audio Generation Endpoint (Keyless Free Google TTS with Timestamps) ---
 app.post('/generate-audio', async (req, res) => {
     const { text, voice } = req.body;
-    console.log(`[Bridge] Generating audio for: "${text.substring(0, 20)}..."`);
+    console.log(`[Bridge] Generating Free TTS audio for: "${text.substring(0, 20)}..."`);
 
-    // TODO: Connect to Real TTS API (ElevenLabs / OpenAI)
-    // For now, return a generic placeholder audio file
+    try {
+        const cleanText = text.substring(0, 200).replace(/\n/g, ' ');
+        const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(cleanText)}&tl=en&client=tw-ob`;
 
-    // Simulate delay
-    await new Promise(resolve => setTimeout(resolve, 800));
+        const response = await fetch(ttsUrl, {
+            headers: {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+            }
+        });
 
-    // Valid sample MP3 URL for testing
-    const audioUrl = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+        if (!response.ok) {
+            throw new Error(`Google TTS Error: ${response.statusText}`);
+        }
 
-    res.json({ url: audioUrl, duration: 5 }); // Mock duration 5s
+        const buffer = Buffer.from(await response.arrayBuffer());
+        const filename = `audio-${crypto.randomUUID().substring(0, 8)}.mp3`;
+        const audioDir = path.join(process.cwd(), 'public', 'assets', 'audio');
+        if (!fs.existsSync(audioDir)) fs.mkdirSync(audioDir, { recursive: true });
+
+        const outputPath = path.join(audioDir, filename);
+        fs.writeFileSync(outputPath, buffer);
+
+        // --- Heuristic Timestamp Generation ---
+        // Since we don't have real alignment, we estimate based on character length
+        const words = cleanText.split(/\s+/).filter(w => w.length > 0);
+        // Estimate duration: ~150 words per minute = 2.5 words per second
+        // Or roughly 0.4s per word. Let's use 0.4s as a base, but weight by length.
+        const totalChars = cleanText.length;
+        const totalDurationEstimate = Math.max(2, words.length * 0.4); // Min 2s
+
+        let currentOffset = 0;
+        const timestamps = words.map(word => {
+            const wordWeight = word.length / totalChars;
+            const wordDuration = wordWeight * totalDurationEstimate;
+            const ts = {
+                word,
+                startOffsetMs: Math.round(currentOffset * 1000),
+                durationMs: Math.round(wordDuration * 1000)
+            };
+            currentOffset += wordDuration;
+            return ts;
+        });
+
+        console.log(`[Bridge] Free Audio generated: /assets/audio/${filename} (${timestamps.length} words)`);
+        res.json({
+            url: `/assets/audio/${filename}`,
+            duration: totalDurationEstimate,
+            timestamps: timestamps
+        });
+    } catch (error: any) {
+        console.error("[Bridge] Free Audio Generation Failed:", error.message);
+        res.json({
+            url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+            duration: 5,
+            timestamps: [],
+            error: error.message
+        });
+    }
+});
+
+// --- Background Music Sourcing ---
+app.post('/api/generate-music', async (req, res) => {
+    const { mood, topic } = req.body;
+    console.log(`[Bridge] Sourcing background music for mood: ${mood}`);
+
+    // High Quality Royalty Free Tracks (Curated Mock Library)
+    const library: Record<string, string> = {
+        "high": "https://cdn.pixabay.com/audio/2022/03/10/audio_c8c8a7343e.mp3", // Energetic
+        "chill": "https://cdn.pixabay.com/audio/2022/01/21/audio_31b3164973.mp3", // Lo-fi
+        "educational": "https://cdn.pixabay.com/audio/2021/11/24/audio_83a6286782.mp3", // Corporate
+        "cinematic": "https://cdn.pixabay.com/audio/2023/10/24/audio_3608ca6727.mp3" // Epic
+    };
+
+    let url = library["high"];
+    if (mood?.toLowerCase().includes("chill") || mood?.toLowerCase().includes("relax")) url = library["chill"];
+    else if (mood?.toLowerCase().includes("history") || mood?.toLowerCase().includes("tech")) url = library["educational"];
+    else if (mood?.toLowerCase().includes("epic") || mood?.toLowerCase().includes("future")) url = library["cinematic"];
+
+    res.json({ url });
 });
 
 // --- Helper to get System Instructions ---
@@ -545,7 +638,7 @@ app.post('/api/visual-qa', async (req, res) => {
 
     const samples = [10, 50, 90]; // Percentages
     const framePaths: string[] = [];
-    const totalFrames = Math.max(90, (video_structure.estimated_total_duration || 30) * 30);
+    const totalFrames = Math.min(900, Math.max(90, (video_structure.estimated_total_duration || 30) * 30));
 
     try {
         // 1. Capture Stills
@@ -559,11 +652,12 @@ app.post('/api/visual-qa', async (req, res) => {
 
             try {
                 const remotionCli = path.resolve(process.cwd(), 'node_modules/@remotion/cli/remotion-cli.js');
-                execSync(`node "${remotionCli}" still src/video/index.tsx Main "${outputPath}" --frame=${frame} --props="${propsFile}" --image-format=png --overwrite --chromium-flags="--no-sandbox --disable-setuid-sandbox"`, {
+                execSync(`node "${remotionCli}" still src/video/index.tsx Main "${outputPath}" --frame=${frame} --props="${propsFile}" --image-format=png --overwrite --concurrency=1 --chromium-flags="--no-sandbox --disable-setuid-sandbox"`, {
                     env: {
                         ...process.env,
                         PATH: '/usr/local/bin:/usr/bin:/bin'
-                    }
+                    },
+                    timeout: 60000 // 60s timeout for each frame capture
                 });
                 framePaths.push(outputPath);
             } catch (err: any) {
@@ -599,14 +693,16 @@ app.post('/api/visual-qa', async (req, res) => {
                 - Title: "${video_structure.video_title_internal}"
                 - Topic/Objective: "${video_structure.topic || 'Auto-generated content'}"
                 - Tone: "${video_structure.tone || 'Dynamic'}"
+                - Style Profile: "${video_structure.style_profile || 'Vibrant Fusion'}"
                 - Scenes: ${JSON.stringify(video_structure.scenes?.map((s: any) => ({ id: s.scene_id, concept: s.concept_description })))}
 
                 CRITERIA:
                 1. ALIGNMENT: Do these frames actually achieve the objective and tone described?
-                2. NARRATIVE ACCURACY: Does the visual content in these frames match the concept descriptions for their respective timestamps?
-                3. KINETIC ENGAGEMENT: Do elements look like they are MOVING or staged for action?
-                4. COMPOSITION DEPTH: Are there clear multi-layer compositions?
-                5. FIDELITY: Are assets high-quality?
+                2. STYLE CONSISTENCY: Do these frames strictly adhere to the "${video_structure.style_profile || 'Vibrant Fusion'}" style profile defined in the guidelines (colors, typography, motion feel)?
+                3. NARRATIVE ACCURACY: Does the visual content in these frames match the concept descriptions for their respective timestamps?
+                4. KINETIC ENGAGEMENT: Do elements look like they are MOVING or staged for action?
+                5. COMPOSITION DEPTH: Are there clear multi-layer compositions?
+                6. FIDELITY: Are assets high-quality?
 
                 Output strict JSON:
                 {
@@ -687,6 +783,7 @@ app.post('/api/analyze-video', async (req, res) => {
                 - Title: "${video_structure.video_title_internal}"
                 - Topic/Objective: "${video_structure.topic}"
                 - Tone: "${video_structure.tone}"
+                - Style Profile: "${video_structure.style_profile}"
                 - Full Script: ${JSON.stringify(video_structure.scenes)}
         ` : "";
 
@@ -695,10 +792,11 @@ app.post('/api/analyze-video', async (req, res) => {
                 
                 CRITERIA:
                 1. MISSION ALIGNMENT: Does the video successfully communicate the intended topic and tone?
-                2. MOTION QUALITY: Is the motion smooth, purposeful, and engaging? Does it follow our guidelines?
-                3. PACING & RHYTHM: Does the timing match the narrative arc (Hook -> Journey -> Climax -> Outro)? 
-                4. AUDIO-VISUAL SYNC: How well do the animations align with the audio/voiceover?
-                5. CONSISTENCY: Is the visual style (colors, assets) consistent throughout?
+                2. STYLE ADHERENCE: Does the video strictly follow the "${video_structure.style_profile || 'Vibrant Fusion'}" aesthetic?
+                3. MOTION QUALITY: Is the motion smooth, purposeful, and engaging? Does it follow our guidelines?
+                4. PACING & RHYTHM: Does the timing match the narrative arc (Hook -> Journey -> Climax -> Outro)? 
+                5. AUDIO-VISUAL SYNC: How well do the animations align with the audio/voiceover?
+                6. CONSISTENCY: Is the visual style (colors, assets) consistent throughout?
 
                 Output strict JSON:
                 {

@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function runTest() {
-    console.log("🚀 Starting Full Workflow Test (Brain Stage)...");
+    console.log("🚀 Starting Aesthetic Aesthetic Consistency Test...");
 
     const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
     if (!apiKey) {
@@ -21,70 +21,90 @@ async function runTest() {
     const guidelines = fs.readFileSync(path.resolve('content_guidelines.md'), 'utf-8');
 
     const model = genAI.getGenerativeModel({
-        model: "gemini-2.0-flash", // Using a stable fast model
+        model: "gemini-2.0-flash",
         systemInstruction: `Use the following CONTENT GUIDELINES for all your responses:\n${guidelines}`
     });
 
-    const topic = "Cities in the year 2100: Solarpunk Utopia";
-    const tone = "Inspiring, high-energy, vibrant";
-
-    console.log(`🤖 Requesting Visual Script for: "${topic}"...`);
-
-    const prompt = `Act as a Motion Director. Transform this scene into a KINETIC Scene Composition JSON for Remotion.
-    
-    Scene Description: "A futuristic city covered in lush vertical gardens with maglev trains gliding between glass towers."
-    Tone: "${tone}"
-    Ambient Mood: "Solarpunk Sunlight"
-
-    Design the scene as a MULTI-ASSET STAGE with modern social media aesthetics.
-    
-    Output strict JSON with this exact structure:
-    {
-      "background_color": "hex string",
-      "layout_style": "fullscreen | split_vertical | montage_grid | polaroid_scatter",
-      "typography_style": "word_pop | karaoke | cinematic_fade | box_highlight",
-      "energy_level": "high | chill",
-      "composition": [
+    const testCases = [
         {
-          "type": "image",
-          "image_prompt": "highly detailed subject specific prompt.",
-          "depth": number,
-          "zIndex": number,
-          "motion": { "type": "linear | ease", "start_pos": { "x": number, "y": number, "scale": number }, "end_pos": { "x": number, "y": number, "scale": number } }
+            topic: "Modern minimalist living room",
+            tone: "Calm, sophisticated",
+            style_profile: "Minimalist Studio",
+            expected_energy: "chill",
+            expected_camera: "zoom_in"
+        },
+        {
+            topic: "Cyberpunk street race",
+            tone: "Intense, neon",
+            style_profile: "Vibrant Fusion",
+            expected_energy: "high",
+            expected_camera: "snap_zoom"
         }
-      ],
-      "particles": "none | dust | sparks | bubbles",
-      "camera_motion": "none | zoom_in | pan_left | snap_zoom | handheld",
-      "transition_style": "fade | glitch | slide_up | none"
-    }`;
+    ];
 
-    try {
-        const result = await model.generateContent(prompt);
-        const text = result.response.text();
-        const cleaned = text.replace(/```json\n?|\n?```/g, '').trim();
-        const response = JSON.parse(cleaned);
+    for (const test of testCases) {
+        console.log(`\n🤖 Testing Style Profile: "${test.style_profile}" for topic: "${test.topic}"...`);
 
-        console.log("✅ AI OUTPUT RECEIVED:");
-        console.log(JSON.stringify(response, null, 2));
+        const prompt = `Act as a Motion Director. Transform this scene into a KINETIC Scene Composition JSON for Remotion.
+        
+        Scene Description: "${test.topic}"
+        Tone: "${test.tone}"
+        Ambient Mood: "Dynamic"
+        Style Profile: "${test.style_profile}"
 
-        // Validation Checks
-        const hasSnapZoom = response.camera_motion === 'snap_zoom';
-        const hasModernLayout = ['fullscreen', 'split_vertical', 'montage_grid', 'polaroid_scatter'].includes(response.layout_style);
-        const hasKineticText = ['word_pop', 'karaoke', 'cinematic_fade', 'box_highlight'].includes(response.typography_style);
+        STRICT ADHERENCE REQUIRED: You MUST use the visual language (colors, motion, typography) defined for the "${test.style_profile}" profile in the Content Guidelines. Do not deviate.
 
-        console.log("\n📊 VALIDATION REPORT:");
-        console.log(`- Uses Modern Layout: ${hasModernLayout ? '✅' : '❌'}`);
-        console.log(`- Uses Kinetic Text: ${hasKineticText ? '✅' : '❌'}`);
-        console.log(`- Uses Advanced Camera: ${response.camera_motion !== 'none' ? '✅' : '❌'} (${response.camera_motion})`);
+        Design the scene as a MULTI-ASSET STAGE with modern social media aesthetics based on the style profile.
+        
+        Output strict JSON with this exact structure:
+        {
+          "background_color": "hex string",
+          "layout_style": "string",
+          "typography_style": "string",
+          "energy_level": "string",
+          "composition": [
+            {
+              "type": "image",
+              "image_prompt": "string",
+              "depth": number,
+              "zIndex": number,
+              "motion": { "type": "string", "start_pos": { "x": number, "y": number, "scale": number }, "end_pos": { "x": number, "y": number, "scale": number } }
+            }
+          ],
+          "particles": "string",
+          "camera_motion": "string",
+          "transition_style": "string"
+        }`;
 
-        if (hasModernLayout && hasKineticText) {
-            console.log("\n✨ TEST PASSED: The AI is correctly utilizing the new aesthetic directives!");
-        } else {
-            console.log("\n⚠️ TEST PARTIAL: Some aesthetic parameters were missed.");
+        try {
+            const result = await model.generateContent(prompt);
+            const text = result.response.text();
+            const cleaned = text.replace(/```json\n?|\n?```/g, '').trim();
+            const response = JSON.parse(cleaned);
+
+            console.log("✅ AI OUTPUT RECEIVED:");
+            console.log(`- Layout: ${response.layout_style}`);
+            console.log(`- Typography: ${response.typography_style}`);
+            console.log(`- Energy: ${response.energy_level}`);
+            console.log(`- Camera: ${response.camera_motion}`);
+
+            // Validation Checks
+            const energyMatch = response.energy_level === test.expected_energy;
+            const cameraMatch = response.camera_motion === test.expected_camera;
+
+            console.log("\n📊 VALIDATION REPORT:");
+            console.log(`- Energy matches profile: ${energyMatch ? '✅' : '❌'} (Expected: ${test.expected_energy}, Got: ${response.energy_level})`);
+            console.log(`- Camera matches profile: ${cameraMatch ? '✅' : '❌'} (Expected: ${test.expected_camera}, Got: ${response.camera_motion})`);
+
+            if (energyMatch && cameraMatch) {
+                console.log(`✨ TEST PASSED for ${test.style_profile}!`);
+            } else {
+                console.log(`⚠️ TEST PARTIAL for ${test.style_profile}: Some aesthetic parameters were mismatched.`);
+            }
+
+        } catch (e) {
+            console.error("❌ TEST FAILED:", e.message);
         }
-
-    } catch (e) {
-        console.error("❌ TEST FAILED:", e.message);
     }
 }
 

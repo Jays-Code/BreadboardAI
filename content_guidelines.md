@@ -1,4 +1,37 @@
-# Content Guidelines
+## Visual Style Profiles
+
+To ensure consistency and high "taste" levels, the Visual Architect must adhere to one of the following style profiles:
+
+### 1. Vibrant Fusion (Default)
+- **Vibe**: High energy, modern, neon-influenced, digital-first.
+- **Colors**: Cyber-lime, electric purple, high-contrast neons against deep blacks.
+- **Typography**: `word_pop`, `box_highlight`. Bold, thick weights.
+- **Motion**: `high` energy. **REQUIRES** `snap_zoom` for scene starts, `glitch` transitions.
+- **Composition**: Fast-paced montages, heavy particulate effects (`sparks`).
+
+### 2. Minimalist Studio
+- **Vibe**: Clean, sophisticated, airy, gallery-focused.
+- **Colors**: Soft grays, warm whites, muted accents (sage, terracotta).
+- **Typography**: `cinematic_fade`, `karaoke`. Elegant, light to medium weights.
+- **Motion**: `chill` energy, `zoom_in` (slow), `fade` transitions.
+- **Composition**: Centered subjects, `fullscreen` layouts, minimal clutter, subtle `dust` particles.
+
+### 3. Retro Nostalgia
+- **Vibe**: Analog, warm, personal, vintage vlog style.
+- **Colors**: Sepia tones, faded blues, warm oranges.
+- **Typography**: Simple sans-serif, high contrast.
+- **Motion**: `handheld` camera shake, `slide_up` transitions.
+- **Composition**: `polaroid_scatter`, grainy textures, "imperfect" framing.
+
+### 4. Futuristic Solarpunk
+- **Vibe**: Inspiring, lush, tech-integrated nature, bright.
+- **Colors**: Verdant greens, sky blues, bright white sunlight.
+- **Typography**: `word_pop` (gentle), clean functional sans.
+- **Motion**: `pan_left`, `zoom_in`, `fade` transitions.
+- **Composition**: Multi-layered depth with plants/glass, `bubbles` or `dust` particles.
+
+> [!IMPORTANT]
+> **STYLE HIERARCHY**: Visual Style Profiles (listed above) ALWAYS override general layout, typography, and camera rules below. If a profile specifies a camera motion (e.g., `snap_zoom` for `Vibrant Fusion`), use it even if the scene seems "busy".
 
 ## General Video Constraints
 - **Max Duration:** 30 seconds (900 frames at 30fps)
@@ -69,7 +102,7 @@ To ensure high engagement on TikTok, Reels, and Shorts, all content must adhere 
 -   **`box_highlight`**: Text sits inside a high-contrast rotating box. Use for the "Climax" scene.
 
 ### 3. Camera Rig (`camera_motion`)
--   **`none`**: Static frame. Use only if scene itself is extremely busy.
+-   **`none`**: Static frame. Use only if scene itself is extremely busy AND no Style Profile motion is specified.
 -   **`zoom_in`**: Slow steady creep. Builds tension.
 -   **`snap_zoom`**: Violent, fast zoom-in at the start of a scene. High impact.
 -   **`pan_left`**: Smooth movement. Suggests scale or travel.
@@ -80,7 +113,27 @@ To ensure high engagement on TikTok, Reels, and Shorts, all content must adhere 
 -   **`particles`**: `sparks`, `dust`, `bubbles`, `none`.
 -   **`transition_style`**: `fade`, `glitch`, `slide_up`. (Specify between scenes).
 
-<!-- 
-## Narrative & Storytelling Theory
-... (rest of the file remains same or slightly condensed) 
--->
+## Narrative & Storytelling Theory (Retention Storytelling)
+
+To ensure the video is engaging even without visuals, the **Director** and **Copywriter** must follow these "Impact Storytelling" principles:
+
+### 1. The Emotional Hook (The "Why")
+- **Don't describe what; describe WHY it matters.**
+- Start with a provocative question, a shocking transformation, or a relatable struggle.
+- *Example (Generic)*: "How to make coffee." -> *Impact*: "Your morning ritual is actually killing your productivity."
+
+### 2. The Narrative Arc (Punchy Beats)
+Every script must follow a tight, 4-stage narrative arc:
+1. **The Hook (0-3s)**: Immediate pattern interrupt. A bold claim or emotional "slap".
+2. **The Conflict/Context (3-10s)**: The problem, the mystery, or the "before" state. Build tension.
+3. **The Insight/Climax (10-22s)**: The breakthrough, the solution, or the "after" reveal. The value drop.
+4. **The Resolution/Outro (22-30s)**: The takeaway, the internal "Aha!" moment, or a call to action.
+
+### 3. Storytelling Vocabulary
+- Use **high-vibration verbs** (e.g., "shattered", "forged", "unleashed" vs. "changed", "made", "started").
+- Focus on **Internal Realizations**: The story should feel like it's happening inside the viewer's head.
+- Avoid dry facts; use **Metaphors and Analogies** to make complex topics visceral.
+
+### 4. Audio-First Engagement
+- The text/story must be readable as a standalone "speech".
+- If you muted the video and just read the words, would it still make you FEEL something? If not, rewrite.

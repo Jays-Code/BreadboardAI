@@ -51,10 +51,22 @@
       "in": "ambient_mood"
     },
     {
+      "from": "directorFlow-0",
+      "to": "visualArchitectFlow-0",
+      "out": "style_profile",
+      "in": "style_profile"
+    },
+    {
       "from": "input-0",
       "to": "copywriterFlow-0",
       "out": "tone",
       "in": "tone"
+    },
+    {
+      "from": "input-0",
+      "to": "directorFlow-0",
+      "out": "style_profile",
+      "in": "style_profile"
     },
     {
       "from": "input-0",
@@ -67,6 +79,12 @@
       "to": "directorFlow-0",
       "out": "topic",
       "in": "topic"
+    },
+    {
+      "from": "input-0",
+      "to": "renderer-0",
+      "out": "runId",
+      "in": "runId"
     },
     {
       "from": "input-0",
@@ -107,6 +125,18 @@
         "schema": {
           "type": "object",
           "properties": {
+            "runId": {
+              "type": "string",
+              "title": "Run ID",
+              "description": "Unique identifier for this run (used for correlation)",
+              "default": ""
+            },
+            "style_profile": {
+              "type": "string",
+              "title": "Style Profile",
+              "description": "The visual identity and aesthetic style for the video",
+              "default": "Vibrant Fusion"
+            },
             "tone": {
               "type": "string",
               "title": "Tone",

@@ -1,9 +1,9 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, interpolate, useVideoConfig, Audio } from 'remotion';
-import { CameraRig } from './components/CameraRig';
-import { LayoutEngine } from './components/LayoutEngine';
-import { KineticText } from './components/KineticText';
-import { Vignette, FilmGrain, GlitchOverlay } from './components/PolishPass';
+import { CameraRig } from './components/CameraRig.js';
+import { LayoutEngine } from './components/LayoutEngine.js';
+import { KineticText } from './components/KineticText.js';
+import { Vignette, FilmGrain, GlitchOverlay } from './components/PolishPass.js';
 
 // --- Primitives ---
 
@@ -50,9 +50,10 @@ interface AnimationEngineProps {
     script?: VisualScript;
     description: string;
     text?: string; // Passed from MainVideo
+    timestamps?: { word: string; startOffsetMs: number; durationMs: number }[];
 }
 
-export const AnimationEngine: React.FC<AnimationEngineProps> = ({ script, description, text }) => {
+export const AnimationEngine: React.FC<AnimationEngineProps> = ({ script, description, text, timestamps }) => {
 
     // Fallback for old data or missing script
     if (!script) {
@@ -103,6 +104,7 @@ export const AnimationEngine: React.FC<AnimationEngineProps> = ({ script, descri
                     text={text}
                     style={script.typography_style || 'cinematic_fade'}
                     alignment="bottom"
+                    timestamps={timestamps}
                 />
             )}
 

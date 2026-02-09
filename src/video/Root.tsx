@@ -59,19 +59,28 @@ const TestScenes = [
 ];
 
 export const RemotionRoot: React.FC = () => {
+    // We expect scenes and total_duration to be passed via props
+    const defaultData = {
+        scenes: TestScenes,
+        total_duration: 10,
+        title: "Visual Test"
+    };
+
+    // Calculate duration from props if possible
+    // In Remotion, durationInFrames must be a constant at the Root level 
+    // but can be adjusted via props when rendering.
+    // However, for the CLI to know the duration, we should ideally 
+    // look it up from the input props file.
+
     return (
         <Composition
             id="Main"
             component={MainVideo}
-            durationInFrames={300} // 10s
+            durationInFrames={900} // Set a safe max (30s), MainVideo will clip based on content
             fps={30}
             width={1080}
             height={1920}
-            defaultProps={{
-                scenes: TestScenes as any,
-                total_duration: 10,
-                title: "Visual Test"
-            }}
+            defaultProps={defaultData}
         />
     );
 };
