@@ -453,6 +453,7 @@ export const assemblerDef = defineNodeType({
         duration: { type: "number" },
         scenes: { type: array(object({})) },
         background_music: { type: "string" },
+        social_caption: { type: "string" },
         topic: { type: "string" },
         tone: { type: "string" },
         style_profile: { type: "string" }
@@ -460,11 +461,12 @@ export const assemblerDef = defineNodeType({
     outputs: {
         video_structure: { type: object({}) }
     },
-    invoke: ({ title, duration, scenes, background_music, topic, tone, style_profile }) => ({
+    invoke: ({ title, duration, scenes, background_music, social_caption, topic, tone, style_profile }) => ({
         video_structure: {
             video_title_internal: title,
             estimated_total_duration: duration,
             background_music: background_music,
+            social_caption: social_caption,
             scenes: scenes,
             topic,
             tone,
@@ -477,6 +479,7 @@ const assembler = assemblerDef({
     duration: directorFlow.outputs.total_duration,
     scenes: voiceoverFlow.outputs.scenesWithAudio,
     background_music: musicSourcingFlow.outputs.music_url,
+    social_caption: captionerFlow.outputs.caption,
     topic: directorFlow.outputs.topic,
     tone: directorFlow.outputs.tone,
     style_profile: directorFlow.outputs.style_profile

@@ -1,0 +1,4 @@
+dir "C:\Users\Jay"
+whoami
+cd ..
+ls

@@ -138,6 +138,12 @@ async function main() {
     console.log(`✅ Pass 2 Complete. New Video URL: ${pass2Output.video_url}`);
 
     // Final check (optional, but let's just output the result of Pass 2)
+    const finalStructure = videoStructure2 || videoStructure;
+    if (finalStructure.social_caption) {
+        console.log(`\n📝 FINAL SOCIAL CAPTION:`);
+        console.log(`   ${finalStructure.social_caption}`);
+    }
+
     console.log(`\n🏁 PRODUCTION WRAPPED.`);
 }
 

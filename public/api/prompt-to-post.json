@@ -21,6 +21,12 @@
       "in": "scenes"
     },
     {
+      "from": "captionerFlow-0",
+      "to": "assembler-0",
+      "out": "caption",
+      "in": "social_caption"
+    },
+    {
       "from": "copywriterFlow-0",
       "to": "visualArchitectFlow-0",
       "out": "scenesWithText",
@@ -58,6 +64,12 @@
     },
     {
       "from": "directorFlow-0",
+      "to": "captionerFlow-0",
+      "out": "scenes",
+      "in": "scenes"
+    },
+    {
+      "from": "directorFlow-0",
       "to": "copywriterFlow-0",
       "out": "scenes",
       "in": "scenes"
@@ -85,6 +97,12 @@
       "to": "visualArchitectFlow-0",
       "out": "style_profile",
       "in": "style_profile"
+    },
+    {
+      "from": "input-0",
+      "to": "captionerFlow-0",
+      "out": "topic",
+      "in": "topic"
     },
     {
       "from": "input-0",
@@ -228,6 +246,11 @@
     {
       "id": "assetSourcingFlow-0",
       "type": "assetSourcingFlow",
+      "configuration": {}
+    },
+    {
+      "id": "captionerFlow-0",
+      "type": "captionerFlow",
       "configuration": {}
     },
     {
