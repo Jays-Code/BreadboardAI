@@ -1,0 +1,5 @@
+
+> breadboardai@1.0.0 server:cloud
+> tsx src/bridge/server.ts
+
+sh: 1: tsx: not found

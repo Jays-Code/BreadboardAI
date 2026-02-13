@@ -6,7 +6,7 @@ import crypto from 'crypto';
 import os from 'os';
 import { execSync } from 'child_process';
 import { pathToFileURL } from 'url';
-import { createLoader, invokeGraph } from "@google-labs/breadboard";
+import { createLoader, runGraph } from "@google-labs/breadboard";
 import {
     directorFlowDef,
     copywriterFlowDef,
@@ -76,12 +76,21 @@ app.post('/api/run', async (req, res) => {
             }
         });
 
-        const output = await invokeGraph({ graph }, inputs, {
+        // Use runGraph for one-shot execution
+        const generator = runGraph({ graph }, {
+            inputs,
             base: new URL(pathToFileURL(path.join(process.cwd(), 'public', 'api')).toString()),
             loader,
             kits: [customKit as any]
         });
-        res.json({ result: output });
+
+        let lastOutput = {};
+        for await (const event of generator) {
+            if (event.type === "output") {
+                lastOutput = event.outputs;
+            }
+        }
+        res.json({ result: lastOutput });
     } catch (error) {
         res.status(500).json({ error: "Execution failed", details: String(error) });
     }
@@ -108,10 +117,8 @@ app.get('/api/run-stream', async (req, res) => {
             return res.end();
         }
 
-        const { runGraph } = await import("@google-labs/breadboard");
-
         const graph = JSON.parse(fs.readFileSync(boardPath, 'utf-8'));
-        // Use invokeGraph which handles inputs/kits traversal correctly
+        // Use runGraph which handles inputs/kits traversal correctly
         // The imports for invokeGraph and createLoader are already at the top of the file.
 
         // Create Custom Kit

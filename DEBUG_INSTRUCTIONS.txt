@@ -1,0 +1,10 @@
+PLEASE READ:
+It seems the servers are running but the connection to your browser isn't working. 
+
+Please **add a new Code Cell** in your Colab notebook and run this command:
+
+```python
+%run /content/drive/MyDrive/CodingProjects/BreadboardAI/debug_network.py
+```
+
+This will run a script I just created to verify if the servers are actually responsive inside the VM. If this passes, the issue is solely with the VS Code Port Forwarding tunnel.

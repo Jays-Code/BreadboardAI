@@ -14,6 +14,7 @@ export default defineConfig({
         port: 5173,
         strictPort: true,
         host: '0.0.0.0',
+        allowedHosts: true,
         proxy: {
             '/api/run': 'http://localhost:3000',
             '/api/run-stream': 'http://localhost:3000',

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Breadboard AI</title>
+    <link rel="stylesheet" href="./index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "mermaid": "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs",
+            "lit": "https://esm.sh/lit@3",
+            "@lit/context": "https://esm.sh/@lit/context@1",
+            "@lit-labs/signals": "https://esm.sh/@lit-labs/signals@0.2",
+            "@lit/task": "https://esm.sh/@lit/task@1",
+            "@material/web": "https://esm.sh/@material/web@2",
+            "ajv": "https://esm.sh/ajv@8"
+        }
+    }
+    </script>
+    <script type="module" src="./main.ts"></script>
+</head>
+
+<body>
+    <div id="app">
+        <header class="app-header">
+            <bb-main style="display:none"></bb-main>
+            <div class="logo">
+                <span class="icon">⚡️</span> Breadboard AI
+            </div>
+            <nav>
+                <!-- Future Nav items -->
+            </nav>
+        </header>
+        <main id="main-content">
+            <!-- Dynamic Content -->
+        </main>
+    </div>
+</body>
+
+</html>

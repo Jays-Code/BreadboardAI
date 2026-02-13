@@ -1,0 +1,5 @@
+
+> breadboardai@1.0.0 dev:cloud
+> vite --port 5173 --host
+
+sh: 1: vite: not found
