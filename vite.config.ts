@@ -21,7 +21,8 @@ export default defineConfig({
             '/api/results': 'http://localhost:3000',
             '/api/result': 'http://localhost:3000',
             '/api/render': 'http://localhost:3000',
-            '/api/render-status': 'http://localhost:3000'
+            '/api/render-status': 'http://localhost:3000',
+            '/api/health': 'http://localhost:3000'
         }
     },
     build: {

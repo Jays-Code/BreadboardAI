@@ -1113,9 +1113,99 @@ async function renderResultDetail(slug: string, resultId: string) {
     }
 }
 
+
+// Check Server Health & CPU
+async function checkHealth() {
+    console.log("[App] Initializing System Intelligence...");
+    try {
+        const start = performance.now();
+        const res = await fetch('/api/health');
+        if (!res.ok) throw new Error("Health check failed");
+
+        const data = await res.json();
+        const latency = Math.round(performance.now() - start);
+
+        // Create Dashboard Widget
+        const dashboard = document.createElement('div');
+        dashboard.className = 'system-dashboard';
+
+        const isCloud = data.environment.cloud_provider.includes('Colab');
+        const perfPercent = Math.min(100, Math.max(10, Math.round((1 / data.benchmark.duration_seconds) * 30)));
+
+        dashboard.innerHTML = `
+            <button class="system-dashboard-toggle" title="Toggle Dashboard">
+                <span>−</span>
+            </button>
+            <div class="system-dashboard-content">
+                <div class="system-dashboard-header">
+                    <div class="system-dashboard-title">
+                        <span class="cloud-pulse"></span>
+                        System Intelligence
+                    </div>
+                    <div style="font-size:0.6rem; color:var(--text-secondary)">LIVE</div>
+                </div>
+                <div class="system-stat-row">
+                    <span class="system-stat-label">Environment</span>
+                    <span class="system-stat-value" style="color:${isCloud ? 'var(--success-color)' : 'var(--accent-color)'}">
+                        ${isCloud ? 'GOOGLE CLOUD' : 'LOCAL MACHINE'}
+                    </span>
+                </div>
+                <div class="system-stat-row">
+                    <span class="system-stat-label">CPU Model</span>
+                    <span class="system-stat-value" style="font-size:0.65rem">${data.environment.cpu_model.split('@')[0].trim()}</span>
+                </div>
+                <div class="system-stat-row">
+                    <span class="system-stat-label">Performance</span>
+                    <span class="system-stat-value">${data.benchmark.tier}</span>
+                </div>
+                <div class="system-stat-row">
+                    <span class="system-stat-label">Latency</span>
+                    <span class="system-stat-value">${latency}ms</span>
+                </div>
+                <div class="perf-bar-wrapper">
+                    <div class="perf-bar-fill" style="width: ${perfPercent}%"></div>
+                </div>
+                <div style="font-size: 0.6rem; color: var(--text-secondary); margin-top: 0.5rem; text-align: center; font-style: italic;">
+                    Workflow Verified
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(dashboard);
+
+        // Toggle Logic
+        const toggleBtn = dashboard.querySelector('.system-dashboard-toggle');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dashboard.classList.toggle('collapsed');
+                const span = toggleBtn.querySelector('span');
+                if (span) span.textContent = dashboard.classList.contains('collapsed') ? '+' : '−';
+            });
+        }
+
+        // Expand if clicked while collapsed
+        dashboard.addEventListener('click', () => {
+            if (dashboard.classList.contains('collapsed')) {
+                dashboard.classList.remove('collapsed');
+                const span = dashboard.querySelector('.system-dashboard-toggle span');
+                if (span) span.textContent = '−';
+            }
+        });
+
+        // Console reporting
+        console.log(`%c[SYSTEM] Verified Host: ${data.environment.cloud_provider}`, "color: #00ff00; font-weight: bold");
+        console.log(`%c[SYSTEM] Performance Tier: ${data.benchmark.tier}`, "color: #00ff00");
+
+    } catch (e) {
+        console.error("[App] System Check Failed. Please ensure Bridge Server is running.", e);
+    }
+}
+
 window.addEventListener('hashchange', handleRoute);
 window.addEventListener('load', () => {
     try {
+        checkHealth();
         handleRoute();
     } catch (e) {
         const app = getApp();

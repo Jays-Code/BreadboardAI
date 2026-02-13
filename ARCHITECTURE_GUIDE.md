@@ -38,8 +38,29 @@ except ImportError:
 - **Guideline:** Trust the local `node_modules` already exist.
 
 ### 4. Port Exposure
-- Use `google.colab.output.serve_kernel_port_as_window(5173)` to expose the UI.
-- This provides a persistent tunnel and an "Open in new tab" option.
+- Use `google.colab.output.eval_js("google.colab.kernel.proxyPort(5173)")` for the most robust proxy URL generation in Colab.
+
+---
+
+## 🔄 Cloud Development Workflow
+To maintain high iteration speed, use the **BreadboardAI_Launcher.ipynb** for cloud execution.
+
+1. **Initial Setup (Run Once):** Cells 1 & 2 handle mounting Drive and installing large dependency trees (Mermaid, etc.) into the internal Cloud VM disk.
+2. **Iteration Loop (Rapid Retesting):**
+   - **Cell 3 (SYNC FILES):** Syncs only changed source files (`src`, `ui`, `public`) and configs from G-Drive to the internal VM.
+   - **Cell 4 (LAUNCH & LINK):** Kills stale processes and restarts the API/Vite servers.
+   - **Cell 5 (LIVE AUTO-SAVE):** Creates a real-time symbolic link from `/content/app/output` to G-Drive, ensuring zero data loss for generated files.
+3. **Execution Context:** Internal VM path is always `/content/app` for extreme I/O performance.
+
+
+## 🩺 System Intelligence & Verification
+The architecture includes a live verification layer to ensure cloud power is active:
+
+1. **Backend Health:** `/api/health` performs a live CPU benchmark (5M sqrt operations) and retrieves kernel metadata (CPU Model, Core count).
+2. **Frontend Dashboard:** The UI features a **System Intelligence Dashboard** (integrated via `checkHealth()`) that displays:
+   - **Host Detection:** Validates if running on Google Cloud vs. Local.
+   - **Performance Tier:** Rates the cloud CPU speed based on the backend benchmark.
+   - **Live Metrics:** Shows latency and CPU model in real-time.
 
 ---
 

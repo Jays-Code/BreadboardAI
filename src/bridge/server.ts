@@ -893,6 +893,49 @@ app.post('/api/analyze-video', async (req, res) => {
     }
 });
 
+// --- Health Check & Benchmark ---
+app.get('/api/health', (req, res) => {
+    // 1. CPU Info (Linux specific)
+    let cpuModel = "Unknown";
+    let cpuCores = os.cpus().length;
+    try {
+        const cpuInfo = fs.readFileSync('/proc/cpuinfo', 'utf8');
+        const match = cpuInfo.match(/model name\s+:\s+(.*)/);
+        if (match && match[1]) cpuModel = match[1];
+    } catch (e) { }
+
+    // 2. Simple Benchmark
+    const start = process.hrtime();
+    let n = 0;
+    // Calculate 5M square roots
+    for (let i = 0; i < 5000000; i++) {
+        n += Math.sqrt(i);
+    }
+    const diff = process.hrtime(start);
+    const durationSec = (diff[0] * 1e9 + diff[1]) / 1e9;
+
+    let performanceTier = "Standard";
+    if (durationSec < 0.1) performanceTier = "Ultra High (TPU/GPU VM?)";
+    else if (durationSec < 0.5) performanceTier = "High (Cloud VM)";
+    else performanceTier = "Low (Local/Constrained)";
+
+    res.json({
+        status: "ok",
+        environment: {
+            platform: process.platform,
+            node_version: process.version,
+            cpu_model: cpuModel,
+            cpu_cores: cpuCores,
+            cloud_provider: process.env.COLAB_GPU ? "Google Colab" : "Unknown/Local"
+        },
+        benchmark: {
+            task: "5M sqrt",
+            duration_seconds: durationSec,
+            tier: performanceTier
+        }
+    });
+});
+
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Antigravity Mind Link active on port ${PORT}`);
 });
