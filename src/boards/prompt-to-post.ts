@@ -500,7 +500,9 @@ export const rendererDef = defineNodeType({
         runId: { type: "string" }
     },
     outputs: {
-        video_url: { type: "string" }
+        video_url: { type: "string" },
+        activeRunId: { type: "string" },
+        video_structure: { type: object({}) }
     },
     invoke: async ({ video_structure, runId }) => {
         console.log("[Renderer] Triggering Remotion production...");
@@ -513,7 +515,42 @@ export const rendererDef = defineNodeType({
             })
         });
         const result = await response.json();
-        return { video_url: result.video_url };
+        const activeRunId = result.runId;
+
+        console.log(`[Renderer] Render started (ID: ${activeRunId}). Waiting for completion...`);
+
+        let complete = false;
+        let progress = 0;
+
+        // Polling loop
+        while (!complete) {
+            await new Promise(resolve => setTimeout(resolve, 5000)); // Poll every 5s
+
+            try {
+                const statusRes = await fetch(`http://127.0.0.1:3000/api/render-status?runId=${activeRunId}`);
+                if (!statusRes.ok) throw new Error(`HTTP ${statusRes.status}`);
+
+                const status = await statusRes.json();
+                progress = status.progress;
+
+                if (status.complete) {
+                    console.log(`[Renderer] Render finished: ${activeRunId}`);
+                    complete = true;
+                } else if (status.error) {
+                    throw new Error("Render process failed on bridge server");
+                } else {
+                    console.log(`   [Renderer] Progress: ${progress}%`);
+                }
+            } catch (pollError: any) {
+                console.warn(`   [Renderer] Polling error: ${pollError.message}. Retrying...`);
+            }
+        }
+
+        return {
+            video_url: result.video_url,
+            activeRunId,
+            video_structure
+        };
     }
 });
 const renderer = rendererDef({

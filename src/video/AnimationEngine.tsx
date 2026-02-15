@@ -89,11 +89,6 @@ export const AnimationEngine: React.FC<AnimationEngineProps> = ({ script, descri
 
             </CameraRig>
 
-            {/* 5. Audio Triggers (SFX) */}
-            {script.sfx_triggers?.map((sfx, i) => (
-                <Audio key={i} src={sfx.url} startFrom={sfx.frame} />
-            ))}
-
             {/* 5. Kinetic Text (Overlay on top of camera or inside? Let's keep it steady for readability but styled) 
                 Actually, putting it OUTSIDE CameraRig keeps it readable while bg shakes. 
                 But for "High Energy", text usually shakes too. 

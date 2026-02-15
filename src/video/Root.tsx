@@ -1,4 +1,4 @@
-import { Composition } from 'remotion';
+import { Composition, getInputProps } from 'remotion';
 import { MainVideo } from './MainVideo';
 import React from 'react';
 
@@ -59,25 +59,26 @@ const TestScenes = [
 ];
 
 export const RemotionRoot: React.FC = () => {
-    // We expect scenes and total_duration to be passed via props
     const defaultData = {
         scenes: TestScenes,
         total_duration: 10,
-        title: "Visual Test"
+        title: "Visual Test",
+        background_music: ""
     };
 
-    // Calculate duration from props if possible
-    // In Remotion, durationInFrames must be a constant at the Root level 
-    // but can be adjusted via props when rendering.
-    // However, for the CLI to know the duration, we should ideally 
-    // look it up from the input props file.
+    const props: any = { ...defaultData, ...getInputProps() };
+
+    // Calculate total duration in seconds from scenes if not explicitly provided
+    const durationSec = props.total_duration || props.scenes?.reduce((acc: number, s: any) => acc + (s.duration_sec || 0), 0) || 10;
+    const fps = 30;
+    const durationInFrames = Math.max(1, Math.round(durationSec * fps));
 
     return (
         <Composition
             id="Main"
-            component={MainVideo}
-            durationInFrames={900} // Set a safe max (30s), MainVideo will clip based on content
-            fps={30}
+            component={MainVideo as any}
+            durationInFrames={durationInFrames}
+            fps={fps}
             width={1080}
             height={1920}
             defaultProps={defaultData}

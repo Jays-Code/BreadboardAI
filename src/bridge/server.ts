@@ -6,7 +6,7 @@ import crypto from 'crypto';
 import os from 'os';
 import { execSync } from 'child_process';
 import { pathToFileURL } from 'url';
-import { createLoader, runGraph } from "@google-labs/breadboard";
+import { createLoader, runGraph, asRuntimeKit } from "@google-labs/breadboard";
 import {
     directorFlowDef,
     copywriterFlowDef,
@@ -17,6 +17,13 @@ import {
     assemblerDef,
     rendererDef
 } from "../boards/prompt-to-post.js";
+import {
+    analystFlowDef,
+    repurposeSourcingFlowDef,
+    validateNarrativeFlowDef,
+    integratedProductionDef,
+    narrativeSelectorFlowDef
+} from "../boards/repurpose-video.js";
 import { kit } from "@breadboard-ai/build";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GoogleAIFileManager } from "@google/generative-ai/server";
@@ -44,6 +51,18 @@ if (!fs.existsSync(REQUESTS_FILE)) fs.writeFileSync(REQUESTS_FILE, '[]');
 if (!fs.existsSync(RESPONSES_FILE)) fs.writeFileSync(RESPONSES_FILE, '[]');
 
 app.use(bodyParser.json());
+
+// --- Timestamp Helper ---
+function parseTimestampToSeconds(ts: string | number): number {
+    if (typeof ts === 'number') return ts;
+    if (!ts) return 0;
+
+    // Handle HH:MM:SS or MM:SS
+    const parts = ts.toString().split(':').map(Number);
+    if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+    if (parts.length === 2) return parts[0] * 60 + parts[1];
+    return Number(ts) || 0;
+}
 app.use(express.static(path.resolve(process.cwd(), 'ui')));
 app.use('/api', express.static(path.resolve(process.cwd(), 'public', 'api')));
 app.use('/videos', express.static(VIDEO_OUT_DIR));
@@ -72,7 +91,12 @@ app.post('/api/run', async (req, res) => {
                 musicSourcingFlow: musicSourcingFlowDef,
                 voiceoverFlow: voiceoverFlowDef,
                 assembler: assemblerDef,
-                renderer: rendererDef
+                renderer: rendererDef,
+                analystFlow: analystFlowDef,
+                repurposeSourcingFlow: repurposeSourcingFlowDef,
+                validateNarrativeFlow: validateNarrativeFlowDef,
+                integratedProduction: integratedProductionDef,
+                narrativeSelectorFlow: narrativeSelectorFlowDef
             }
         });
 
@@ -81,7 +105,7 @@ app.post('/api/run', async (req, res) => {
             inputs,
             base: new URL(pathToFileURL(path.join(process.cwd(), 'public', 'api')).toString()),
             loader,
-            kits: [customKit as any]
+            kits: [asRuntimeKit(customKit as any)]
         });
 
         let lastOutput = {};
@@ -135,7 +159,12 @@ app.get('/api/run-stream', async (req, res) => {
                 musicSourcingFlow: musicSourcingFlowDef,
                 voiceoverFlow: voiceoverFlowDef,
                 assembler: assemblerDef,
-                renderer: rendererDef
+                renderer: rendererDef,
+                analystFlow: analystFlowDef,
+                repurposeSourcingFlow: repurposeSourcingFlowDef,
+                validateNarrativeFlow: validateNarrativeFlowDef,
+                integratedProduction: integratedProductionDef,
+                narrativeSelectorFlow: narrativeSelectorFlowDef
             }
         });
 
@@ -177,7 +206,7 @@ app.get('/api/run-stream', async (req, res) => {
             inputs,
             base,
             loader,
-            kits: [customKit as any],
+            kits: [asRuntimeKit(customKit as any)],
             probe: probe as any
         });
 
@@ -269,13 +298,12 @@ app.post('/api/render', async (req, res) => {
             'src/video/index.tsx', 'Main',
             outputPath,
             `--props=${propsFile}`,
-            '--chromium-flags="--no-sandbox --disable-setuid-sandbox"'
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--loglevel=verbose'
         ], {
-            env: {
-                ...process.env,
-                PATH: '/usr/local/bin:/usr/bin:/bin'
-            },
-            timeout: 300000 // 5 minute timeout
+            env: { ...process.env },
+            timeout: 600000 // 10 minute timeout
         });
 
         const logMemory = () => {
@@ -429,7 +457,7 @@ app.post('/generate', async (req, res) => {
 
         // 3. Prepare Prompt
         let finalPrompt = task;
-        if (persona === "Director" || persona === "Visual Designer" || persona === "Motion Director") {
+        if (persona === "Director" || persona === "Visual Designer" || persona === "Motion Director" || persona === "Script Doctor" || persona === "Final Judge") {
             finalPrompt = `${task}\n\nIMPORTANT: You MUST respond with a valid JSON object only. Do not include markdown formatting or extra text.`;
         }
 
@@ -439,7 +467,7 @@ app.post('/generate', async (req, res) => {
 
         // 5. Clean and parse response if needed
         let finalResponse: any = responseText;
-        if (persona === "Director" || persona === "Visual Designer" || persona === "Motion Director") {
+        if (persona === "Director" || persona === "Visual Designer" || persona === "Motion Director" || persona === "Script Doctor" || persona === "Final Judge") {
             try {
                 // Robustly remove markdown code blocks
                 let cleaned = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
@@ -517,8 +545,31 @@ app.post('/generate-image', async (req, res) => {
 
         const POLLINATIONS_URL = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPromptText)}?width=1080&height=1920&nologo=true`;
 
-        // Wait a small bit to ensure generation
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        try {
+            console.log(`[Bridge] Downloading generated image locally from: ${POLLINATIONS_URL}`);
+            const filename = `image-${crypto.randomUUID().substring(0, 8)}.png`;
+            const imageDir = path.join(process.cwd(), 'public', 'assets', 'images');
+            if (!fs.existsSync(imageDir)) fs.mkdirSync(imageDir, { recursive: true });
+
+            const outputPath = path.join(imageDir, filename);
+            const response = await fetch(POLLINATIONS_URL, {
+                headers: {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+                    "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8"
+                }
+            });
+            if (response.ok) {
+                const buffer = Buffer.from(await response.arrayBuffer());
+                fs.writeFileSync(outputPath, buffer);
+                console.log(`[Bridge] Image cached locally: /assets/images/${filename}`);
+                return res.json({ url: `/assets/images/${filename}` });
+            } else {
+                console.warn(`[Bridge] Image download failed with status ${response.status}: ${response.statusText}`);
+            }
+        } catch (downloadError: any) {
+            console.warn(`[Bridge] Image download error: ${downloadError.message}`);
+        }
+
         res.json({ url: POLLINATIONS_URL });
 
     } catch (e: any) {
@@ -531,53 +582,106 @@ app.post('/generate-image', async (req, res) => {
 
 // --- Dynamic Video Sourcing Endpoint (yt-dlp powered) ---
 app.post('/api/source-video', async (req, res) => {
-    const { prompt } = req.body;
-    if (!prompt) return res.status(400).json({ error: "Missing prompt" });
+    const { prompt, url, start, end } = req.body;
 
-    // Summarize/Clean prompt for better search matching if it's too long
+    // 1. Precision Clipping Mode (Specific URL + Timestamps)
+    if (url && start && end) {
+        console.log(`[Source Video] Precision clipping from ${url}: ${start} -> ${end}`);
+
+        try {
+            // Get total duration to prevent hallucinations
+            const durationStr = execSync(`yt-dlp --get-duration "${url}"`).toString().trim();
+            const totalDuration = parseTimestampToSeconds(durationStr);
+            console.log(`[Source Video] Source duration: ${totalDuration}s`);
+
+            let startSec = parseTimestampToSeconds(start);
+            let endSec = parseTimestampToSeconds(end);
+
+            // Clamp and Validate
+            if (startSec >= totalDuration) {
+                console.warn(`[Source Video] Start timestamp ${start} is beyond video duration ${totalDuration}s. Resetting to 0.`);
+                startSec = 0;
+            }
+            if (endSec > totalDuration) {
+                console.warn(`[Source Video] End timestamp ${end} is beyond video duration ${totalDuration}s. Clamping to end.`);
+                endSec = totalDuration;
+            }
+            if (endSec <= startSec) {
+                endSec = Math.min(startSec + 5, totalDuration);
+            }
+
+            // --- Safety Duration Cap ---
+            const MAX_CLIP_DURATION = 15;
+            if (endSec - startSec > MAX_CLIP_DURATION) {
+                console.warn(`[Source Video] Requested clip duration (${endSec - startSec}s) is too long. Capping to ${MAX_CLIP_DURATION}s for disk safety.`);
+                endSec = startSec + MAX_CLIP_DURATION;
+            }
+
+            const safeName = url.split('/').pop()?.split('?')[0].substring(0, 15).replace(/[^a-z0-9]/g, '') || 'clip';
+            const filename = `clip-${safeName}-${crypto.randomUUID().substring(0, 4)}.mp4`;
+            const videoAssetsDir = path.join(process.cwd(), 'public', 'assets', 'videos');
+            if (!fs.existsSync(videoAssetsDir)) fs.mkdirSync(videoAssetsDir, { recursive: true });
+            const outputPath = path.join(videoAssetsDir, filename);
+
+            // yt-dlp precision clipping using --download-sections
+            console.log(`[Source Video] Executing yt-dlp clip: ${startSec}s to ${endSec}s...`);
+            const section = `*${startSec}-${endSec}`;
+            const formatStr = "bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720][ext=mp4]/best";
+            try {
+                execSync(`yt-dlp -f "${formatStr}" --download-sections "${section}" --no-playlist --force-overwrites --output "${outputPath}" "${url}"`, {
+                    stdio: 'pipe',
+                    timeout: 45000 // 45s timeout for a single clip
+                });
+            } catch (clipError: any) {
+                console.warn(`[Source Video] Precision clipping failed for ${section}:`);
+                if (clipError.stdout) console.warn("  STDOUT:", clipError.stdout.toString());
+                if (clipError.stderr) console.warn("  STDERR:", clipError.stderr.toString());
+            }
+
+            if (fs.existsSync(outputPath)) {
+                console.log(`[Source Video] Asset created: /assets/videos/${filename}`);
+                return res.json({ url: `/assets/videos/${filename}` });
+            } else {
+                throw new Error("yt-dlp finished but file was not created");
+            }
+        } catch (error: any) {
+            console.error("[Source Video] Precision clipping failed:", error.message);
+            // Fall through to search if clipping fails
+        }
+    }
+
+    // 2. Dynamic Search Mode (Existing fallback)
+    if (!prompt) return res.status(400).json({ error: "Missing prompt or url/timestamps" });
+
     let searchPrompt = prompt;
     if (prompt.length > 100) {
-        // Extract the first meaningful chunk or just take first 100 chars
         searchPrompt = prompt.split(',')[0].substring(0, 100);
     }
 
     console.log(`[Bridge] Sourcing Video for: "${prompt.substring(0, 40)}..."`);
-    console.log(`[Bridge] Optimized Search Query: "${searchPrompt}"`);
-
-    // Sanitize filename
-    const safeName = searchPrompt.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').substring(0, 30);
-    const filename = `${safeName}-${crypto.randomUUID().substring(0, 4)}.mp4`;
-    const outputPath = path.join(process.cwd(), 'public', 'assets', 'videos', filename);
+    const safeNameSearch = searchPrompt.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').substring(0, 30);
+    const filenameSearch = `${safeNameSearch}-${crypto.randomUUID().substring(0, 4)}.mp4`;
+    const outputPathSearch = path.join(process.cwd(), 'public', 'assets', 'videos', filenameSearch);
 
     try {
-        const ytDlpPath = '/tmp/yt-dlp';
-        if (!fs.existsSync(ytDlpPath)) {
-            throw new Error("yt-dlp not found at /tmp/yt-dlp");
-        }
-
-        // yt-dlp search and download
-        // Flags: search 1, best mp4 under 720p, no playlist, skip if exists
         const searchUrl = `ytsearch1:${searchPrompt} footage creative commons`;
         console.log(`[Bridge] Executing yt-dlp search: ${searchUrl}`);
 
-        const { execSync } = await import('child_process');
-        execSync(`"${ytDlpPath}" -f "best[height<=720][ext=mp4]" --no-playlist --output "${outputPath}" "${searchUrl}" --max-filesize 20M`, {
+        execSync(`yt-dlp -f "best[height<=720][ext=mp4]" --download-sections "*0-10" --no-playlist --output "${outputPathSearch}" "${searchUrl}" --max-filesize 20M`, {
             stdio: 'inherit'
         });
 
-        if (fs.existsSync(outputPath)) {
-            console.log(`[Bridge] Video sourced: /assets/videos/${filename}`);
-            return res.json({ url: `/assets/videos/${filename}` });
+        if (fs.existsSync(outputPathSearch)) {
+            console.log(`[Bridge] Video sourced: /assets/videos/${filenameSearch}`);
+            return res.json({ url: `/assets/videos/${filenameSearch}` });
         } else {
             throw new Error("yt-dlp finished but file was not created");
         }
 
     } catch (error: any) {
         console.error("[Bridge] Video Sourcing Failed:", error.message);
-        // Fallback to the existing nebula video if available
         const fallback = "/assets/videos/nebula.mp4";
         if (fs.existsSync(path.join(process.cwd(), 'public', fallback))) {
-            console.log("[Bridge] Falling back to nebula.mp4");
             return res.json({ url: fallback, warning: "Sourcing failed, using fallback" });
         }
         res.status(500).json({ error: "Video sourcing failed", details: error.message });
@@ -672,7 +776,52 @@ app.post('/api/generate-music', async (req, res) => {
     else if (mood?.toLowerCase().includes("history") || mood?.toLowerCase().includes("tech")) url = library["educational"];
     else if (mood?.toLowerCase().includes("epic") || mood?.toLowerCase().includes("future")) url = library["cinematic"];
 
-    res.json({ url });
+    try {
+        const hostname = new URL(url).hostname;
+        console.log(`[Bridge] Downloading music from ${hostname}...`);
+
+        const filename = `music-${crypto.randomUUID().substring(0, 8)}.mp3`;
+        const musicDir = path.join(process.cwd(), 'public', 'assets', 'music');
+        if (!fs.existsSync(musicDir)) fs.mkdirSync(musicDir, { recursive: true });
+        const outputPath = path.join(musicDir, filename);
+
+        // Try fetch first as it's lighter and supports headers easily
+        const response = await fetch(url, {
+            headers: {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+                "Referer": "https://pixabay.com/"
+            },
+            signal: AbortSignal.timeout(10000) // 10s timeout
+        });
+
+        if (response.ok) {
+            const buffer = Buffer.from(await response.arrayBuffer());
+            fs.writeFileSync(outputPath, buffer);
+            console.log(`[Bridge] Music cached locally: /assets/music/${filename}`);
+            return res.json({ url: `/assets/music/${filename}` });
+        } else {
+            console.warn(`[Bridge] Music fetch failed (status ${response.status}). Trying yt-dlp fallback...`);
+            try {
+                execSync(`yt-dlp --max-filesize 10M --output "${outputPath}" "${url}"`, {
+                    stdio: 'pipe',
+                    timeout: 15000 // 15s timeout
+                });
+                if (fs.existsSync(outputPath)) {
+                    console.log(`[Bridge] Music cached locally: /assets/music/${filename}`);
+                    return res.json({ url: `/assets/music/${filename}` });
+                }
+            } catch (ytError: any) {
+                console.warn(`[Bridge] yt-dlp music fallback failed: ${ytError.message}`);
+            }
+        }
+
+        // Final Fallback
+        console.warn(`[Bridge] Music sourcing failed. Returning empty URL.`);
+        return res.json({ url: "" });
+    } catch (error: any) {
+        console.error("[Bridge] Music download error:", error.message);
+        return res.json({ url: "" });
+    }
 });
 
 // --- Helper to get System Instructions ---
@@ -689,9 +838,13 @@ function getSystemInstructions() {
 // --- Visual QA Endpoint (Story Quality Assurance) ---
 app.post('/api/visual-qa', async (req, res) => {
     const { video_structure, runId } = req.body;
-    if (!video_structure || !runId) return res.status(400).json({ error: "Missing video_structure or runId" });
+    console.log(`[Visual QA] Starting quality assessment for Run ID: ${runId}`);
+    if (!video_structure) console.warn("[Visual QA] Warning: video_structure is missing from request body!");
 
-    console.log(`[Visual QA] Starting quality assessment for ${runId}...`);
+    if (!video_structure || !runId) {
+        console.error(`[Visual QA] Rejecting request: runId=${runId}, hasStructure=${!!video_structure}`);
+        return res.status(400).json({ error: "Missing video_structure or runId" });
+    }
 
     const qaDir = path.join(process.cwd(), 'public', 'qa', runId);
     if (!fs.existsSync(qaDir)) fs.mkdirSync(qaDir, { recursive: true });
@@ -713,10 +866,7 @@ app.post('/api/visual-qa', async (req, res) => {
             try {
                 const remotionCli = path.resolve(process.cwd(), 'node_modules/@remotion/cli/remotion-cli.js');
                 execSync(`node "${remotionCli}" still src/video/index.tsx Main "${outputPath}" --frame=${frame} --props="${propsFile}" --image-format=png --overwrite --concurrency=1 --chromium-flags="--no-sandbox --disable-setuid-sandbox"`, {
-                    env: {
-                        ...process.env,
-                        PATH: '/usr/local/bin:/usr/bin:/bin'
-                    },
+                    env: { ...process.env },
                     timeout: 60000 // 60s timeout for each frame capture
                 });
                 framePaths.push(outputPath);
@@ -790,21 +940,47 @@ app.post('/api/visual-qa', async (req, res) => {
 
 // --- Deep Video Analysis Endpoint (Native Gemini 2.5 Video Support) ---
 app.post('/api/analyze-video', async (req, res) => {
-    const { runId, video_structure } = req.body;
-    if (!runId) return res.status(400).json({ error: "Missing runId" });
+    const { runId, video_structure, youtube_url } = req.body;
 
-    console.log(`[Deep Analysis] Starting full video assessment for ${runId}...`);
+    // Check for either runId (QA mode) or youtube_url (Analysis mode)
+    if (!runId && !youtube_url) return res.status(400).json({ error: "Missing runId or youtube_url" });
+
+    const isYouTubeMode = !!youtube_url;
+    console.log(`[Deep Analysis] Starting video assessment. ${isYouTubeMode ? 'YouTube Mode' : 'QA Mode'}...`);
 
     try {
-        const videoPath = path.join(VIDEO_OUT_DIR, `${runId}.mp4`);
-        let finalVideoPath;
-        if (!fs.existsSync(videoPath)) {
-            // Try to find it by looking for the file in the directory if runId is a slug
-            const files = fs.readdirSync(VIDEO_OUT_DIR).filter(f => f.includes(runId) && f.endsWith('.mp4'));
-            if (files.length === 0) return res.status(404).json({ error: "Video file not found for this run" });
-            finalVideoPath = path.join(VIDEO_OUT_DIR, files[0]);
+        let finalVideoPath: string;
+        let deleteAfter = false;
+
+        if (isYouTubeMode) {
+            console.log(`[Deep Analysis] Downloading YouTube video for analysis: ${youtube_url}`);
+            const tempFilename = `youtube-${crypto.randomUUID().substring(0, 8)}.mp4`;
+            finalVideoPath = path.join(os.tmpdir(), tempFilename);
+            deleteAfter = true;
+
+            // Download the video
+            // We use a robust format selection to ensure we always get something compatible
+            const formatStr = "bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720][ext=mp4]/best";
+            try {
+                execSync(`yt-dlp -f "${formatStr}" --no-playlist --output "${finalVideoPath}" "${youtube_url}"`, {
+                    stdio: 'pipe'
+                });
+            } catch (error: any) {
+                console.error("[Deep Analysis] yt-dlp failed:");
+                if (error.stdout) console.error("  STDOUT:", error.stdout.toString());
+                if (error.stderr) console.error("  STDERR:", error.stderr.toString());
+                throw new Error(`Failed to download YouTube video: ${error.message}`);
+            }
         } else {
-            finalVideoPath = videoPath;
+            const videoPath = path.join(VIDEO_OUT_DIR, `${runId}.mp4`);
+            if (!fs.existsSync(videoPath)) {
+                // Try to find it by looking for the file in the directory if runId is a slug
+                const files = fs.readdirSync(VIDEO_OUT_DIR).filter(f => f.includes(runId) && f.endsWith('.mp4'));
+                if (files.length === 0) return res.status(404).json({ error: "Video file not found for this run" });
+                finalVideoPath = path.join(VIDEO_OUT_DIR, files[0]);
+            } else {
+                finalVideoPath = videoPath;
+            }
         }
 
         const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
@@ -812,10 +988,10 @@ app.post('/api/analyze-video', async (req, res) => {
         const genAI = new GoogleGenerativeAI(apiKey!);
 
         // 1. Upload the video to Google AI File API
-        console.log(`[Deep Analysis] Uploading video: ${finalVideoPath}`);
+        console.log(`[Deep Analysis] Uploading video to Gemini File API...`);
         const uploadResult = await fileManager.uploadFile(finalVideoPath, {
             mimeType: "video/mp4",
-            displayName: `Analysis for ${runId}`,
+            displayName: isYouTubeMode ? `Source Analysis: ${youtube_url}` : `QA Analysis: ${runId}`,
         });
 
         // 2. Poll for processing status
@@ -830,7 +1006,7 @@ app.post('/api/analyze-video', async (req, res) => {
             throw new Error("Video processing failed on Google servers.");
         }
 
-        console.log(`[Deep Analysis] Video active, generating critique...`);
+        console.log(`\n[Deep Analysis] Video active, generating ${isYouTubeMode ? 'distillation' : 'critique'}...`);
 
         // 3. Generate Content with Video context
         const model = genAI.getGenerativeModel({
@@ -838,16 +1014,87 @@ app.post('/api/analyze-video', async (req, res) => {
             systemInstruction: getSystemInstructions()
         });
 
-        const contextInfo = video_structure ? `
+        let prompt: string;
+        if (isYouTubeMode) {
+            const { critique, previous_script } = req.body;
+
+            if (critique) {
+                console.log(`[Deep Analysis] Refinement pass triggered. Critique: ${critique.substring(0, 50)}...`);
+                prompt = `Act as an Expert Script Doctor. You are refining a previous video script based on a critique.
+
+                CRITIQUE TO ADDRESS: "${critique}"
+
+                PREVIOUS SCRIPT CONTEXT:
+                ${previous_script ? JSON.stringify(previous_script) : "No previous script provided."}
+
+                OBJECTIVE:
+                1. rewrite the "new_narrator_script" to strictly address the critique (e.g., fix pacing, improve the hook, ensure logical flow).
+                2. Keep the timestamps accurate to the source video.
+                3. Maintain the 60-second constraint.
+
+                OUTPUT REQUIREMENTS (Strict JSON):
+                {
+                  "video_title": "string (Catchy social title)",
+                  "narrative_summary": "string (1-2 sentence hook/caption)",
+                  "new_narrator_script": "string (The refined 60s voiceover script)",
+                  "scenes": [
+                    {
+                      "scene_id": number,
+                      "arc_phase": "string (hook | journey | climax | outro)",
+                      "script_line": "string (The refined VO line)",
+                      "visual_description": "string (Refined visual description if needed)",
+                      "duration_sec": number,
+                      "source_timestamp_start": "string",
+                      "source_timestamp_end": "string"
+                    }
+                  ]
+                }
+                
+                IMPORTANT: Return ONLY valid JSON.`;
+            } else {
+                prompt = `Act as an Expert Content Strategist and Narrative Director. 
+                Analyze this full video and distill it into a compelling 60-second social media "Full Story" short.
+    
+                OBJECTIVE:
+                1. Identify the most engaging narrative arc within the long video.
+                2. Distill the core message into a tight 60-second script.
+                3. Extract EXACT timestamps in the format HH:MM:SS (e.g., 00:01:23) or total seconds (e.g., 83.5) for the most relevant visual segments to support the new script.
+    
+                OUTPUT REQUIREMENTS (Strict JSON):
+                {
+                  "video_title": "string (Catchy social title)",
+                  "narrative_summary": "string (1-2 sentence hook/caption)",
+                  "new_narrator_script": "string (Full 60s voiceover script)",
+                  "scenes": [
+                    {
+                      "scene_id": number,
+                      "arc_phase": "string (hook | journey | climax | outro)",
+                      "script_line": "string (The VO line for this scene)",
+                      "visual_description": "string (What should be shown)",
+                      "duration_sec": number,
+                      "source_timestamp_start": "string (Timestamp in HH:MM:SS or seconds)",
+                      "source_timestamp_end": "string (Timestamp in HH:MM:SS or seconds)"
+                    }
+                  ]
+                }
+    
+                IMPORTANT: 
+                - Focus on a single coherent story, not a "best of" compilation.
+                - Ensure timestamps are accurate to the source video.
+                - Provide at least 5-8 scenes to cover the 60s duration.
+                - Keep the output ONLY as JSON.`;
+            }
+        } else {
+            const contextInfo = video_structure ? `
                 CONTEXT:
                 - Title: "${video_structure.video_title_internal}"
                 - Topic/Objective: "${video_structure.topic}"
                 - Tone: "${video_structure.tone}"
                 - Style Profile: "${video_structure.style_profile}"
                 - Full Script: ${JSON.stringify(video_structure.scenes)}
-        ` : "";
+            ` : "";
 
-        const prompt = `Act as a Senior Creative Director and Motion Graphics Critic. Analyze this video in its entirety.
+            prompt = `Act as a Senior Creative Director and Motion Graphics Critic. Analyze this video in its entirety.
                 ${contextInfo}
                 
                 CRITERIA:
@@ -865,6 +1112,7 @@ app.post('/api/analyze-video', async (req, res) => {
                   "critique": "A detailed multi-paragraph critique covering the above points.", 
                   "improvement_suggestions": ["specific actionable suggestion 1", "suggestion 2"]
                 }`;
+        }
 
         const result = await model.generateContent([
             prompt,
@@ -876,10 +1124,33 @@ app.post('/api/analyze-video', async (req, res) => {
             },
         ]);
 
-        const responseText = result.response.text().replace(/```json\n?|\n?```/g, '').trim();
-        const report = JSON.parse(responseText);
+        const responseText = result.response.text();
+        let report: any;
+        try {
+            const cleaned = responseText.replace(/```json\n?|\n?```/g, '').trim();
+            report = JSON.parse(cleaned);
+        } catch (e) {
+            console.warn("[Deep Analysis] Standard JSON parse failed, attempting robust extraction...");
+            try {
+                // Find potential JSON block
+                const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+                if (jsonMatch) {
+                    report = JSON.parse(jsonMatch[0]);
+                } else {
+                    throw new Error("No JSON block found in response");
+                }
+            } catch (e2) {
+                console.error("[Deep Analysis] Robust parsing failed. Raw response:", responseText);
+                throw new Error("Failed to parse Gemini analysis report as JSON.");
+            }
+        }
 
-        console.log(`[Deep Analysis] Analysis complete for ${runId}`);
+        // Cleanup temp file if needed
+        if (deleteAfter && fs.existsSync(finalVideoPath)) {
+            try { fs.unlinkSync(finalVideoPath); } catch (e) { }
+        }
+
+        console.log(`[Deep Analysis] Analysis complete.`);
 
         res.json({
             success: true,

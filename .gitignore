@@ -16,8 +16,6 @@ npm-debug.log*
 .idea/
 .DS_Store
 Thumbs.db
-.agent/
-.antigravity_rules
 
 # Large Artifacts/Backups
 *.zip

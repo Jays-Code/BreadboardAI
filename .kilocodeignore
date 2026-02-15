@@ -13,7 +13,6 @@ output/
 test-results/
 
 # Ignore documentation/agent logs
-.agent/
 PROJECT_OVERSIGHT.md
 bridge.log
 proxy.log

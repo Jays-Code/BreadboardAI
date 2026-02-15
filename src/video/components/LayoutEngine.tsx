@@ -9,7 +9,13 @@ interface LayoutEngineProps {
 
 // --- Visual Asset Component ---
 const Asset: React.FC<{ element: SceneElement; style?: React.CSSProperties }> = ({ element, style }) => {
-    // Check if the URL is a video file
+    // Safety guard for missing URLs
+    if (!element.url) {
+        return <div style={{ ...style, backgroundColor: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ color: '#333', fontSize: '12px' }}>Missing Asset</span>
+        </div>;
+    }
+
     const isVideo = element.url?.match(/\.(mp4|webm|mov)$/i);
     const assetUrl = element.url?.startsWith('http') ? element.url : staticFile(element.url);
 

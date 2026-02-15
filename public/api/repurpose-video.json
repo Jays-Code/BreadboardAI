@@ -1,0 +1,350 @@
+{
+  "title": "YouTube Full Story Repurposer",
+  "description": "Takes a long-form YouTube video and transforms it into a 60-second narrative short.",
+  "edges": [
+    {
+      "from": "analystFlow-0",
+      "to": "narrativeSelectorFlow-0",
+      "out": "narrative_summary",
+      "in": "original_summary"
+    },
+    {
+      "from": "analystFlow-0",
+      "to": "narrativeSelectorFlow-0",
+      "out": "new_narrator_script",
+      "in": "original_script"
+    },
+    {
+      "from": "analystFlow-0",
+      "to": "narrativeSelectorFlow-0",
+      "out": "scenes",
+      "in": "original_scenes"
+    },
+    {
+      "from": "analystFlow-0",
+      "to": "narrativeSelectorFlow-0",
+      "out": "video_title",
+      "in": "original_title"
+    },
+    {
+      "from": "analystFlow-0",
+      "to": "validateNarrativeFlow-0",
+      "out": "narrative_summary",
+      "in": "narrative_summary"
+    },
+    {
+      "from": "analystFlow-0",
+      "to": "validateNarrativeFlow-0",
+      "out": "scenes",
+      "in": "scenes"
+    },
+    {
+      "from": "analystFlow-0",
+      "to": "validateNarrativeFlow-0",
+      "out": "video_title",
+      "in": "video_title"
+    },
+    {
+      "from": "analystFlow-1",
+      "to": "narrativeSelectorFlow-0",
+      "out": "narrative_summary",
+      "in": "refined_summary"
+    },
+    {
+      "from": "analystFlow-1",
+      "to": "narrativeSelectorFlow-0",
+      "out": "new_narrator_script",
+      "in": "refined_script"
+    },
+    {
+      "from": "analystFlow-1",
+      "to": "narrativeSelectorFlow-0",
+      "out": "scenes",
+      "in": "refined_scenes"
+    },
+    {
+      "from": "analystFlow-1",
+      "to": "narrativeSelectorFlow-0",
+      "out": "video_title",
+      "in": "refined_title"
+    },
+    {
+      "from": "assembler-0",
+      "to": "output-0",
+      "out": "video_structure",
+      "in": "video_structure"
+    },
+    {
+      "from": "assembler-0",
+      "to": "renderer-0",
+      "out": "video_structure",
+      "in": "video_structure"
+    },
+    {
+      "from": "finalJudgeFlow-0",
+      "to": "output-0",
+      "out": "critique",
+      "in": "qa_critique"
+    },
+    {
+      "from": "finalJudgeFlow-0",
+      "to": "output-0",
+      "out": "score",
+      "in": "qa_score"
+    },
+    {
+      "from": "input-0",
+      "to": "analystFlow-0",
+      "out": "youtube_url",
+      "in": "youtube_url"
+    },
+    {
+      "from": "input-0",
+      "to": "analystFlow-1",
+      "out": "youtube_url",
+      "in": "youtube_url"
+    },
+    {
+      "from": "input-0",
+      "to": "assembler-0",
+      "out": "style_profile",
+      "in": "style_profile"
+    },
+    {
+      "from": "input-0",
+      "to": "finalJudgeFlow-0",
+      "out": "runId",
+      "in": "runId"
+    },
+    {
+      "from": "input-0",
+      "to": "finalJudgeFlow-0",
+      "out": "style_profile",
+      "in": "style_profile"
+    },
+    {
+      "from": "input-0",
+      "to": "renderer-0",
+      "out": "runId",
+      "in": "runId"
+    },
+    {
+      "from": "input-0",
+      "to": "repurposeSourcingFlow-0",
+      "out": "youtube_url",
+      "in": "source_url"
+    },
+    {
+      "from": "input-0",
+      "to": "visualArchitectFlow-0",
+      "out": "style_profile",
+      "in": "style_profile"
+    },
+    {
+      "from": "musicSourcingFlow-0",
+      "to": "assembler-0",
+      "out": "music_url",
+      "in": "background_music"
+    },
+    {
+      "from": "narrativeSelectorFlow-0",
+      "to": "assembler-0",
+      "out": "narrative_summary",
+      "in": "social_caption"
+    },
+    {
+      "from": "narrativeSelectorFlow-0",
+      "to": "assembler-0",
+      "out": "video_title",
+      "in": "title"
+    },
+    {
+      "from": "narrativeSelectorFlow-0",
+      "to": "assembler-0",
+      "out": "video_title",
+      "in": "topic"
+    },
+    {
+      "from": "narrativeSelectorFlow-0",
+      "to": "musicSourcingFlow-0",
+      "out": "video_title",
+      "in": "topic"
+    },
+    {
+      "from": "narrativeSelectorFlow-0",
+      "to": "visualArchitectFlow-0",
+      "out": "scenes",
+      "in": "scenes"
+    },
+    {
+      "from": "renderer-0",
+      "to": "finalJudgeFlow-0",
+      "out": "video_url",
+      "in": "video_url"
+    },
+    {
+      "from": "renderer-0",
+      "to": "output-0",
+      "out": "video_url",
+      "in": "video_url"
+    },
+    {
+      "from": "repurposeSourcingFlow-0",
+      "to": "voiceoverFlow-0",
+      "out": "scenesWithAssets",
+      "in": "scenes"
+    },
+    {
+      "from": "validateNarrativeFlow-0",
+      "to": "analystFlow-1",
+      "out": "critique",
+      "in": "critique"
+    },
+    {
+      "from": "validateNarrativeFlow-0",
+      "to": "narrativeSelectorFlow-0",
+      "out": "critique",
+      "in": "critique"
+    },
+    {
+      "from": "visualArchitectFlow-0",
+      "to": "repurposeSourcingFlow-0",
+      "out": "scenesWithVisuals",
+      "in": "scenes"
+    },
+    {
+      "from": "voiceoverFlow-0",
+      "to": "assembler-0",
+      "out": "scenesWithAudio",
+      "in": "scenes"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "input-0",
+      "type": "input",
+      "configuration": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "runId": {
+              "type": "string",
+              "title": "Run ID (Optional)",
+              "description": "Unique identifier for this specific repurposing session",
+              "default": ""
+            },
+            "style_profile": {
+              "type": "string",
+              "title": "Style Profile",
+              "description": "The aesthetic theme for the output video",
+              "default": "Vibrant Fusion"
+            },
+            "youtube_url": {
+              "type": "string",
+              "title": "YouTube Source URL",
+              "description": "The video to be repurposed",
+              "default": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            }
+          },
+          "required": []
+        }
+      }
+    },
+    {
+      "id": "output-0",
+      "type": "output",
+      "configuration": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "qa_critique": {
+              "type": "string"
+            },
+            "qa_score": {
+              "type": "number"
+            },
+            "video_structure": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "additionalProperties": false
+            },
+            "video_url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "qa_critique",
+            "qa_score",
+            "video_structure",
+            "video_url"
+          ]
+        }
+      }
+    },
+    {
+      "id": "analystFlow-0",
+      "type": "analystFlow",
+      "configuration": {}
+    },
+    {
+      "id": "analystFlow-1",
+      "type": "analystFlow",
+      "configuration": {}
+    },
+    {
+      "id": "assembler-0",
+      "type": "assembler",
+      "configuration": {
+        "duration": 60,
+        "tone": "Dynamic"
+      }
+    },
+    {
+      "id": "finalJudgeFlow-0",
+      "type": "finalJudgeFlow",
+      "configuration": {}
+    },
+    {
+      "id": "musicSourcingFlow-0",
+      "type": "musicSourcingFlow",
+      "configuration": {
+        "mood": "cinematic"
+      }
+    },
+    {
+      "id": "narrativeSelectorFlow-0",
+      "type": "narrativeSelectorFlow",
+      "configuration": {}
+    },
+    {
+      "id": "renderer-0",
+      "type": "renderer",
+      "configuration": {}
+    },
+    {
+      "id": "repurposeSourcingFlow-0",
+      "type": "repurposeSourcingFlow",
+      "configuration": {}
+    },
+    {
+      "id": "validateNarrativeFlow-0",
+      "type": "validateNarrativeFlow",
+      "configuration": {}
+    },
+    {
+      "id": "visualArchitectFlow-0",
+      "type": "visualArchitectFlow",
+      "configuration": {
+        "ambient_mood": "cinematic",
+        "critique": "",
+        "tone": "Dynamic and compelling"
+      }
+    },
+    {
+      "id": "voiceoverFlow-0",
+      "type": "voiceoverFlow",
+      "configuration": {}
+    }
+  ]
+}

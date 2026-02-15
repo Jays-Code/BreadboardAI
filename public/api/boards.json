@@ -7,6 +7,13 @@
     "url": "/api/prompt-to-post.json"
   },
   {
+    "slug": "repurpose-video",
+    "title": "YouTube Full Story Repurposer",
+    "description": "Takes a long-form YouTube video and transforms it into a 60-second narrative short.",
+    "version": "1.0.0",
+    "url": "/api/repurpose-video.json"
+  },
+  {
     "slug": "test",
     "title": "test",
     "description": "No description provided.",
